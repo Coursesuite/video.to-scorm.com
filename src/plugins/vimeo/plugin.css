@@ -1,0 +1,36 @@
+.vim-results {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	grid-gap: 1em;
+	margin-top: 1em;
+}
+
+.vim-results figure {
+	margin: 0;
+	cursor: pointer;
+	display: grid;
+	grid-template-rows: 120px 2fr .5fr;
+}
+.vim-results figure:hover {
+	background-color: lightyellow;
+}
+.vim-results img {
+	border-radius: 4px;
+	filter: saturate(50%);
+	transition: filter .2s ease;
+}
+.vim-results figure:hover img {
+	filter: saturate(100%);
+}
+.vim-results figcaption {
+	padding: .5em .5em 0;
+}
+.vim-results small {
+	padding: .5em;
+	font-weight: bold;
+	color: #bbb;
+}
+
+.vim-results h3 {
+	text-align: center;
+}

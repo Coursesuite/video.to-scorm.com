@@ -1,6 +1,5 @@
 <?php
 define("APP", realpath("."));
-
 error_reporting(E_ERROR);
 ini_set("display_errors", 1);
 
@@ -11,7 +10,6 @@ $Router = new AltoRouter();
 
 $Router->map('GET','/','home.inc.php', 'Home');
 $Router->map('GET','/faq','faq.inc.php', 'FAQ');
-$Router->map('GET','/changelog','changelog.inc.php', 'Changelog');
 $Router->map('GET','/privacy','policy.inc.php', 'Policies');
 $Router->map('POST','/email', 'handleContactForm');
 
@@ -60,14 +58,5 @@ if ($match) {
 	include $path . "/{$fn}";
 	require $path . '/_footer.inc.php';
 } else {
-
-var_dump($match);
-die("foo");
-
-
-  header("HTTP/1.0 404 Not Found");
+	header("HTTP/1.0 404 Not Found");
 }
-
-
-
-?>

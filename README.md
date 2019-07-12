@@ -1,2 +1,2 @@
-# course-alchemy.com
-Repo for Course Alchemy
+# video.to-scorm.com
+Repo for Video-to-Scorm

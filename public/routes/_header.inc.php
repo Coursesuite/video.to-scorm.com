@@ -5,15 +5,15 @@
         <meta content="IE=edge" http-equiv="X-UA-Compatible"/>
 		<meta content="width=device-width, initial-scale=1, minimum-scale=1" name="viewport"/>
  		<meta name="description" content="Combine presentations with audio and video to create rich multimedia SCORM-enabled courses" />
-		<meta name="keywords" content="Course Alchemy, scorm modules, scorm content, scorm wrapper, scorm authoring tool, scorm packages ppt to scorm, pptx to scorm, powerpoint to scorm, docx to scorm, pdf to scorm, video to scorm, google slides to scorm, google docs to scorm" />
+		<meta name="keywords" content="Video to Scorm, scorm modules, scorm content, scorm wrapper, scorm authoring tool, scorm packages ppt to scorm, pptx to scorm, powerpoint to scorm, docx to scorm, pdf to scorm, video to scorm, google slides to scorm, google docs to scorm" />
 		<meta name="author" content="www.coursesuite.com" />
-        <title><?php echo $page_title; ?> - Course Alchemy</title>
+        <title><?php echo $page_title; ?> - Video to Scorm</title>
         <meta property="og:locale" content="en_AU">
         <meta property="og:type" content="website">
-        <meta property="og:title" content="<?php echo $page_title; ?> - Course Assembler">
-        <meta property="og:description" content="Combine presentations with audio and video to create rich multimedia SCORM-enabled courses">
+        <meta property="og:title" content="<?php echo $page_title; ?> - Video to Scorm">
+        <meta property="og:description" content="Watch all or part of a video, get a scorm completion">
         <meta property="og:url" content="https://<?php echo $_SERVER['SERVER_NAME']; ?>/">
-        <meta property="og:site_name" content="Course Assembler">
+        <meta property="og:site_name" content="Video to Scorm">
         <meta property="og:image" content="https://<?php echo $_SERVER['SERVER_NAME']; ?>/assets/meta_card.png">
         <link href="assets/style.css" rel="stylesheet" type="text/css"/>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/uikit/3.0.3/css/uikit.min.css" />
@@ -30,13 +30,12 @@
     		<div class="uk-container uk-container-expand">
     			<nav uk-navbar>
     				<div class="uk-navbar-left">
-    					<a href="/" class="uk-navbar-item uk-logo"><img src="//placehold.it/280x40/" class="uk-margin-small-right" width="280"></a>
+    					<a href="/" class="uk-navbar-item uk-logo" title="Video to Scorm"><img src="assets/logo-white.svg" width="200" alt="Video to Scorm"></a>
 					</div>
 					<div class="uk-navbar-right uk-visible@m">
 						<ul class="uk-navbar-nav">
-							<?php if ($fn !== "home.inc.php") { ?><li><a href="/">Home</a></li><?php } ?>
+							<li><a href="/">Home</a></li>
 							<li><a href="/faq">Faq</a></li>
-							<li><a href="/changelog">Changelog</a></li>
 							<li><a href="/docs">Documentation</a></li>
 						</ul>
 						<div class="uk-navbar-item">
