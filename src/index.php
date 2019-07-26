@@ -87,7 +87,7 @@ foreach ($css as $link) {
 <nav class="uk-navbar-container uk-margin" uk-navbar uk-sticky>
     <div class="uk-navbar-left">
         <a class="uk-navbar-item uk-logo" href="?<?php echo $_SERVER['QUERY_STRING']; ?>#top">
-        	<img src="css/logo-black.svg" width="200" alt="Video to Scorm">
+        	<img src="css/video-to-scorm.svg" width="300" alt="Video to Scorm">
         </a>
     </div>
     <div class="uk-navbar-right">
