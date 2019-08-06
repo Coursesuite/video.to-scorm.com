@@ -43,13 +43,20 @@
 
 		function _get_media(id) {
 			return {
-				src: url = "https://player.vimeo.com/video/" + id + "?title=0&amp;byline=0&amp;portrait=0&amp;badge=0",
+				src: "https://player.vimeo.com/video/" + id + "?title=0&amp;byline=0&amp;portrait=0&amp;badge=0",
 				mime: ["video/vimeo", "video/x-vimeo"],
 				sources: ['https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.10/renderers/vimeo.min.js']
 			}
 		}
 
+		function _package() {
+			return {
+				// this would be a list of the files in this plugin folder that are needed for the runtime, which might be templated somehow so you can inject values into it?
+			}
+		}
+
 		return {
+			type: "video",
 			name: "vimeo",
 			init: _init,
 			get_media: _get_media

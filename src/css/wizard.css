@@ -1,0 +1,132 @@
+/* ========================================================================
+   Component: Wizard
+ ========================================================================== */
+
+.uk-wizard {
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+    margin-bottom: 20px;
+    position: relative;
+    background-color: #fff;
+    padding: 0;
+    list-style: none;
+}
+* + .uk-wizard {
+    margin-top: 20px;
+}
+.uk-wizard .uk-step {
+    padding: 10px 10px 10px 15px;
+    position: relative;
+}
+.uk-wizard:not(.uk-wizard-vertical) .uk-step:not(:last-child):before,
+.uk-wizard:not(.uk-wizard-vertical) .uk-step:not(:last-child):after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-image: none;
+    border-style: solid;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    border-width: 20px 8px;
+    margin-top: -20px;
+    margin-right: -17px;
+    z-index: 1;
+}
+.uk-wizard:not(.uk-wizard-vertical) .uk-step:not(:last-child):before {
+    border-color: transparent transparent transparent rgba(0, 0, 0, 0.1);
+}
+.uk-wizard:not(.uk-wizard-vertical) .uk-step:not(:last-child):after {
+    border-color: transparent transparent transparent rgba(255, 255, 255, 1);
+    right: 1px;
+}
+.uk-wizard.uk-wizard-hover .uk-step:not(.uk-active):hover {
+    background-color: #fafafa;
+}
+.uk-wizard.uk-wizard-hover .uk-step:not(.uk-active):hover:after {
+    border-left-color: #fafafa;
+}
+.uk-wizard:not(.uk-wizard-vertical) .uk-step + .uk-step {
+    border-left: 1px solid rgba(0, 0, 0, 0.1);
+}
+.uk-wizard.uk-wizard-vertical .uk-step + .uk-step {
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+.uk-wizard .uk-step.uk-active {
+    background-color: #f1f1f1;
+}
+.uk-wizard .uk-step.uk-active:after {
+    border-left-color: #f1f1f1 !important;
+}
+.uk-wizard .uk-complete .uk-wizard-icon:before {
+    font-family: 'FontAwesome' !important;
+    font-size: 30px !important;
+    content: "\f00c" !important;
+    color: #21ba45;
+}
+.uk-wizard .uk-complete .uk-wizard-icon > * { display: none; }
+    .uk-wizard .uk-step-content {}
+        .uk-wizard .uk-wizard-title {
+            font-family: 'RobotoSlab-Regular', Arial, sans-serif;
+            font-size: 16px;
+        }
+        .uk-wizard .uk-active .uk-wizard-title {
+            color: #0077dd;
+        }
+        .uk-wizard .uk-wizard-desc {
+            font-size: 13px;
+            color: #aaa;
+        }
+        .uk-wizard .uk-active .uk-wizard-desc {
+            color: #555;
+        }
+        .uk-wizard .uk-wizard-icon {
+            float: left;
+            font-size: 30px;
+            line-height: 38px;
+            margin-right: 10px;
+            position: relative;
+            text-align: center;
+            min-width: 30px;
+        }
+
+/* Link */
+
+.uk-wizard .uk-step > a:hover { text-decoration: none; }
+
+/* Step count modificator */
+
+.uk-wizard.uk-wizard-steps { counter-reset: ordered; }
+.uk-wizard.uk-wizard-steps .uk-step-content {}
+.uk-wizard.uk-wizard-steps .uk-wizard-icon:before {
+    content: counters(ordered, ".", decimal);
+    counter-increment: ordered;
+    font-family: inherit;
+    font-size: 40px;
+    font-weight: 700;
+}
+
+/* Vertical modificator */
+
+.uk-wizard.uk-wizard-vertical .uk-step.uk-active:before,
+.uk-wizard.uk-wizard-vertical .uk-step.uk-active:after {
+    content: '';
+    width: 0;
+    height: 0;
+    border-image: none;
+    border-style: solid;
+    position: absolute;
+    right: 0;
+    top: 50%;
+    border-width: 20px 8px;
+    margin-top: -20px;
+    margin-right: -17px;
+    z-index: 1;
+}
+.uk-wizard.uk-wizard-vertical .uk-step.uk-active:before {
+    border-color: transparent transparent transparent rgba(0, 0, 0, 0.1);
+}
+.uk-wizard.uk-wizard-vertical .uk-step.uk-active:after {
+    border-color: transparent transparent transparent rgba(255, 255, 255, 1);
+    right: 1px;
+}

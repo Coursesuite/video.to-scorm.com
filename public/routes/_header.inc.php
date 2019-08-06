@@ -30,7 +30,7 @@
     		<div class="uk-container uk-container-expand">
     			<nav uk-navbar>
     				<div class="uk-navbar-left">
-    					<a href="/" class="uk-navbar-item uk-logo" title="Video to Scorm"><img src="assets/logo-white.svg" width="200" alt="Video to Scorm"></a>
+    					<a href="/" class="uk-navbar-item uk-logo" title="Video to Scorm"><img src="assets/video-to-scorm.svg" width="200" alt="Video to Scorm"></a>
 					</div>
 					<div class="uk-navbar-right uk-visible@m">
 						<ul class="uk-navbar-nav">

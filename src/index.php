@@ -2,6 +2,8 @@
 define("APP",true);
 include("load.php");
 
+$verifier->app->socket = "ws://127.0.0.1";
+
 $jsApp = new stdClass();
 $jsApp->Home = $verifier->home;
 $jsApp->Tier =  $verifier->licence->tier;
@@ -21,20 +23,14 @@ $plugins = [];
 $scripts = [];
 $css = [];
 
-$scripts[] = 'https://cdn.jsdelivr.net/combine/npm/nouislider@13.1.5,npm/uikit@3.1.5/dist/js/uikit-icons.min.js,npm/uikit@3.1.5';
-$scripts[] = 'https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.10/mediaelement-and-player.min.js'; // not cdn.jsdeliver
-$scripts[] = 'https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.10/renderers/dailymotion.min.js';
-$scripts[] = 'https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.10/renderers/facebook.min.js';
-$scripts[] = 'https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.10/renderers/soundcloud.min.js';
-$scripts[] = 'https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.10/renderers/twitch.min.js';
-$scripts[] = 'https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.10/renderers/vimeo.min.js';
-
-$scripts[] = 'js/nouislider.min.js';
+$scripts[] = 'https://cdn.jsdelivr.net/combine/npm/nouislider@14.0.2,npm/uikit@3.1.5/dist/js/uikit-icons.min.js,npm/uikit@3.1.5';
+$scripts[] = 'https://cdn.plyr.io/3.5.6/plyr.js';
 $scripts[] = 'js/main.js';
-$css[] = 'https://cdn.jsdelivr.net/npm/uikit@3.1.5/dist/css/uikit.min.css';
-$css[] = 'https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.10/mediaelementplayer.min.css';
-$css[] = 'css/nouislider.min.css';
+
+$css[] = 'https://cdn.jsdelivr.net/combine/npm/uikit@3.1.5/dist/css/uikit.min.css,npm/nouislider@14.0.2/distribute/nouislider.min.css';
+$css[] = 'https://cdn.plyr.io/3.5.6/plyr.css'; // can't be combined because of relative pathing
 $css[] = 'css/app.css';
+$css[] = 'css/wizard.css';
 
 $plugins_path = realpath("./plugins");
 $pfold = new DirectoryIterator($plugins_path);
@@ -44,7 +40,18 @@ foreach ($pfold as $fi) {
     	$plugins[] = $fi->getFilename();
     }
 }
-rsort($plugins, SORT_STRING); // think up something better to put youtube then vimeo first then the rest
+
+// sort alphabetically, except put vimeo first and cloud last
+function cmp($a,$b) {
+	if ($a === $b) return 0;
+	if ($a === 'cloud' || $b === 'vimeo') return 1;
+	if ($a === 'vimeo' || $b === 'cloud') return -1;
+	return ($a < $b) ? -1 : 1;
+}
+
+usort($plugins,"cmp");
+
+// rsort($plugins, SORT_STRING); // think up something better to put youtube then vimeo first then the rest
 
 $iter = new RegexIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($plugins_path)), '/^.+(plugin|templates)\.js$/', RecursiveRegexIterator::GET_MATCH);
 foreach ($iter as $file) {
@@ -70,6 +77,7 @@ foreach ($iter as $file) {
 		<link rel="icon" href="/favicon.ico" type="image/x-icon">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.1.5/dist/css/uikit.min.css" />
 		<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+		<script src="https://cdn.jsdelivr.net/npm/localforage@1.7.3/dist/localforage.min.js" integrity="sha256-H/ZsHjKSJUnQyCQHZwPmn7VTWFeTTI+qgCP1GkiB9zI=" crossorigin="anonymous"></script>
 		<script type="text/javascript">var App = <?php echo json_encode($jsApp, JSON_NUMERIC_CHECK); ?>, Layer = new WebSocket("<?php echo $verifier->app->socket; ?>"); <?php echo $verifier->app->layer; ?>;</script>
 <?php
 if ($verifier->code->minified) {
@@ -84,7 +92,41 @@ foreach ($css as $link) {
 <?php if ($verifier->valid) { ?>
 <body>
 
-<nav class="uk-navbar-container uk-margin" uk-navbar uk-sticky>
+<div class="uk-container-expand uk-margin-bottom" uk-sticky>
+<ul class="uk-wizard uk-wizard-steps uk-grid uk-grid-collapse uk-grid-width-medium-1-2 uk-grid-width-large-1-5">
+<li class="cs-logo"><img src="css/video-to-scorm.svg" width="200" alt="Video to Scorm"></li>
+<li class="uk-step">
+<div class="uk-step-content uk-text-truncate">
+<div class="uk-wizard-icon"></div>
+<div class="uk-wizard-title">Настройка базы данных</div>
+<div class="uk-wizard-desc">настройка подключения к БД</div>
+</div>
+</li>
+<li class="uk-step uk-complete">
+<div class="uk-step-content">
+<div class="uk-wizard-icon"></div>
+<div class="uk-wizard-title">Метаданные</div>
+<div class="uk-wizard-desc">настройки SEO</div>
+</div>
+</li>
+<li class="uk-step uk-active">
+<div class="uk-step-content">
+<div class="uk-wizard-icon"></div>
+<div class="uk-wizard-title">Аккаунт</div>
+<div class="uk-wizard-desc">настройка пользователя</div>
+</div>
+</li>
+<li class="uk-step">
+<div class="uk-step-content">
+<div class="uk-wizard-icon"></div>
+<div class="uk-wizard-title">Все готово!</div>
+<div class="uk-wizard-desc">давайте начинать</div>
+</div>
+</li>
+</ul>
+</div>
+
+<nav class="uk-navbar-container" uk-navbar uk-sticky>
     <div class="uk-navbar-left">
         <a class="uk-navbar-item uk-logo" href="?<?php echo $_SERVER['QUERY_STRING']; ?>#top">
         	<img src="css/video-to-scorm.svg" width="300" alt="Video to Scorm">
@@ -110,8 +152,6 @@ foreach ($css as $link) {
 			        echo "		", "<li", ($i===0) ? " class='uk-active'":"", "><a href='#' aria-expanded='false'>", $plugins[$i], "</a></li>", PHP_EOL;
 		    	}
 		?>
-		        <li><a href="#" aria-expanded="false">Upload</a></li>
-		        <li><a href="#" aria-expanded="false">Cloud</a></li>
 		    </ul>
 
 		    <ul class="uk-switcher uk-margin">
@@ -122,52 +162,31 @@ foreach ($css as $link) {
 			    	echo "		", "</li>", PHP_EOL;
 		    	}
 		?>
-		        <li>
-					<form>
-					    <div class="uk-margin">
-					        <div uk-form-custom>
-					            <input type="file">
-					            <button class="uk-button uk-button-default" type="button" tabindex="-1">Select mp3, mp4, m3u8, ogg to upload</button>
-					        </div>
-					    </div>
-					</form>
-		        </li>
-		        <li>upload from the cloud somewhere</li>
 		    </ul>
 		</div>
 	</div>
 </section>
-
-<?php if (0) { ?>
-<section class="uk-section uk-height-viewport">
-	<div class="uk-container">
-		<h2>Set options</h2>
-
-		<p>Use mediaelement.js</p>
-		<p>Use plyr.io</p>
-		<p>Use HLS</p>
-		<p>Use Dash</p>
-		<p>Select a player skin</p>
-		<p>Show or hide the video controls</p>
-	</div>
-</section>
-
-            <video id="mejs__player"  class="uk-responsive-width" preload="none" controls playsinline webkit-playsinline>
-            </video>
-
-<?php } ?>
 
 <section class="uk-section uk-height-viewport">
 	<div class="uk-container">
 		<h2>Set the video ranges and cue points</h2>
 		<p>Drag the start (<span class='m-s'>S</span>) and end (<span class='m-e'>E</span>) video markers to indicate the portion of the video you want to show. Drag the completion marker (<span class='m-c'>C</span>) to where you want the video to be complete.</p>
 
-		<div class="video-container"><video id="video-player" width="100%" height="100%" style="width:100%;padding-top:56.25%"></video></div>
+		<div class="video-container uk-position-relative">
+			<video id="video-player" autoplay="false" playsinline webkit-playsinline crossorigin style="position:absolute;width:100%;top:0;height:100%;"></video>
+		</div>
 
 		<div class="range-container">
 			<div id="range"></div>
 		</div>
 
+	</div>
+</section>
+
+<section class="uk-section uk-height-viewport">
+	<div class="uk-container">
+		<h2>Download</h2>
+		<p>fuck it</p>
 	</div>
 </section>
 
@@ -181,7 +200,7 @@ foreach ($css as $link) {
 	<body class="buildbot-sad">
 
 		<header>
-			course alchemy
+			video 2 scorm
 		</header>
 
 		<main>

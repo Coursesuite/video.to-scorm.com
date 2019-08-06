@@ -10,6 +10,7 @@
 	cursor: pointer;
 	display: grid;
 	grid-template-rows: 120px 2fr .5fr;
+	position: relative;
 }
 .yt-results figure:hover {
 	background-color: lightyellow;
@@ -33,4 +34,15 @@
 
 .yt-results h3 {
 	text-align: center;
+}
+
+.yt-results figure:after {
+    position: absolute;
+    top: 3px;
+    right: 3px;
+    font-size: 10px;
+    content: attr(data-length);
+    background-color: rgba(0,0,0,.5);
+    padding:  0 .3em;
+    color: white;
 }

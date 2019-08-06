@@ -47,7 +47,7 @@ if (isset($queryResponse['body'])) {
 	}
 	foreach ($datasrc as $video) {
 		$results[] = [
-			"id" => $video['uri'],
+			"id" => str_replace("/videos/",'', $video['uri']),
 			"title" => $video['name'],
 			"published" => $video['release_time'],
 			"channel" => $video['user']['name'],

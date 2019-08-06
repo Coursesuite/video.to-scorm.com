@@ -24,7 +24,7 @@
 			var output = [];
 			if (data.results.length) {
 			data.results.forEach(function(video) {
-				output.push(`<figure class='search-result' data-plugin='youtube' data-id='${video.id}' data-duration='${video.duration}'>
+				output.push(`<figure class='search-result' data-plugin='youtube' data-id='${video.id}' data-duration='${video.duration}' data-length='${timeString(video.duration)}'>
 				            <img src='${video.thumbnail}' alt='${video.published}'>
 				            <figcaption>${video.title}</figcaption>
 				            <small>${video.channel}</small>
@@ -43,6 +43,7 @@
 
 		function _get_media(id) {
 			return {
+				type: "video",
 				src: "https://www.youtube.com/watch?v=" + id,
 				sources: ['//www.youtube.com/player_api'],
 				mime: ["video/youtube","video/x-youtube"]
