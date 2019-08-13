@@ -10,7 +10,9 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 
 	function globalClickHandler(e) {
 		if (!e.target) return;
-		if (e.target.classList.contains("noUi-value")) { // click a pip
+		if (e.target.id === 'download-button') {
+			downloadZip();
+		} else if (e.target.classList.contains("noUi-value")) { // click a pip
 			var pip = Number(e.target.dataset.value),
 				range = document.getElementById('range'),
 				curr = range.noUiSlider.get().map(Number);
@@ -152,7 +154,7 @@ function createSlider() {
 	});
 
 	range.noUiSlider.on('update', function () {
-		var current_handle_time = arguments[0][arguments[1]];
+		var current_handle_time = Number(arguments[0][arguments[1]]);
 		var paused = window.v2s['player'].paused;
 		window.v2s['ranges'] = arguments[0].map(Number);
 		window.v2s['player'].currentTime = current_handle_time;
@@ -178,4 +180,33 @@ function timeString(val) {
 	date.setSeconds(val);
 	var fmt = date.toISOString();
 	return (val < 3600) ? fmt.substr(14,5) : fmt.substr(11, 8); // trim hours
+}
+
+function downloadZip() {
+	var zip = new JSZip();
+
+	var setup = {
+		provider: window.v2s.plugin,
+		playerApi: window.v2s.source.sources[0],
+		videoId: window.v2s.id,
+		starts: window.v2s.ranges[0],
+		completes: window.v2s.ranges[1],
+		ends: window.v2s.ranges[2],
+		timeStamp: (new Date().getTime()),
+	}
+
+	zip.file('index.html', Handlebars.templates['outputhtml'](setup));
+	zip.file('_package.css', Handlebars.templates['outputcss']());
+	zip.file('_package.js', Handlebars.templates['outputjs'](setup));
+	zip.file('imsmanifest.xml', Handlebars.templates['scorm12manifest'](setup))
+	zip.generateAsync({
+		type:"blob",
+    compression: "DEFLATE",
+    compressionOptions: {
+        level: 9
+    }
+	})
+	.then(function(content) {
+		saveAs(content, 'v2sTest.zip');
+	});
 }
