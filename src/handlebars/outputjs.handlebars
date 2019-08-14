@@ -47,37 +47,37 @@ function apiProxy() {
   this.LMSGetValue = function (param) { switch(param){default: return "";}; };
   this.LMSSetValue = function (param,value) { switch(param){default: return "true";}; };
 }
-window.ninjaApiProxy = new apiProxy();
+window.ninjaApiProxy = new apiProxy()
 
 // find scorm API; getAPI() also sets _sAPI; apiHandle is the object reference
-var apiHandle = (parent && parent !== self && parent.ninjaApiProxy) ? parent.ninjaApiProxy : getAPI();
-scormInitialize();
+var apiHandle = (parent && parent !== self && parent.ninjaApiProxy) ? parent.ninjaApiProxy : getAPI()
+scormInitialize()
 
-var complete = false;
+var complete = false
 
 function doUnload() {
     if (!_unloaded) {
-        scormCommit();
-        setSessionTime(_timeSessionStart);
-        scormTerminate();
-        _unloaded = true;
+        scormCommit()
+        setSessionTime(_timeSessionStart)
+        scormTerminate()
+        _unloaded = true
     }
 }
 function setComplete() {
   if (!complete) {
-    learnerWillReturn(false);
-    if ("API_1484_11"==_sAPI) setPassFail("passed");
-    setCompletionStatus("completed");
-    setScore(100);
-    scormCommit();
+    learnerWillReturn(false)
+    if ("API_1484_11"==_sAPI) setPassFail("passed")
+    setCompletionStatus("completed")
+    setScore(100)
+    scormCommit()
   }
 }
 
 document.addEventListener("DOMContentLoaded", function domLoader(event) {
   startSessionTime();
-  setCompletionStatus("incomplete");
-  learnerWillReturn(true);
-  scormCommit();
+  setCompletionStatus("incomplete")
+  learnerWillReturn(true)
+  scormCommit()
 
   var Player = new Plyr(document.getElementById('player'), {
     settings: ['quality','speed'],
@@ -94,7 +94,21 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
   }
   Player.on('timeupdate', function(e){
     if (Player.currentTime >= {{completes}}) {
-      setComplete();
+      setComplete()
     }
+    if (Player.currentTime >= {{ends}}) {
+      Player.pause()
+    }
+  })
+  Player.on('play', function(e) {
+    if (Player.currentTime >= {{ends}}) {
+      Player.currentTime = {{starts}}
+    }
+    if (Player.currentTime < {{starts}}) {
+      Player.currentTime = {{starts}}
+    }
+  })
+  Player.on('loadedmetadata', function(e) {
+    Player.currentTime = {{starts}}
   })
 })
