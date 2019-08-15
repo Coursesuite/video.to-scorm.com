@@ -3,6 +3,8 @@
 //V2S.set("source",{});
 
 window['v2s'] = {plugins:[],source:{}};
+window.KLOUDLESS_APP_ID = atob("VU5oR1p2bXpzc3VQQ25Kdm5NZ19FYlF5MVo5a0s1el9nUU1PRk01cXhUU0VnSmxx");
+window.KLOUDLESS_INPUT = window.Kloudless.explorer({app_id: KLOUDLESS_APP_ID});
 localforage.config({ name: 'video2scorm' });
 
 window.addEventListener("DOMContentLoaded", function domContentLoaded() {
@@ -34,13 +36,23 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 		plugin.init();
 	});
 
+	// Local upload listener
 	document.getElementById('localUpload').addEventListener('change', function file_upload(e) {
-		window.v2s.plugins.find(function(el){return el.type === 'local'}).handleFileUpload(e.target.files[0])
+		window.v2s.plugins.find(function(el){return el.name === 'upload'}).handleFileUpload(e.target.files[0])
 		.then(function(){
 			createSlider();
 			saveCache();
 		})
 	});
+
+	//Kloudless upload listener
+	KLOUDLESS_INPUT.on('success', function(files) {
+		window.v2s.plugins.find(function(el){return el.name === 'cloud'}).handleFileUpload(files[0])
+		.then(function() {
+			createSlider();
+			saveCache();
+		})
+	})
 
 	window.v2s['player'] = new Plyr('#video-player',{
 		debug: false,
@@ -69,12 +81,21 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 			window.v2s['id']  = (value.id)?value.id:undefined;
 			window.v2s['duration'] = ~~value.duration;
 			window.v2s['ranges'] = value.ranges;
-			if (value.plugin === 'upload') {
+			if (value.plugin === 'upload') { // locally uploaded file
+				window.v2s['original'] = value.original;
+				if (!window.v2s['player'].paused) window.v2s['player'].pause();
 				window.v2s.plugins.find(function(el){return el.type === 'local'}).handleFileUpload(value.original)
 				.then(function() {
 					createSlider();
 				})
-			} else {
+			} else if (value.plugin === 'cloud') { // Kloudless uploaded file
+				window.v2s['original'] = value.original;
+				if (!window.v2s['player'].paused) window.v2s['player'].pause();
+				window.v2s.plugins.find(function(el){return el.type === 'cloud'}).reUpload(value.original)
+				.then(function() {
+					createSlider();
+				})
+			} else { // embeded videos
 				var form = document.querySelector("li[data-plugin='" + value.plugin + "']"),
 					index = Array.prototype.indexOf.call(form.parentNode.children, form);
 				form.querySelector("input[name='q']").value = value.q;
@@ -121,7 +142,7 @@ function createVideo() {
     sources: [
       {
         src: window.v2s.source.src, // or window.v2s.id
-        provider: (window.v2s.plugin === 'upload') ? '':window.v2s.plugin,
+        provider: (window.v2s.plugin === 'upload' || window.v2s.plugin === 'cloud') ? '':window.v2s.plugin,
       },
     ],
 	};
@@ -201,10 +222,10 @@ function timeString(val) {
 
 function downloadZip() {
 	var zip = new JSZip();
-	if (window.v2s.plugin === 'upload') var uploadName = 'media.'+window.v2s.source.mime.split('/')[1]
+	if (window.v2s.plugin === 'upload' || window.v2s.plugin === 'cloud') var uploadName = 'media.'+window.v2s.source.mime.split('/')[1]
 
 	var setup = {
-		provider: (window.v2s.plugin === 'upload')?'':window.v2s.plugin,
+		provider: (window.v2s.plugin === 'upload' || window.v2s.plugin === 'cloud')?'':window.v2s.plugin,
 		playerApi: window.v2s.source.sources[0],
 		videoId: window.v2s.id||uploadName,
 		starts: window.v2s.ranges[0],
@@ -217,7 +238,7 @@ function downloadZip() {
 	zip.file('_package.css', Handlebars.templates['outputcss']());
 	zip.file('_package.js', Handlebars.templates['outputjs'](setup));
 	zip.file('imsmanifest.xml', Handlebars.templates['scorm12manifest'](setup))
-	if (window.v2s.plugin === 'upload') {
+	if (window.v2s.plugin === 'upload' || window.v2s.plugin === 'cloud') {
 		zip.file(uploadName, window.v2s.source.original)
 	}
 

@@ -75,6 +75,7 @@ foreach ($iter as $file) {
 		<meta name="author" content="coursesuite pty ltd" />
 		<link rel="shortcut icon" href="/favicon.ico">
 		<link rel="icon" href="/favicon.ico" type="image/x-icon">
+		<script type="text/javascript" src="https://static-cdn.kloudless.com/p/platform/sdk/kloudless.explorer.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.0.2/jszip-utils.min.js" async="true"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
