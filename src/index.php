@@ -193,6 +193,8 @@ foreach ($css as $link) {
 	<div class="uk-container">
 		<h2>Download</h2>
 		<button id="download-button">DOWNLOAD ZIP</button>
+		<input type="checkbox" id="toggleScrub" name="toggleScrub">
+		<label for="toggleScrub">Hide video scrub bar</label>
 	</div>
 </section>
 

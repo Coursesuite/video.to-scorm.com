@@ -222,8 +222,7 @@ function timeString(val) {
 
 function downloadZip() {
 	var zip = new JSZip();
-	if (window.v2s.plugin === 'upload' || window.v2s.plugin === 'cloud') var uploadName = 'media.'+window.v2s.source.mime.split('/')[1]
-
+	if (window.v2s.plugin === 'upload' || window.v2s.plugin === 'cloud') var uploadName = 'media.'+window.v2s.source.mime.split('/')[1];
 	var setup = {
 		provider: (window.v2s.plugin === 'upload' || window.v2s.plugin === 'cloud')?'':window.v2s.plugin,
 		playerApi: window.v2s.source.sources[0],
@@ -232,10 +231,11 @@ function downloadZip() {
 		completes: window.v2s.ranges[1],
 		ends: window.v2s.ranges[2],
 		timeStamp: (new Date().getTime()),
-		mime: window.v2s.source.mime||''
+		mime: window.v2s.source.mime||'',
+		hideScrub: document.getElementById('toggleScrub').checked
 	}
 	zip.file('index.html', Handlebars.templates['outputhtml'](setup));
-	zip.file('_package.css', Handlebars.templates['outputcss']());
+	zip.file('_package.css', Handlebars.templates['outputcss'](setup));
 	zip.file('_package.js', Handlebars.templates['outputjs'](setup));
 	zip.file('imsmanifest.xml', Handlebars.templates['scorm12manifest'](setup))
 	if (window.v2s.plugin === 'upload' || window.v2s.plugin === 'cloud') {
