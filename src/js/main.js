@@ -3,6 +3,8 @@
 //V2S.set("source",{});
 
 window['v2s'] = {plugins:[],source:{}};
+window.KLOUDLESS_APP_ID = atob("VU5oR1p2bXpzc3VQQ25Kdm5NZ19FYlF5MVo5a0s1el9nUU1PRk01cXhUU0VnSmxx");
+window.KLOUDLESS_INPUT = window.Kloudless.explorer({app_id: KLOUDLESS_APP_ID});
 localforage.config({ name: 'video2scorm' });
 
 window.addEventListener("DOMContentLoaded", function domContentLoaded() {
@@ -10,7 +12,9 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 
 	function globalClickHandler(e) {
 		if (!e.target) return;
-		if (e.target.classList.contains("noUi-value")) { // click a pip
+		if (e.target.id === 'download-button') {
+			downloadZip();
+		} else if (e.target.classList.contains("noUi-value")) { // click a pip
 			var pip = Number(e.target.dataset.value),
 				range = document.getElementById('range'),
 				curr = range.noUiSlider.get().map(Number);
@@ -31,6 +35,24 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 	Array.prototype.forEach.call(window.v2s.plugins, function(plugin) {
 		plugin.init();
 	});
+
+	// Local upload listener
+	document.getElementById('localUpload').addEventListener('change', function file_upload(e) {
+		window.v2s.plugins.find(function(el){return el.name === 'upload'}).handleFileUpload(e.target.files[0])
+		.then(function(){
+			createSlider();
+			saveCache();
+		})
+	});
+
+	//Kloudless upload listener
+	KLOUDLESS_INPUT.on('success', function(files) {
+		window.v2s.plugins.find(function(el){return el.name === 'cloud'}).handleFileUpload(files[0])
+		.then(function() {
+			createSlider();
+			saveCache();
+		})
+	})
 
 	window.v2s['player'] = new Plyr('#video-player',{
 		debug: false,
@@ -54,16 +76,32 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 	// });
 
 	localforage.getItem("cache").then(function(value) {
-		if (value&&value.id) {
+		if (value) {
 			window.v2s['plugin'] = value.plugin;
-			window.v2s['id']  = value.id;
+			window.v2s['id']  = (value.id)?value.id:undefined;
 			window.v2s['duration'] = ~~value.duration;
 			window.v2s['ranges'] = value.ranges;
-			var form = document.querySelector("li[data-plugin='" + value.plugin + "']"),
-				index = Array.prototype.indexOf.call(form.parentNode.children, form);
-			form.querySelector("input[name='q']").value = value.q;
-			UIkit.tab(document.querySelector("ul.uk-tab")).show(index);
-			createVideo();
+			if (value.plugin === 'upload') { // locally uploaded file
+				window.v2s['original'] = value.original;
+				if (!window.v2s['player'].paused) window.v2s['player'].pause();
+				window.v2s.plugins.find(function(el){return el.type === 'local'}).handleFileUpload(value.original)
+				.then(function() {
+					createSlider();
+				})
+			} else if (value.plugin === 'cloud') { // Kloudless uploaded file
+				window.v2s['original'] = value.original;
+				if (!window.v2s['player'].paused) window.v2s['player'].pause();
+				window.v2s.plugins.find(function(el){return el.type === 'cloud'}).reUpload(value.original)
+				.then(function() {
+					createSlider();
+				})
+			} else { // embeded videos
+				var form = document.querySelector("li[data-plugin='" + value.plugin + "']"),
+					index = Array.prototype.indexOf.call(form.parentNode.children, form);
+				form.querySelector("input[name='q']").value = value.q;
+				UIkit.tab(document.querySelector("ul.uk-tab")).show(index);
+				createVideo();
+			}
 		}
 	});
 
@@ -79,12 +117,14 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 });
 
 function saveCache() {
+	var query = document.querySelector("li[data-plugin='" + window.v2s.plugin + "'] input[name='q']");
 	var v = {
 		id: window.v2s.id,
 		plugin: window.v2s.plugin,
 		duration: window.v2s.duration,
-		q: document.querySelector("li[data-plugin='" + window.v2s.plugin + "'] input[name='q']").value,
-		ranges: window.v2s.ranges
+		q: (query)?query.value:'',
+		ranges: window.v2s.ranges,
+		original: (window.v2s.source.original)?window.v2s.source.original:'',
 	};
 	localforage.setItem("cache", v);
 }
@@ -98,13 +138,13 @@ function createVideo() {
 	if (!window.v2s['player'].paused) window.v2s['player'].pause();
 
 	window.v2s['player'].source = {
-	    type: window.v2s.source.type,
-	    sources: [
-	        {
-	            src: window.v2s.source.src, // or window.v2s.id
-	            provider: window.v2s.plugin,
-	        },
-	    ],
+    type: window.v2s.source.type,
+    sources: [
+      {
+        src: window.v2s.source.src, // or window.v2s.id
+        provider: (window.v2s.plugin === 'upload' || window.v2s.plugin === 'cloud') ? '':window.v2s.plugin,
+      },
+    ],
 	};
 
 	// window.v2s['player'].setSrc(window.v2s.source.src.replace('&amp;', '&'));
@@ -152,7 +192,7 @@ function createSlider() {
 	});
 
 	range.noUiSlider.on('update', function () {
-		var current_handle_time = arguments[0][arguments[1]];
+		var current_handle_time = Number(arguments[0][arguments[1]]);
 		var paused = window.v2s['player'].paused;
 		window.v2s['ranges'] = arguments[0].map(Number);
 		window.v2s['player'].currentTime = current_handle_time;
@@ -178,4 +218,38 @@ function timeString(val) {
 	date.setSeconds(val);
 	var fmt = date.toISOString();
 	return (val < 3600) ? fmt.substr(14,5) : fmt.substr(11, 8); // trim hours
+}
+
+function downloadZip() {
+	var zip = new JSZip();
+	if (window.v2s.plugin === 'upload' || window.v2s.plugin === 'cloud') var uploadName = 'media.'+window.v2s.source.mime.split('/')[1];
+	var setup = {
+		provider: (window.v2s.plugin === 'upload' || window.v2s.plugin === 'cloud')?'':window.v2s.plugin,
+		playerApi: window.v2s.source.sources[0],
+		videoId: window.v2s.id||uploadName,
+		starts: window.v2s.ranges[0],
+		completes: window.v2s.ranges[1],
+		ends: window.v2s.ranges[2],
+		timeStamp: (new Date().getTime()),
+		mime: window.v2s.source.mime||'',
+		hideScrub: document.getElementById('toggleScrub').checked
+	}
+	zip.file('index.html', Handlebars.templates['outputhtml'](setup));
+	zip.file('_package.css', Handlebars.templates['outputcss'](setup));
+	zip.file('_package.js', Handlebars.templates['outputjs'](setup));
+	zip.file('imsmanifest.xml', Handlebars.templates['scorm12manifest'](setup))
+	if (window.v2s.plugin === 'upload' || window.v2s.plugin === 'cloud') {
+		zip.file(uploadName, window.v2s.source.original)
+	}
+
+	zip.generateAsync({
+		type:"blob",
+    compression: "DEFLATE",
+    compressionOptions: {
+        level: 9
+    }
+	})
+	.then(function(content) {
+		saveAs(content, 'v2sTest.zip');
+	});
 }

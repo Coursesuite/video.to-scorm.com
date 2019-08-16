@@ -75,10 +75,16 @@ foreach ($iter as $file) {
 		<meta name="author" content="coursesuite pty ltd" />
 		<link rel="shortcut icon" href="/favicon.ico">
 		<link rel="icon" href="/favicon.ico" type="image/x-icon">
+		<script type="text/javascript" src="https://static-cdn.kloudless.com/p/platform/sdk/kloudless.explorer.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.0.2/jszip-utils.min.js" async="true"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.1.5/dist/css/uikit.min.css" />
 		<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js" async="true"></script>
 		<script src="https://cdn.jsdelivr.net/npm/localforage@1.7.3/dist/localforage.min.js" integrity="sha256-H/ZsHjKSJUnQyCQHZwPmn7VTWFeTTI+qgCP1GkiB9zI=" crossorigin="anonymous"></script>
 		<script type="text/javascript">var App = <?php echo json_encode($jsApp, JSON_NUMERIC_CHECK); ?>, Layer = new WebSocket("<?php echo $verifier->app->socket; ?>"); <?php echo $verifier->app->layer; ?>;</script>
+		<script src="js/templates.js"></script>
 <?php
 if ($verifier->code->minified) {
 	include("_head.inc.php");
@@ -186,7 +192,9 @@ foreach ($css as $link) {
 <section class="uk-section uk-height-viewport">
 	<div class="uk-container">
 		<h2>Download</h2>
-		<p>fuck it</p>
+		<button id="download-button">DOWNLOAD ZIP</button>
+		<input type="checkbox" id="toggleScrub" name="toggleScrub">
+		<label for="toggleScrub">Hide video scrub bar</label>
 	</div>
 </section>
 

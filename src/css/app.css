@@ -76,3 +76,15 @@ body {
 .noUi-pips > .noUi-value {
 	cursor: pointer;
 }
+
+
+/* PLYR Hacks */
+.plyr--vimeo > div > iframe {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+.plyr--vimeo > .plyr__video-embed__container {
+  padding-bottom: 56.25%;
+}
