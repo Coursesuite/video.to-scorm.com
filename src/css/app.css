@@ -54,10 +54,22 @@ body {
 	min-height: 50vh;
 } */
 
+.video-container {
+  height: 100%;
+  width: 100%;
+}
+
 .video-container::after {
 	content: '';
 	position: absolute;
 	padding-top: 56.25%;
+}
+
+.video-element {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  height: 100%;
 }
 
 .noUi-pips.noUi-pips-horizontal {
@@ -76,3 +88,26 @@ body {
 .noUi-pips > .noUi-value {
 	cursor: pointer;
 }
+
+
+/* PLYR Hacks */
+.plyr--vimeo > div > iframe {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+.plyr--vimeo > .plyr__video-embed__container {
+  padding-bottom: 56.25%;
+}
+
+/* mediaelement Hacks */
+mediaelementwrapper > iframe {
+  width: 100%;
+  height: 100%;
+}
+
+/* Prevent poster being hidden on play */
+/*.mejs__layer {   
+  display: block !important;
+}*/

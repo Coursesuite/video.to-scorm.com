@@ -1,15 +1,17 @@
-	    	<form class="uk-padding-small" method="POST">
-	    		<input type="hidden" name="token" value="<?php echo $token; ?>">
-			    <fieldset class="uk-fieldset">
-			        <legend class="uk-legend">Search youtube, or enter a video id or url</legend>
-			        <div class="uk-flex">
-			        	<div class="uk-flex-1">
-				            <input class="uk-input" type="text" placeholder="Input" name="q">
-				        </div>
-				        <div class="uk-flex-none">
-				        	<button class="uk-button uk-button-primary" data-action="yt-search">Search</button>
-				        </div>
-			        </div>
-			    </fieldset>
-				<div class="yt-results"></div>
-			</form>
+<section>
+	<form class="uk-padding-small" method="POST">
+		<input type="hidden" name="token" value="<?php echo $token; ?>">
+    <fieldset class="uk-fieldset">
+        <legend class="uk-legend">Search youtube, or enter a video id or url</legend>
+        <div class="uk-flex">
+        	<div class="uk-flex-1">
+	            <input class="uk-input" type="text" placeholder="Input" name="q">
+	        </div>
+	        <div class="uk-flex-none">
+	        	<button class="uk-button uk-button-primary" data-action="yt-search">Search</button>
+	        </div>
+        </div>
+    </fieldset>
+	<div class="yt-results"></div>
+</form>
+</section>

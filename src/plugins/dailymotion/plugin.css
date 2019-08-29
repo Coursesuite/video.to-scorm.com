@@ -1,0 +1,37 @@
+#dailymotionResults {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  grid-gap: 1em;
+  margin-top: 1em;
+}
+
+#dailymotionResults figure {
+  margin: 0;
+  cursor: pointer;
+  display: grid;
+  grid-template-rows: 120px 2fr .5fr;
+}
+#dailymotionResults figure:hover {
+  background-color: lightyellow;
+}
+#dailymotionResults img {
+  border-radius: 4px;
+  filter: saturate(50%);
+  transition: filter .2s ease;
+  height: 100%;
+}
+#dailymotionResults figure:hover img {
+  filter: saturate(100%);
+}
+#dailymotionResults figcaption {
+  padding: .5em .5em 0;
+}
+#dailymotionResults small {
+  padding: .5em;
+  font-weight: bold;
+  color: #bbb;
+}
+
+#dailymotionResults h3 {
+  text-align: center;
+}

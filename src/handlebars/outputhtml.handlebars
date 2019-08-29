@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <script type="text/javascript" src="{{playerApi}}"></script>
+  <title>MY VIDEO</title>
+  <script type="text/javascript" src="https://cdn.plyr.io/3.5.6/plyr.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdn.plyr.io/3.5.6/plyr.css">
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.11/mediaelement-and-player.js"></script>
+  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.11/mediaelementplayer.min.css">
+  <link rel="stylesheet" type="text/css" href="_package.css">
+</head>
+<body>
+<div id="frameContainer">
+{{#if isVideo}}
+<video id="player"></video>
+{{else}}
+<audio id="player"></audio>
+{{/if}}
+</div>
+<script type="text/javascript" src="_package.js"></script>
+</body>
+</html>

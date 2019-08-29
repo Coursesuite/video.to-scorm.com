@@ -1,4 +1,4 @@
-(function (PLUGIN, undefined) {
+(function (PLUGINS, undefined) {
 
 	var source = (function () {
 		function _init() {
@@ -42,22 +42,29 @@
 		}
 
 		function _get_media(id) {
-			return {
-				type: "video",
-				src: "https://www.youtube.com/watch?v=" + id,
-				sources: ['//www.youtube.com/player_api'],
-				mime: ["video/youtube","video/x-youtube"]
-			}
+			// return {
+			// 	type: "video",
+			// 	src: "https://www.youtube.com/watch?v=" + id,
+			// 	sources: ['//www.youtube.com/player_api'],
+			// 	mime: ["video/youtube","video/x-youtube"]
+			// }
+			return new Promise(function(resolve, reject) {
+				resolve({
+					src: "https://www.youtube.com/watch?v="+id,
+					poster: "https://img.youtube.com/vi/"+id+"/hqdefault.jpg"
+				})
+			})
 		}
 
 		return {
 			name: "youtube",
+			playerType: 'mediaelement',
 			init: _init,
 			get_media: _get_media
 		}
 
 	})();
 
-	PLUGIN.push(source);
+	PLUGINS.push(source);
 
 })(window.v2s.plugins = window.v2s.plugins || []);

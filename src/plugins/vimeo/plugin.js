@@ -1,23 +1,21 @@
-(function (PLUGIN, undefined) {
+(function (PLUGINS, undefined) {
 
 	var source = (function () {
 		function _init() {
-			[].forEach.call(document.querySelectorAll("button[data-action='vim-search']"), function (button) {
-				button.addEventListener("click", function (e) {
-					e.preventDefault();
-					var form = e.target.closest("form");
-					document.querySelector(".vim-results").innerHTML = "<img src='css/Infinity-1.5s-50px.svg'>";
-					fetch('plugins/' + form.closest("li").dataset.plugin + '/search.php', {
-						method: 'post',
-						body: new URLSearchParams(Array.from(new FormData(form))).toString(), // https://stackoverflow.com/a/44033425/1238884
-						headers: { 'Content-type': 'application/x-www-form-urlencoded' } // https://stackoverflow.com/q/36669911/1238884
-					}).then(function(response) {
-						return response.json();
-					}).then(function(jdata) {
-						_render_thumbs(jdata);
-					});
-				});
-			});
+			document.getElementById('vimeoSearch').addEventListener("click", function (e) {
+				e.preventDefault()
+				document.getElementById('vimeo-LoadingIcon').innerHTML = "<img src='css/Infinity-1.5s-50px.svg'>"
+				var form = e.target.closest("form")
+				fetch('plugins/' + form.closest("li").dataset.plugin + '/search.php', {
+					method: 'post',
+					body: new URLSearchParams(Array.from(new FormData(form))).toString(), // https://stackoverflow.com/a/44033425/1238884
+					headers: { 'Content-type': 'application/x-www-form-urlencoded' } // https://stackoverflow.com/q/36669911/1238884
+				}).then(function(response) {
+					return response.json()
+				}).then(function(jdata) {
+					_render_thumbs(jdata)
+				})
+			})
 		}
 
 		function _render_thumbs(data) {
@@ -28,7 +26,7 @@
 				            <img src='${video.thumbnail}' alt='${video.published}'>
 				            <figcaption>${video.title}</figcaption>
 				            <small>${video.channel}</small>
-			    </figure>`);
+			    </figure>`)
 			});
 			} else {
 				output.push(`
@@ -36,17 +34,38 @@
 					    <h3 class="uk-card-title">No results</h3>
 					    <p>Try expanding your search terms, or check your spelling.</p>
 					</div>
-		    	`);
+		    	`)
 			}
-			document.querySelector(".vim-results").innerHTML = output.join('');
+			document.querySelector(".vim-results").innerHTML = output.join('')
+			document.getElementById('vimeo-LoadingIcon').innerHTML = ''
 		}
 
 		function _get_media(id) {
-			return {
-				src: "https://player.vimeo.com/video/" + id + "?title=0&amp;byline=0&amp;portrait=0&amp;badge=0",
-				mime: ["video/vimeo", "video/x-vimeo"],
-				sources: ['https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.10/renderers/vimeo.min.js']
-			}
+			// return new Promise(function(resolve, reject) {
+			// 	fetch('http://vimeo.com/api/v2/video/'+id+'.json', {
+			// 		method: 'GET',
+			// 	})
+			// 	.then(function(result) {
+			// 		return result.json()
+			// 	})
+			// 	.then(function(obj) {
+			// 		resolve({
+			// 			src: "https://player.vimeo.com/video/" + id + "?title=0&amp;byline=0&amp;portrait=0&amp;badge=0",
+			// 			poster: obj[0].thumbnail_large,
+			// 			// mime: ["video/vimeo", "video/x-vimeo"],
+			// 			// sources: ['https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.10/renderers/vimeo.min.js']
+			// 		})
+			// 	})
+			// })
+			// return new Promise(function(resolve, reject) {
+				// resolve({
+				return {
+					src: "https://player.vimeo.com/video/" + id + "?loop=false&amp;byline=false&amp;portrait=false&amp;title=false&amp;speed=true&amp;transparent=0&amp;gesture=media",
+					mime: ["video/vimeo", "video/x-vimeo"],
+					sources: ['https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.11/renderers/vimeo.min.js']
+				}
+				// })
+			// })
 		}
 
 		function _package() {
@@ -58,12 +77,13 @@
 		return {
 			type: "video",
 			name: "vimeo",
+			playerType: 'plyr',
 			init: _init,
 			get_media: _get_media
 		}
 
 	})();
 
-	PLUGIN.push(source);
+	PLUGINS.push(source);
 
-})(window.v2s.plugins = window.v2s.plugins || []);;
+})(window.v2s.plugins = window.v2s.plugins || [])
