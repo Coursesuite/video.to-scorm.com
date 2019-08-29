@@ -13,5 +13,6 @@
         </div>
     </fieldset>
 	<div class="yt-results"></div>
+  <div id='youtube-LoadingIcon'></div>
 </form>
 </section>

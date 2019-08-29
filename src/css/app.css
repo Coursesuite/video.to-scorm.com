@@ -54,10 +54,6 @@ body {
 	min-height: 50vh;
 } */
 
-.video-container {
-  height: 100%;
-  width: 100%;
-}
 
 .video-container::after {
 	content: '';

@@ -160,11 +160,15 @@ window.initMediaElementPlayer = function(source) {
 			poster: source.poster,
 			showPosterWhenPaused: true,
 			showPosterWhenEnded: true,
-			stretching: 'fill',
+			stretching: 'auto',
+			videoHeight: '100%',
+			videoWidth: '100%',
 			src: source.src,
 			success: function(me, node) {
 		    me.addEventListener('loadedmetadata', function _loaded_src(e) {
+ 					// https://github.com/mediaelement/mediaelement/issues/2685
 		      window.v2s.duration = me.duration
+		      console.log(me.duration)
 		      resolve()
 		    })
 			}
@@ -259,6 +263,12 @@ function createVideo() {
 				createSlider()
 				window.v2s['player'].setCurrentTime(0.1) // Becuase some videos start at the end // If you set it to 0 it wont buffer until you scrub manually
 				document.getElementById(current_plugin.name+'-LoadingIcon').innerHTML = ''
+
+				// Sizing stuff
+				var wrapper = document.querySelector('mediaelementwrapper')
+				var frame = wrapper.querySelector('iframe')
+				window.v2s['player'].setPlayerSize(frame.clientWidth, frame.clientHeight)
+				document.getElementById('videoContainer').style.height = frame.clientHeight+'px'
 			})
 			break
 	} 

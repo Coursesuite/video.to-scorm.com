@@ -22,7 +22,10 @@
           url = doc.querySelector('iframe').src
           var scId = unescape(url).replace(/\u0026/,"&").split("/tracks/")[1].split("&")[0];
           resolve({
-            src: 'https://api.soundcloud.com/tracks/'+scId+'/stream?client_id=95f22ed54a5c297b1c41f72d713623ef',//url,
+            // Probably need to do this without a client id (they seem to only work sometimes)
+            // Getting a client id: https://stackoverflow.com/questions/40992480/getting-a-soundcloud-api-client-id
+            // If that doesnt work: https://stackoverflow.com/questions/20870270/how-to-get-soundcloud-embed-code-by-soundcloud-com-url/27461646#27461646
+            src: 'https://api.soundcloud.com/tracks/'+scId+'/stream?client_id=PMqlDw8l2wqV6Z8zMwqR2qequJUK5lpo',//95f22ed54a5c297b1c41f72d713623ef',//url, //2t9loNQH90kzJcsFCODdigxfp325aq4z
             poster: json.thumbnail_url,
             sources: [],
           })
