@@ -42,12 +42,6 @@
 		}
 
 		function _get_media(id) {
-			// return {
-			// 	type: "video",
-			// 	src: "https://www.youtube.com/watch?v=" + id,
-			// 	sources: ['//www.youtube.com/player_api'],
-			// 	mime: ["video/youtube","video/x-youtube"]
-			// }
 			return new Promise(function(resolve, reject) {
 				resolve({
 					src: "https://www.youtube.com/watch?v="+id,

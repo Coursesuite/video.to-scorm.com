@@ -158,19 +158,41 @@ window.initMediaElementPlayer = function(source) {
 				modestbranding: 1
 			},
 			poster: source.poster,
-			showPosterWhenPaused: true,
+			// showPosterWhenPaused: true,
 			showPosterWhenEnded: true,
 			stretching: 'auto',
 			videoHeight: '100%',
 			videoWidth: '100%',
 			src: source.src,
-			success: function(me, node) {
+			success: function(me, node, instance) {
 		    me.addEventListener('loadedmetadata', function _loaded_src(e) {
  					// https://github.com/mediaelement/mediaelement/issues/2685
-		      window.v2s.duration = me.duration
-		      console.log(me.duration)
-		      resolve()
+ 					// https://stackoverflow.com/questions/57764304/mediaelement-js-loadedmetadata-event-always-returns-duration-0-for-facebook-vi
+
+ 					// Hacktastic function because the loadedmetadata event only contains duration for some videos
+ 					var once = false;
+ 					function timeout() {
+	 					setTimeout(function() {
+				      if (me.duration) {
+				      	window.v2s.duration = me.duration
+				      	console.log('resolving with duration: '+me.duration)
+				      	resolve()
+				      } else {
+				      	console.log('no duration, waiting...')
+				      	if (window.v2s.plugin === 'dailymotion' && window.v2s['player'].paused && !once) {
+				      		once = true
+				      		window.v2s['player'].play()
+				      		window.v2s['player'].pause()
+				      	}
+				      	timeout()
+				      }
+	 					}, 500)
+ 					}
+ 					timeout()
 		    })
+			},
+			error: function(error, media, node) {
+				console.warn(error)
 			}
 		})
 		window.v2s['player'].setSrc(source.src)
@@ -207,8 +229,10 @@ window.initPlyrPlayer = function(source='') {
 }
 
 function clearPlayer() {
-	// if (window.v2s.playerType === 'plyr' && window.v2s["player"]) window.v2s["player"].destroy()
-	// else if (window.v2s.playerType === 'mediaelement' && window.v2s["player"]) window.v2s["player"].remove()
+	// if (window.v2s.plugin === 'facebook' && window.v2s.playerType === 'mediaelement') {
+	// 	console.log('destroy')
+	// 	window.v2s.player.remove()
+	// }
 	window.v2s.playerType = ''
 	var vidContainer = document.getElementById('videoContainer')
 	if (vidContainer.children.length) {
@@ -253,22 +277,29 @@ function createVideo() {
 			createSlider()
 			document.getElementById(current_plugin.name+'-LoadingIcon').innerHTML = ''
 			break
-		 case 'youtube': case 'dailymotion': case 'soundcloud': case 'facebook': // MediaElement
+	  case 'youtube': case 'dailymotion': case 'soundcloud': case 'facebook':// MediaElement
 			current_plugin.get_media(window.v2s.id)
 			.then(function(source) {
 				window.v2s['source'] = source
+				console.log(window.v2s['source'])
 				return window.initMediaElementPlayer(source)
 			})	
 			.then(function() {
-				createSlider()
-				window.v2s['player'].setCurrentTime(0.1) // Becuase some videos start at the end // If you set it to 0 it wont buffer until you scrub manually
 				document.getElementById(current_plugin.name+'-LoadingIcon').innerHTML = ''
+
+				// Becuase some videos dont start loading until played
+				window.v2s['player'].play()
+				window.v2s['player'].pause()
 
 				// Sizing stuff
 				var wrapper = document.querySelector('mediaelementwrapper')
 				var frame = wrapper.querySelector('iframe')
 				window.v2s['player'].setPlayerSize(frame.clientWidth, frame.clientHeight)
 				document.getElementById('videoContainer').style.height = frame.clientHeight+'px'
+
+				createSlider()
+				
+				window.v2s['player'].setCurrentTime(0) // Becuase some videos start at the end // If you set it to 0 it wont buffer until you scrub manually
 			})
 			break
 	} 

@@ -31,7 +31,6 @@
 
     function _get_media(id) {
       return new Promise(function(resolve, reject) {
-        _get_info(id)
         resolve({
           src: id,
           poster: '',
