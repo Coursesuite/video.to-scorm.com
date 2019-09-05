@@ -45,7 +45,8 @@
 			return new Promise(function(resolve, reject) {
 				resolve({
 					src: "https://www.youtube.com/watch?v="+id,
-					poster: "https://img.youtube.com/vi/"+id+"/hqdefault.jpg"
+					poster: "https://img.youtube.com/vi/"+id+"/hqdefault.jpg",
+					sources: ['']
 				})
 			})
 		}

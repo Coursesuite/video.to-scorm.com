@@ -15,9 +15,9 @@ templates['outputhtml'] = template({"1":function(container,depth0,helpers,partia
 },"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
     var stack1, helper, alias1=depth0 != null ? depth0 : (container.nullContext || {});
 
-  return "<!DOCTYPE html>\n<html>\n<head>\n  <script type=\"text/javascript\" src=\""
+  return "<!DOCTYPE html>\n<html>\n<head>\n  <title>MY VIDEO</title>\n  <script type=\"text/javascript\" src=\"https://cdn.plyr.io/3.5.6/plyr.js\"></script>\n  <link rel=\"stylesheet\" type=\"text/css\" href=\"https://cdn.plyr.io/3.5.6/plyr.css\">\n  <script type=\"text/javascript\" src=\"https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.11/mediaelement-and-player.js\"></script>\n  <link rel=\"stylesheet\" type=\"text/css\" href=\"https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.11/mediaelementplayer.min.css\">\n  <link rel=\"stylesheet\" type=\"text/css\" href=\"_package.css\">\n  <script type=\"text/javascript\" src=\""
     + container.escapeExpression(((helper = (helper = helpers.playerApi || (depth0 != null ? depth0.playerApi : depth0)) != null ? helper : helpers.helperMissing),(typeof helper === "function" ? helper.call(alias1,{"name":"playerApi","hash":{},"data":data}) : helper)))
-    + "\"></script>\n  <title>MY VIDEO</title>\n  <script type=\"text/javascript\" src=\"https://cdn.plyr.io/3.5.6/plyr.js\"></script>\n  <link rel=\"stylesheet\" type=\"text/css\" href=\"https://cdn.plyr.io/3.5.6/plyr.css\">\n  <script type=\"text/javascript\" src=\"https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.11/mediaelement-and-player.js\"></script>\n  <link rel=\"stylesheet\" type=\"text/css\" href=\"https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.11/mediaelementplayer.min.css\">\n  <link rel=\"stylesheet\" type=\"text/css\" href=\"_package.css\">\n</head>\n<body>\n<div id=\"frameContainer\">\n"
+    + "\"></script>\n</head>\n<body>\n<div id=\"frameContainer\">\n"
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.isVideo : depth0),{"name":"if","hash":{},"fn":container.program(1, data, 0),"inverse":container.program(3, data, 0),"data":data})) != null ? stack1 : "")
     + "</div>\n<script type=\"text/javascript\" src=\"_package.js\"></script>\n</body>\n</html>";
 },"useData":true});

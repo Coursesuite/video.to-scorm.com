@@ -12,6 +12,7 @@
             headers: { 'Content-type': 'application/x-www-form-urlencoded' }
           })
           .then(function(response) {
+            console.warn(response)
             return response.json()
           })
           .then(function(content) {
@@ -48,7 +49,8 @@
       return new Promise(function(resolve, reject) {
         resolve({
           src: 'https://www.dailymotion.com/embed/video/'+id,
-          poster: 'https://www.dailymotion.com/thumbnail/video/'+id
+          poster: 'https://www.dailymotion.com/thumbnail/video/'+id,
+          sources: ["https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.11/renderers/dailymotion.min.js"],
         })
       })
     }

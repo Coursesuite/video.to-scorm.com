@@ -124,7 +124,9 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
       poster: "{{{poster}}}",
       showPosterWhenPaused: true,
       showPosterWhenEnded: true,
-      stretching: 'fill',
+      stretching: 'auto',
+      videoHeight: '100%',
+      videoWidth: '100%',
       src: "{{{src}}}",
       success: function(me, node) {
         me.addEventListener('timeupdate', function() {

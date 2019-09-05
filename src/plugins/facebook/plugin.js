@@ -34,7 +34,7 @@
         resolve({
           src: id,
           poster: '',
-          sources: [],
+          sources: ["https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.12/renderers/facebook.min.js"],
         })
       })
     }
