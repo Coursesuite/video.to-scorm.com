@@ -62,7 +62,7 @@ templates['outputjs'] = template({"1":function(container,depth0,helpers,partials
     + alias4(((helper = (helper = helpers.starts || (depth0 != null ? depth0.starts : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"starts","hash":{},"data":data}) : helper)))
     + "\n    })\n  } else {\n    var Player = new MediaElementPlayer(document.getElementById('player'), {\n      features: ['playpause','current', 'duration', 'volume', 'progress'],\n      startVolume: 0.5,\n      youtube: {\n        nocookie: true,\n        autoplay: 0,\n        controls: 0,\n        modestbranding: 1\n      },\n      poster: \""
     + ((stack1 = ((helper = (helper = helpers.poster || (depth0 != null ? depth0.poster : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"poster","hash":{},"data":data}) : helper))) != null ? stack1 : "")
-    + "\",\n      showPosterWhenPaused: true,\n      showPosterWhenEnded: true,\n      stretching: 'fill',\n      src: \""
+    + "\",\n      showPosterWhenPaused: true,\n      showPosterWhenEnded: true,\n      stretching: 'auto',\n      videoHeight: '100%',\n      videoWidth: '100%',\n      src: \""
     + ((stack1 = ((helper = (helper = helpers.src || (depth0 != null ? depth0.src : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"src","hash":{},"data":data}) : helper))) != null ? stack1 : "")
     + "\",\n      success: function(me, node) {\n        me.addEventListener('timeupdate', function() {\n          if (Player.currentTime >= "
     + alias4(((helper = (helper = helpers.completes || (depth0 != null ? depth0.completes : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"completes","hash":{},"data":data}) : helper)))
@@ -78,7 +78,9 @@ templates['outputjs'] = template({"1":function(container,depth0,helpers,partials
     + alias4(((helper = (helper = helpers.starts || (depth0 != null ? depth0.starts : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"starts","hash":{},"data":data}) : helper)))
     + ") {\n            Player.currentTime = "
     + alias4(((helper = (helper = helpers.starts || (depth0 != null ? depth0.starts : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"starts","hash":{},"data":data}) : helper)))
-    + "\n          }\n        })\n        me.addEventListener('loadedmetadata', function() {\n          Player.currentTime = "
+    + "\n          }\n        })\n        me.addEventListener('loadedmetadata', function() {\n          console.log('loadedmetadata', "
+    + alias4(((helper = (helper = helpers.starts || (depth0 != null ? depth0.starts : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"starts","hash":{},"data":data}) : helper)))
+    + ", Player)\n          Player.currentTime = "
     + alias4(((helper = (helper = helpers.starts || (depth0 != null ? depth0.starts : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"starts","hash":{},"data":data}) : helper)))
     + "\n        })\n      }\n    })\n    Player.setSrc(\""
     + ((stack1 = ((helper = (helper = helpers.src || (depth0 != null ? depth0.src : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"src","hash":{},"data":data}) : helper))) != null ? stack1 : "")

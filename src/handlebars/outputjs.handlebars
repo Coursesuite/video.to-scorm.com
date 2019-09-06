@@ -147,6 +147,7 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
           }
         })
         me.addEventListener('loadedmetadata', function() {
+          console.log('loadedmetadata', {{starts}}, Player)
           Player.currentTime = {{starts}}
         })
       }

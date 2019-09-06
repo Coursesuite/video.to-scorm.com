@@ -13,6 +13,8 @@
         // if (parseUrl[2].indexOf("tracks/")===0) oembed = oembed.replace("url=https://soundcloud", "url=https://api.soundcloud")
         
         // fetch(oembed)
+
+
         var formdata = new FormData()
         formdata.append('url',url)
         fetch('plugins/soundcloud/oembed.php', {
@@ -30,6 +32,8 @@
             poster: json.thumbnail_url,
             sources: ["https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.12/renderers/soundcloud.min.js"]
           })
+        })
+
 
           // var doc = document.implementation.createHTMLDocument('doc')
           // doc.body.innerHTML = json.html
@@ -43,7 +47,7 @@
           //   poster: json.thumbnail_url,
           //   sources: ["https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.12/renderers/soundcloud.min.js"],
           // })
-        })
+        // })
       })
     }
 
