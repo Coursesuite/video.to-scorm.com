@@ -6,20 +6,36 @@
   height: 100%;
 }
 
-#frameContainer > iframe {
-  width: 100%;
-  height: 100%;
+mediaelementwrapper > iframe {
+  width: 100% !important;
+  height: 100% !important;
+  max-height: 100vh !important;
 }
+
+.mejs__container {
+  max-height: 100vh !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.mejs-overlay, .mejs-poster {
+  width: 100% !important;
+  height: 100% !important;
+}
+
 .plyr {
-  height: 100%;
+  height: 100vh !important;
 }
 
 .plyr__video-wrapper {
-  height: 100%;
+  padding-bottom: 0px !important;
+  height: 100vh !important;
 }
 
-.plyr__video-wrapper > video {
-  height: 100%;
+.plyr__video-embed__container {
+  transform: translateY(0) !important;
+  height: 100% !important;
+  padding-bottom: 0px !important;
 }
 
 {{#if hideScrub}}
