@@ -8,7 +8,7 @@
       }) 
     }
 
-    function _handle_file_upload(file) {
+    function _get_media(id, file) {
       return new Promise(function _cloud_upload_promise(resolve, reject) {
         fetch("https://api.kloudless.com/v1/accounts/" + file.account + "/storage/files/" + file.id + "/contents", {
           method: 'GET',
@@ -21,31 +21,19 @@
         })
         .then(function(blob) {
           var blobUrl = URL.createObjectURL(blob)
-          window.v2s.plugin = 'cloud'
-          window.v2s.id = undefined
-          window.v2s.source = {
+          resolve({
             src: blobUrl,
             sources: '',
             original: blob,
             mime: blob.type,
             poster: '',
-          }
-
-          window.initMediaElementPlayer(window.v2s.source)
-          .then(function() {
-            resolve()
           })
-
-          // var tempEl = (window.v2s.source.mime.split('/')[0] === 'video')?document.createElement('video'):document.createElement('audio')
-          // tempEl.preload = 'metadata'
-          // tempEl.onloadedmetadata = function() {
-          //   window.v2s.duration = tempEl.duration
-          //   tempEl = undefined
-          //   resolve()
-          // }
-          // tempEl.src = blobUrl
         })
       })
+    }
+
+    function _handle_file_upload(file) {
+      
     }
 
     function _re_upload(blob) {
@@ -76,7 +64,7 @@
       type: 'cloud',
       playerType: 'mediaelement',
       init: _init,
-      handleFileUpload: _handle_file_upload,
+      get_media: _get_media,
       reUpload: _re_upload,
     }
 

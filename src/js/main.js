@@ -31,27 +31,25 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 
 	// Local upload listener
 	document.getElementById('localUpload').addEventListener('change', function _file_upload(e) {
-		window.v2s.plugins.find(function(el){return el.name === 'upload'}).handleFileUpload(e.target.files[0])
-		.then(function(){
-			e.target.value = null
-			createSlider()
-			saveCache()
+		window.v2s.plugin = 'upload'
+		window.v2s.id = undefined
+		createVideo({
+			raw: e.target.files[0],
+			mime: e.target.files[0].type,
 		})
+		e.target.value = null
 	})
 
-	//Kloudless upload listener
+	// Kloudless upload listener
 	KLOUDLESS_INPUT.on('success', function(files) {
 		document.getElementById('cloud-LoadingIcon').innerHTML = "<img src='css/Infinity-1.5s-50px.svg'>"
-		window.v2s.plugins.find(function(el){return el.name === 'cloud'}).handleFileUpload(files[0])
-		.then(function() {
-			createSlider()
-			window.v2s.player.setCurrentTime(0.1)
-			saveCache()
-			document.getElementById('cloud-LoadingIcon').innerHTML = ''
-		})
+		window.v2s.plugin = 'cloud'
+		window.v2s.id = undefined
+		createVideo(files[0])
+		document.getElementById('cloud-LoadingIcon').innerHTML = ''
 	})
 
-	//Soundcloud upload listener
+	// Soundcloud upload listener
 	document.getElementById('soundcloudLoad').addEventListener('click', function(e) {
 		window.v2s.plugin = 'soundcloud'
 		window.v2s.id = document.getElementById('soundcloudUrl').value
@@ -137,7 +135,7 @@ window.initMediaElementPlayer = function(source) {
 	return new Promise(function _init_me_promise(resolve, reject) {
 		clearPlayer()
 		var playerEl;
-		if (source.src.indexOf('soundcloud') !== -1) {
+		if (source.mime.indexOf('audio') !== -1) {
 			var audioEl = document.createElement('audio')
 			audioEl.classList.add('audio-element')
 			document.getElementById('videoContainer').appendChild(audioEl)
@@ -256,13 +254,15 @@ function saveCache() {
 	localforage.setItem("cache", v)
 }
 
-function createVideo() {
+function createVideo(media=undefined) {
 	var current_plugin = window.v2s.plugins.find(function(obj) {
 			return (obj.name === window.v2s.plugin)
 	})
+	console.log(current_plugin)
 	document.getElementById(current_plugin.name+'-LoadingIcon').innerHTML = "<img src='css/Infinity-1.5s-50px.svg'>"
 	switch (current_plugin.name) {
-		case 'vimeo': // PLYR
+		// PLYR
+		case 'vimeo': 
 			window.v2s['source'] = current_plugin.get_media(window.v2s.id)
 			window.initPlyrPlayer(window.v2s['source'])
 			window.v2s['player'].source = {
@@ -270,15 +270,16 @@ function createVideo() {
 		    sources: [
 		      {
 		        src: window.v2s.source.src, // or window.v2s.id
-		        provider: (window.v2s.plugin === 'upload' || window.v2s.plugin === 'cloud') ? '':window.v2s.plugin,
+		        provider: window.v2s.plugin,
 		      },
 		    ],
 			}
 			createSlider()
 			document.getElementById(current_plugin.name+'-LoadingIcon').innerHTML = ''
 			break
-	  case 'youtube': case 'dailymotion': case 'soundcloud': case 'facebook':// MediaElement
-			current_plugin.get_media(window.v2s.id)
+		// MediaElement
+	  case 'youtube': case 'dailymotion': case 'soundcloud': case 'facebook': case 'cloud': case 'upload': 
+			current_plugin.get_media(window.v2s.id, media)
 			.then(function(source) {
 				window.v2s['source'] = source
 				console.log(window.v2s['source'])
@@ -291,15 +292,16 @@ function createVideo() {
 				window.v2s['player'].play()
 				window.v2s['player'].pause()
 
-				// Sizing stuff
+				// Sizing stuff for videos
 				var wrapper = document.querySelector('mediaelementwrapper')
-				var frame = wrapper.querySelector('iframe')
-				window.v2s['player'].setPlayerSize(frame.clientWidth, frame.clientHeight)
-				document.getElementById('videoContainer').style.height = frame.clientHeight+'px'
+				var frame = wrapper.querySelector('iframe') || wrapper.querySelector('video')
+				if (frame) {
+					window.v2s['player'].setPlayerSize(frame.clientWidth, frame.clientHeight)
+					document.getElementById('videoContainer').style.height = frame.clientHeight+'px'
+				}
 
 				createSlider()
-				
-				window.v2s['player'].setCurrentTime(0) // Becuase some videos start at the end // If you set it to 0 it wont buffer until you scrub manually
+				window.v2s['player'].setCurrentTime(0.1) // Becuase some videos start at the end // If you set it to 0 it wont buffer until you scrub manually
 			})
 			break
 	} 
@@ -373,7 +375,8 @@ function timeString(val) {
 
 function downloadZip() {
 	var zip = new JSZip()
-	if (window.v2s.plugin === 'upload' || window.v2s.plugin === 'cloud') var uploadName = 'media.'+window.v2s.source.mime.split('/')[1]
+	var uploadName
+	if (window.v2s.plugin === 'upload' || window.v2s.plugin === 'cloud') uploadName = 'media.'+window.v2s.source.mime.split('/')[1]
 	var current_plugin = window.v2s.plugins.find(function(obj) {
 			return (obj.name === window.v2s.plugin)
 	})
@@ -389,7 +392,7 @@ function downloadZip() {
 		hideScrub: document.getElementById('toggleScrub').checked,
 		isVideo: (window.v2s.plugin !== 'soundcloud') ? true : false,
 		playerType: current_plugin.playerType,
-		src: (window.v2s.plugin === 'upload') ? uploadName : window.v2s.source.src,
+		src: (window.v2s.plugin === 'upload' || window.v2s.plugin === 'cloud') ? uploadName : window.v2s.source.src,
 		poster: window.v2s.source.poster
 	}
 	zip.file('index.html', Handlebars.templates['outputhtml'](setup))
