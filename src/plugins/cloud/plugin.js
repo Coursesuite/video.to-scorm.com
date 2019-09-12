@@ -22,6 +22,7 @@
         .then(function(blob) {
           var blobUrl = URL.createObjectURL(blob)
           resolve({
+            name: file.name,
             src: blobUrl,
             sources: '',
             original: blob,

@@ -44,9 +44,11 @@
 		function _get_media(id) {
 			return new Promise(function(resolve, reject) {
 				resolve({
+					name: 'YouTube Video',
 					src: "https://www.youtube.com/watch?v="+id,
 					poster: "https://img.youtube.com/vi/"+id+"/hqdefault.jpg",
-					sources: ['']
+					sources: [''],
+					mime: ''
 				})
 			})
 		}

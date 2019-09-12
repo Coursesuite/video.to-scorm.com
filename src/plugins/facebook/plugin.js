@@ -32,9 +32,11 @@
     function _get_media(id) {
       return new Promise(function(resolve, reject) {
         resolve({
+          name: 'Facebook Video',
           src: id,
           poster: '',
           sources: ["https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.12/renderers/facebook.min.js"],
+          mime: 'video/facebook'
         })
       })
     }

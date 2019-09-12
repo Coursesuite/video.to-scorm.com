@@ -15,24 +15,43 @@
         // fetch(oembed)
 
 
-        var formdata = new FormData()
-        formdata.append('url',url)
-        fetch('plugins/soundcloud/oembed.php', {
-          method: 'post',
-          body: formdata,
+        var fd = new FormData()
+        fd.append("format", "json")
+        fd.append("url", url)
+
+        fetch('http://soundcloud.com/oembed', {
+          method: 'POST',
+          body: fd,
         })
         .then(function(response) {
           return response.json()
         })
         .then(function(json) {
-          console.log(json)
-          console.log(json.html.split('src="')[1].split('">')[0])
-          resolve({
-            src: json.html.split('src="')[1].split('">')[0],
-            poster: json.thumbnail_url,
-            sources: ["https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.12/renderers/soundcloud.min.js"]
-          })
+          resolve(json.html)
         })
+
+
+        // CURRENT
+        // var formdata = new FormData()
+        // formdata.append('url',url)
+        // fetch('plugins/soundcloud/oembed.php', {
+        //   method: 'post',
+        //   body: formdata,
+        // })
+        // .then(function(response) {
+        //   return response.json()
+        // })
+        // .then(function(json) {
+        //   console.log(json)
+        //   console.log(json.html.split('src="')[1].split('">')[0])
+        //   resolve({
+        //     name: 'Soundcloud track',
+        //     src: json.html.split('src="')[1].split('">')[0],
+        //     poster: json.thumbnail_url,
+        //     sources: ["https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.12/renderers/soundcloud.min.js"],
+        //     mime: 'audio/soundcloud',
+        //   })
+        // })
 
 
           // var doc = document.implementation.createHTMLDocument('doc')

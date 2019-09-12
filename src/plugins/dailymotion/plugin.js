@@ -4,6 +4,7 @@
     function _init() {
       document.getElementById('dailymotionSearch').addEventListener('click', function(e) {
         if (document.getElementById('dailymotionQuery').value) {
+          document.getElementById('dailymotion-LoadingIcon').innerHTML = "<img src='css/Infinity-1.5s-50px.svg'>"
           var query = new URLSearchParams();
           query.append('query',document.getElementById('dailymotionQuery').value);
           fetch('/plugins/dailymotion/search.php', {
@@ -43,14 +44,17 @@
           `)
       }
       document.getElementById('dailymotionResults').innerHTML = output.join('')
+      // document.getElementById('dailymotion-LoadingIcon').innerHTML = ""
     }
 
     function _get_media(id) {
       return new Promise(function(resolve, reject) {
         resolve({
+          name: 'Dailymotion Video',
           src: 'https://www.dailymotion.com/embed/video/'+id,
           poster: 'https://www.dailymotion.com/thumbnail/video/'+id,
           sources: ["https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.11/renderers/dailymotion.min.js"],
+          mime: 'video/dailymotion'
         })
       })
     }

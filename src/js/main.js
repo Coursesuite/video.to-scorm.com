@@ -42,18 +42,17 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 
 	// Kloudless upload listener
 	KLOUDLESS_INPUT.on('success', function(files) {
-		document.getElementById('cloud-LoadingIcon').innerHTML = "<img src='css/Infinity-1.5s-50px.svg'>"
 		window.v2s.plugin = 'cloud'
 		window.v2s.id = undefined
 		createVideo(files[0])
-		document.getElementById('cloud-LoadingIcon').innerHTML = ''
 	})
 
 	// Soundcloud upload listener
 	document.getElementById('soundcloudLoad').addEventListener('click', function(e) {
 		window.v2s.plugin = 'soundcloud'
 		window.v2s.id = document.getElementById('soundcloudUrl').value
-		createVideo()
+		// createVideo()
+		embedSoundcloud()
 	})
 
 	//Facebook upload listener
@@ -62,31 +61,6 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 		window.v2s.id = document.getElementById('facebookUrl').value
 		createVideo()
 	})
-
-	// window.v2s['player'] = new Plyr('#video-player',{
-	// 	debug: false,
-	// 	settings: ['quality','speed'],
-	// 	youtube: { noCookie: true }
-	// });
-	// if (window.v2s['player']) window.v2s['player'].remove()
-
-	// window.v2s['player'] = new MediaElementPlayer("video-player", {
- //    //pluginPath: 'https://cdn.jsdelivr.net/npm/mediaelement@4.2.7/build/',
- //    success: function (media,node) {
- //    	console.log(media,node)
- //    },
-	// 	features: ['playpause','current', 'duration', 'volume', 'progress'],
-	// 	startVolume: 0.5,
-	// 	youtube: {
-	// 		nocookie: true,
-	// 		autoplay: 0,
-	// 		controls: 0,
-	// 		modestbranding: 1
-	// 	},
-	// 	showPosterWhenPaused: true,
-	// 	showPosterWhenEnded: true,
-	// 	alwaysShowControls: true,
-	// });
 
 	localforage.getItem("cache").then(function(value) {
 		if (value) {
@@ -226,11 +200,19 @@ window.initPlyrPlayer = function(source='') {
 	}
 }
 
+function embedSoundcloud() {
+	var plugin = window.v2s.plugins.find(function(obj) {
+			return (obj.name === 'soundcloud')
+	})
+	plugin.get_media()
+	.then(function(iframe) {
+		var vc = document.getElementById('videoContainer')
+		vc.innerHTML = iframe
+		vc.addEventListener('time', function(e){console.log(e)})
+	})
+}
+
 function clearPlayer() {
-	// if (window.v2s.plugin === 'facebook' && window.v2s.playerType === 'mediaelement') {
-	// 	console.log('destroy')
-	// 	window.v2s.player.remove()
-	// }
 	window.v2s.playerType = ''
 	var vidContainer = document.getElementById('videoContainer')
 	if (vidContainer.children.length) {
@@ -375,11 +357,10 @@ function timeString(val) {
 
 function downloadZip() {
 	var zip = new JSZip()
-	var uploadName
-	if (window.v2s.plugin === 'upload' || window.v2s.plugin === 'cloud') uploadName = 'media.'+window.v2s.source.mime.split('/')[1]
 	var current_plugin = window.v2s.plugins.find(function(obj) {
 			return (obj.name === window.v2s.plugin)
 	})
+	var uploadName = window.v2s.source.name
 	var setup = {
 		provider: (window.v2s.plugin === 'upload' || window.v2s.plugin === 'cloud')?'':window.v2s.plugin,
 		playerApi: window.v2s.source.sources[0],

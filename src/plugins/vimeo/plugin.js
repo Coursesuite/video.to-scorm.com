@@ -60,6 +60,7 @@
 			// return new Promise(function(resolve, reject) {
 				// resolve({
 				return {
+					name: 'Vimeo Video',
 					src: "https://player.vimeo.com/video/" + id + "?loop=false&amp;byline=false&amp;portrait=false&amp;title=false&amp;speed=true&amp;transparent=0&amp;gesture=media",
 					mime: ["video/vimeo", "video/x-vimeo"],
 					sources: ['https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.11/renderers/vimeo.min.js']
