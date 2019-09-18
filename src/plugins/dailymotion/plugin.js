@@ -13,11 +13,19 @@
             headers: { 'Content-type': 'application/x-www-form-urlencoded' }
           })
           .then(function(response) {
-            console.warn(response)
+          // response.text().then(function(t){console.warn(t)})
             return response.json()
           })
           .then(function(content) {
-            _render_thumbs(content.list)
+            console.log(content)
+            // Search results
+            if (content.list) {_render_thumbs(content.list)}
+            // Direct video link
+            else {_render_thumbs(content)}
+          })
+          .catch(function(e) {
+            console.error(e)
+            window.alert('Dailymotion servers overloaded, try again later')
           })
         } else {
           window.alert('Search cannot be empty')
@@ -27,7 +35,9 @@
 
     function _render_thumbs(data) {
       var output = []
+      console.log(data)
       if (data.length) {
+        // Search results
         data.forEach(function(video) {
           output.push(`<figure class='search-result' data-plugin='dailymotion' data-id='${video.id}' data-duration='${video.duration}'>
                       <img src='${video.thumbnail_720_url}' alt='${video.created_time}'>
@@ -35,7 +45,15 @@
                       <small>${video['channel.name']}</small>
                       </figure>`)
         })
+      } else if (Object.keys(data).length) {
+        // Direct video link
+        output.push(`<figure class='search-result' data-plugin='dailymotion' data-id='${data.id}' data-duration='${data.duration}'>
+                      <img src='${data.thumbnail_720_url}' alt='${data.created_time}'>
+                      <figcaption>${data.title}</figcaption>
+                      <small>${data['channel.name']}</small>
+                      </figure>`)
       } else {
+        // No search results
         output.push(`
           <div class="uk-card uk-card-default uk-card-body">
               <h3 class="uk-card-title">No results</h3>
@@ -44,7 +62,7 @@
           `)
       }
       document.getElementById('dailymotionResults').innerHTML = output.join('')
-      // document.getElementById('dailymotion-LoadingIcon').innerHTML = ""
+      document.getElementById('dailymotion-LoadingIcon').innerHTML = ""
     }
 
     function _get_media(id) {
