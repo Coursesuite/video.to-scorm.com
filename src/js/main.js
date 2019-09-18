@@ -69,6 +69,13 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 		createVideo()
 	})
 
+	//Wistia upload listener
+	document.getElementById('wistiaLoad').addEventListener('click', function(e) {
+		window.v2s.plugin = 'wistia'
+		window.v2s.id = document.getElementById('wistiaUrl').value
+		createVideo()
+	})
+
 	localforage.getItem("cache").then(function(value) {
 		if (value) {
 			window.v2s['plugin'] = value.plugin
@@ -152,7 +159,7 @@ window.initMediaElementPlayer = function(source) {
 				var once = false;
 				function timeout() {
  					setTimeout(function() {
-			      if (me.duration || window.v2s.plugin === 'dacast') {
+			      if (me.duration || window.v2s.plugin === 'dacast' || window.v2s.plugin === 'wistia') {
 			      	window.v2s.duration = me.duration
 			      	resolve()
 			      } else {
@@ -266,7 +273,7 @@ function createVideo(media=undefined) {
 			document.getElementById(current_plugin.name+'-LoadingIcon').innerHTML = ''
 			break
 		// MediaElement
-	  case 'youtube': case 'dailymotion': case 'soundcloud': case 'facebook': case 'cloud': case 'upload': case 'dacast': 
+	  case 'youtube': case 'dailymotion': case 'soundcloud': case 'facebook': case 'cloud': case 'upload': case 'dacast': case 'wistia': 
 			current_plugin.get_media(window.v2s.id, media)
 			.then(function(source) {
 				window.v2s['source'] = source
@@ -314,6 +321,17 @@ function createVideo(media=undefined) {
 
 			})
 			break
+		// Wistia
+		// case 'wistia':
+		// 	current_plugin.get_media(window.v2s.id, media)
+		// 	.then(function(source) {
+		// 		window.v2s['source'] = source
+		// 		var contain = document.getElementById('videoContainer')
+		// 		var vid = document.createElement('video')
+		// 		vid.src = source.src
+		// 		contain.appendChild(vid)
+		// 	})	
+		// 	break
 	} 
 }
 
@@ -402,14 +420,14 @@ function downloadZip() {
 		hideScrub: document.getElementById('toggleScrub').checked,
 		isVideo: (window.v2s.plugin !== 'soundcloud') ? true : false,
 		playerType: current_plugin.playerType,
-		src: (window.v2s.plugin === 'upload' || window.v2s.plugin === 'cloud') ? uploadName : window.v2s.source.src,
+		src: (window.v2s.plugin === 'upload' || window.v2s.plugin === 'cloud' || window.v2s.plugin === 'wistia') ? uploadName : window.v2s.source.src,
 		poster: window.v2s.source.poster
 	}
 	zip.file('index.html', Handlebars.templates['outputhtml'](setup))
 	zip.file('_package.css', Handlebars.templates['outputcss'](setup))
 	zip.file('_package.js', Handlebars.templates['outputjs'](setup))
 	zip.file('imsmanifest.xml', Handlebars.templates['scorm12manifest'](setup))
-	if (window.v2s.plugin === 'upload' || window.v2s.plugin === 'cloud') {
+	if (window.v2s.plugin === 'upload' || window.v2s.plugin === 'cloud' || window.v2s.plugin === 'wistia') {
 		zip.file(uploadName, window.v2s.source.original)
 	}
 
