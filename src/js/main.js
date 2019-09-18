@@ -62,6 +62,13 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 		createVideo()
 	})
 
+	//Dacast upload listener
+	document.getElementById('dacastLoad').addEventListener('click', function(e) {
+		window.v2s.plugin = 'dacast'
+		window.v2s.id = document.getElementById('dacastUrl').value
+		createVideo()
+	})
+
 	localforage.getItem("cache").then(function(value) {
 		if (value) {
 			window.v2s['plugin'] = value.plugin
@@ -137,31 +144,31 @@ window.initMediaElementPlayer = function(source) {
 			videoWidth: '100%',
 			src: source.src,
 			success: function(me, node, instance) {
-		    me.addEventListener('loadedmetadata', function _loaded_src(e) {
- 					// https://github.com/mediaelement/mediaelement/issues/2685
- 					// https://stackoverflow.com/questions/57764304/mediaelement-js-loadedmetadata-event-always-returns-duration-0-for-facebook-vi
+		    // me.addEventListener('loadedmetadata', function _loaded_src(e) {
+				// https://github.com/mediaelement/mediaelement/issues/2685
+				// https://stackoverflow.com/questions/57764304/mediaelement-js-loadedmetadata-event-always-returns-duration-0-for-facebook-vi
 
- 					// Hacktastic function because the loadedmetadata event only contains duration for some videos
- 					var once = false;
- 					function timeout() {
-	 					setTimeout(function() {
-				      if (me.duration) {
-				      	window.v2s.duration = me.duration
-				      	console.log('resolving with duration: '+me.duration)
-				      	resolve()
-				      } else {
-				      	console.log('no duration, waiting...')
-				      	if (window.v2s.plugin === 'dailymotion' && window.v2s['player'].paused && !once) {
-				      		once = true
-				      		window.v2s['player'].play()
-				      		window.v2s['player'].pause()
-				      	}
-				      	timeout()
-				      }
-	 					}, 500)
- 					}
- 					timeout()
-		    })
+				// Hacktastic function to wait for the duration because the loadedmetadata event hasn't been implemented in me.js
+				var once = false;
+				function timeout() {
+ 					setTimeout(function() {
+			      if (me.duration || window.v2s.plugin === 'dacast') {
+			      	window.v2s.duration = me.duration
+			      	resolve()
+			      } else {
+			      	console.log('no duration, waiting...')
+			      	if (window.v2s.plugin === 'dailymotion' && window.v2s['player'].paused && !once) {
+			      		// play/pause to actually load the video
+			      		once = true
+			      		window.v2s['player'].play()
+			      		window.v2s['player'].pause()
+			      	}
+			      	timeout()
+			      }
+ 					}, 500)
+				}
+				timeout()
+		    // })
 			},
 			error: function(error, media, node) {
 				console.warn(error)
@@ -240,7 +247,6 @@ function createVideo(media=undefined) {
 	var current_plugin = window.v2s.plugins.find(function(obj) {
 			return (obj.name === window.v2s.plugin)
 	})
-	console.log(current_plugin)
 	document.getElementById(current_plugin.name+'-LoadingIcon').innerHTML = "<img src='css/Infinity-1.5s-50px.svg'>"
 	switch (current_plugin.name) {
 		// PLYR
@@ -260,30 +266,52 @@ function createVideo(media=undefined) {
 			document.getElementById(current_plugin.name+'-LoadingIcon').innerHTML = ''
 			break
 		// MediaElement
-	  case 'youtube': case 'dailymotion': case 'soundcloud': case 'facebook': case 'cloud': case 'upload': 
+	  case 'youtube': case 'dailymotion': case 'soundcloud': case 'facebook': case 'cloud': case 'upload': case 'dacast': 
 			current_plugin.get_media(window.v2s.id, media)
 			.then(function(source) {
 				window.v2s['source'] = source
-				console.log(window.v2s['source'])
 				return window.initMediaElementPlayer(source)
 			})	
 			.then(function() {
 				document.getElementById(current_plugin.name+'-LoadingIcon').innerHTML = ''
 
-				// Becuase some videos dont start loading until played
-				window.v2s['player'].play()
-				window.v2s['player'].pause()
 
-				// Sizing stuff for videos
-				var wrapper = document.querySelector('mediaelementwrapper')
-				var frame = wrapper.querySelector('iframe') || wrapper.querySelector('video')
-				if (frame) {
-					window.v2s['player'].setPlayerSize(frame.clientWidth, frame.clientHeight)
-					document.getElementById('videoContainer').style.height = frame.clientHeight+'px'
+				function testDuration(){
+					return new Promise(function(resolve,reject) {
+						function timeout(){
+							setTimeout(function(){
+								if (window.v2s.player.duration) {
+									window.v2s['player'].pause()
+									window.v2s.duration = window.v2s.player.duration
+									resolve()
+								} else {
+									window.v2s['player'].play()
+									console.log('timeout')
+									timeout()
+								}
+							}, 500)
+						}
+						timeout()
+					})
 				}
+				testDuration() // Because daCast is fucky
+				.then(function() {
+					// Becuase some videos dont start loading until played
+					// window.v2s['player'].play()
+					// window.v2s['player'].pause()
 
-				createSlider()
-				window.v2s['player'].setCurrentTime(0.1) // Becuase some videos start at the end // If you set it to 0 it wont buffer until you scrub manually
+					// Sizing stuff for videos
+					var wrapper = document.querySelector('mediaelementwrapper')
+					var frame = wrapper.querySelector('iframe') || wrapper.querySelector('video')
+					if (frame) {
+						window.v2s['player'].setPlayerSize(frame.clientWidth, frame.clientHeight)
+						document.getElementById('videoContainer').style.height = frame.clientHeight+'px'
+					}
+					window.v2s['player'].setCurrentTime(0.1) // Becuase some videos start at the end // If you set it to 0 it wont buffer until you scrub manually
+					createSlider()
+				})
+
+
 			})
 			break
 	} 
@@ -298,6 +326,8 @@ function createSlider() {
 	var ranges = window.v2s.ranges || [0, window.v2s.duration * .75, window.v2s.duration],
 		step = (window.v2s.duration/8)
 
+	console.log('slider')
+	console.log(window.v2s.duration)
 	noUiSlider.create(range, {
 		range: {
 			'min': [0],
@@ -325,7 +355,6 @@ function createSlider() {
 		},
 		tooltips: [{to: timeString},{to: timeString},{to: timeString}]
 	});
-
 	range.noUiSlider.on('update', function () {
 		var current_handle_time = Number(arguments[0][arguments[1]])
 		var paused = window.v2s['player'].paused
