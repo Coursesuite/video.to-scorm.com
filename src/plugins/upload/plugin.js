@@ -10,7 +10,7 @@
         resolve({
           name: media.raw.name,
           src: URL.createObjectURL(media.raw),
-          sources: '',
+          sources: [''],
           mime: media.mime,
           original: media.raw, // actual file object
           poster: ''

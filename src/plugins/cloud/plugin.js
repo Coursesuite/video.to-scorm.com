@@ -20,11 +20,10 @@
           return response.blob()
         })
         .then(function(blob) {
-          var blobUrl = URL.createObjectURL(blob)
           resolve({
             name: file.name,
-            src: blobUrl,
-            sources: '',
+            src: URL.createObjectURL(blob),
+            sources: [''],
             original: blob,
             mime: blob.type,
             poster: '',
@@ -42,7 +41,7 @@
         var blobUrl = URL.createObjectURL(blob)
         window.v2s.source = {
           src: blobUrl,
-          sources: '',
+          sources: [''],
           original: blob,
           mime: blob.type,
           poster: '',

@@ -83,8 +83,8 @@
 			get_media: _get_media
 		}
 
-	})();
+	})()
 
-	PLUGINS.push(source);
+	PLUGINS.push(source)
 
 })(window.v2s.plugins = window.v2s.plugins || [])
