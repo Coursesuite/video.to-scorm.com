@@ -148,7 +148,7 @@ foreach ($css as $link) {
         <ul class="uk-navbar-nav">
             <li><a href="#">Usage Survey</a></li>
             <li><a href="#">Documentation</a></li>
-            <li><a href="?<?php echo $_SERVER['QUERY_STRING']; ?>#top">Reset</a></li>
+            <li><a id="reset" href="?<?php echo $_SERVER['QUERY_STRING']; ?>#top">Reset</a></li>
         </ul>
     </div>
 </nav>

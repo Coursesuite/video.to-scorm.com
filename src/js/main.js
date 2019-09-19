@@ -10,7 +10,11 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 		if (!e.target) return;
 		if (e.target.id === 'download-button') {
 			downloadZip()
-		} else if (e.target.classList.contains("noUi-value")) { // click a pip
+		} else if (e.target.id === 'reset') {
+			localforage.clear()
+			location.reload(true)
+		} else if (e.target.classList.contains("noUi-value")) {
+		  // click a pip
 			var pip = Number(e.target.dataset.value),
 				range = document.getElementById('range'),
 				curr = range.noUiSlider.get().map(Number)
@@ -73,6 +77,12 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 	document.getElementById('wistiaLoad').addEventListener('click', function(e) {
 		window.v2s.plugin = 'wistia'
 		window.v2s.id = document.getElementById('wistiaUrl').value
+		createVideo()
+	})
+
+	document.getElementById('amazonLoad').addEventListener('click', function(e) {
+		window.v2s.plugin = 'amazon'
+		window.v2s.id = document.getElementById('amazonUrl').value
 		createVideo()
 	})
 
@@ -273,7 +283,7 @@ function createVideo(media=undefined) {
 			document.getElementById(current_plugin.name+'-LoadingIcon').innerHTML = ''
 			break
 		// MediaElement
-	  case 'youtube': case 'dailymotion': case 'soundcloud': case 'facebook': case 'cloud': case 'upload': case 'dacast': case 'wistia': 
+	  case 'youtube': case 'dailymotion': case 'soundcloud': case 'facebook': case 'cloud': case 'upload': case 'dacast': case 'wistia': case 'amazon':
 			current_plugin.get_media(window.v2s.id, media)
 			.then(function(source) {
 				window.v2s['source'] = source
@@ -282,7 +292,7 @@ function createVideo(media=undefined) {
 			.then(function() {
 				document.getElementById(current_plugin.name+'-LoadingIcon').innerHTML = ''
 
-
+				// Just for dacast
 				function testDuration(){
 					return new Promise(function(resolve,reject) {
 						function timeout(){
@@ -301,7 +311,7 @@ function createVideo(media=undefined) {
 						timeout()
 					})
 				}
-				testDuration() // Because daCast is fucky
+				testDuration()
 				.then(function() {
 					// Becuase some videos dont start loading until played
 					// window.v2s['player'].play()
@@ -310,10 +320,12 @@ function createVideo(media=undefined) {
 					// Sizing stuff for videos
 					var wrapper = document.querySelector('mediaelementwrapper')
 					var frame = wrapper.querySelector('iframe') || wrapper.querySelector('video')
-					if (frame) {
+					var audio = wrapper.querySelector('audio')
+					if (frame && !audio) {
 						window.v2s['player'].setPlayerSize(frame.clientWidth, frame.clientHeight)
 						document.getElementById('videoContainer').style.height = frame.clientHeight+'px'
 					}
+					if (audio) document.getElementById('videoContainer').style.height = 'auto'
 					window.v2s['player'].setCurrentTime(0.1) // Becuase some videos start at the end // If you set it to 0 it wont buffer until you scrub manually
 					createSlider()
 				})
@@ -321,17 +333,6 @@ function createVideo(media=undefined) {
 
 			})
 			break
-		// Wistia
-		// case 'wistia':
-		// 	current_plugin.get_media(window.v2s.id, media)
-		// 	.then(function(source) {
-		// 		window.v2s['source'] = source
-		// 		var contain = document.getElementById('videoContainer')
-		// 		var vid = document.createElement('video')
-		// 		vid.src = source.src
-		// 		contain.appendChild(vid)
-		// 	})	
-		// 	break
 	} 
 }
 
