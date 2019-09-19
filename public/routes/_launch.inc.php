@@ -30,22 +30,22 @@
 	    <tbody>
 	        <tr>
 	            <td>10 Days</td>
-	            <td data-fsc-item-pricetotal-callback data-fsc-item-path="video-to-scorm-10" data-format="%price" data-fsc-item-path-value="video-to-scorm-10">$10</td>
+	            <td data-fsc-item-pricetotal-callback data-fsc-item-path="video-to-scorm-10" data-format="%price" data-fsc-item-path-value="video-to-scorm-10">$5</td>
 	            <td><a href="#" data-fsc-item-path-value="video-to-scorm-10" data-fsc-action="Reset,Add,Checkout" class="uk-button uk-button-primary uk-button-small">Buy</a></td>
 	        </tr>
 	        <tr>
 	            <td>30 Days</td>
-	            <td data-fsc-item-pricetotal-callback data-fsc-item-path="video-to-scorm-30" data-format="%price" data-fsc-item-path-value="video-to-scorm-10">$25</td>
+	            <td data-fsc-item-pricetotal-callback data-fsc-item-path="video-to-scorm-30" data-format="%price" data-fsc-item-path-value="video-to-scorm-30">$13</td>
 	            <td><a href="#" data-fsc-item-path-value="video-to-scorm-30" data-fsc-action="Reset,Add,Checkout" class="uk-button uk-button-primary uk-button-small">Buy</a></td>
 	        </tr>
 	        <tr>
 	            <td>60 Days</td>
-	            <td data-fsc-item-pricetotal-callback data-fsc-item-path="video-to-scorm-60" data-format="%price" data-fsc-item-path-value="video-to-scorm-10">$50</td>
+	            <td data-fsc-item-pricetotal-callback data-fsc-item-path="video-to-scorm-60" data-format="%price" data-fsc-item-path-value="video-to-scorm-60">$21</td>
 	            <td><a href="#" data-fsc-item-path-value="video-to-scorm-60" data-fsc-action="Reset,Add,Checkout" class="uk-button uk-button-primary uk-button-small">Buy</a></td>
 	        </tr>
 	        <tr>
 	            <td>1 year</td>
-	            <td data-fsc-item-pricetotal-callback data-fsc-item-path="video-to-scorm-365" data-format="%price" data-fsc-item-path-value="video-to-scorm-10">$199</td>
+	            <td data-fsc-item-pricetotal-callback data-fsc-item-path="video-to-scorm-365" data-format="%price" data-fsc-item-path-value="video-to-scorm-365">$150</td>
 	            <td><a href="#" data-fsc-item-path-value="video-to-scorm-365" data-fsc-action="Reset,Add,Checkout" class="uk-button uk-button-primary uk-button-small">Buy</a></td>
 	        </tr>
 	    </tbody>
