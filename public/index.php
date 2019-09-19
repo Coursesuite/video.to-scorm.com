@@ -10,7 +10,6 @@ $Router = new AltoRouter();
 
 $Router->map('GET','/','home.inc.php', 'Home');
 $Router->map('GET','/faq','faq.inc.php', 'FAQ');
-$Router->map('GET','/privacy','policy.inc.php', 'Policies');
 $Router->map('POST','/email', 'handleContactForm');
 
 $path = realpath("./routes");
@@ -42,10 +41,10 @@ if ($match) {
 			$mail->Password = '6Jcf28Aa4wC}O5TBYMtLHxfo3g';
 			$mail->Port = 587;
 			$mail->From = 'info@coursesuite.com';
-			$mail->FromName = 'Course Alchemy';
+			$mail->FromName = 'Video 2 Scorm';
 			$mail->AddAddress('info@coursesuite.com');
 		    $mail->addCC($sender_email);
-			$mail->Subject = 'Course Alchemy contact form';
+			$mail->Subject = 'Video 2 Scorm contact form';
 			$mail->Body = $sender_message;
 			$mail->Send();
 
