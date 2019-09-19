@@ -36,7 +36,7 @@
 						<ul class="uk-navbar-nav">
 							<li><a href="/">Home</a></li>
 							<li><a href="/faq">Faq</a></li>
-							<li><a href="/docs">Documentation</a></li>
+							<li><a href="https://guide.coursesuite.ninja/medianinja/usage">Documentation</a></li>
 						</ul>
 						<div class="uk-navbar-item">
 							<?php include "_launch.inc.php"; ?>
