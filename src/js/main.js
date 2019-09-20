@@ -55,12 +55,12 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 	})
 
 	// Soundcloud upload listener
-	document.getElementById('soundcloudLoad').addEventListener('click', function(e) {
-		window.v2s.plugin = 'soundcloud'
-		window.v2s.id = document.getElementById('soundcloudUrl').value
-		// createVideo()
-		embedSoundcloud()
-	})
+	// document.getElementById('soundcloudLoad').addEventListener('click', function(e) {
+	// 	window.v2s.plugin = 'soundcloud'
+	// 	window.v2s.id = document.getElementById('soundcloudUrl').value
+	// 	// createVideo()
+	// 	embedSoundcloud()
+	// })
 
 	// Facebook upload listener
 	document.getElementById('facebookLoad').addEventListener('click', function(e) {

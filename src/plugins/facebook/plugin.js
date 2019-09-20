@@ -31,13 +31,26 @@
 
     function _get_media(id) {
       return new Promise(function(resolve, reject) {
-        resolve({
-          name: 'Facebook Video',
-          src: id,
-          poster: '',
-          sources: ["https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.12/renderers/facebook.min.js"],
-          mime: 'video/facebook'
+        var details = new FormData()
+        details.append('url',id)
+        fetch('/plugins/facebook/parseUrl.php', {
+          method: 'POST',
+          body: details
         })
+        .then(function(response) {
+          return response.text()
+        })
+        .then(function(directUrl) {
+          console.log(directUrl)
+          resolve({
+            name: 'Facebook Video',
+            src: directUrl,
+            poster: '',
+            sources: ["https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.12/renderers/facebook.min.js"],
+            mime: 'video/facebook'
+          })
+        })
+
       })
     }
     return {
