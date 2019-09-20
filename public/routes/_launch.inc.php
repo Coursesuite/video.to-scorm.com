@@ -35,17 +35,17 @@
 	        </tr>
 	        <tr>
 	            <td>30 Days</td>
-	            <td data-fsc-item-pricetotal-callback data-fsc-item-path="video-to-scorm-30" data-format="%price" data-fsc-item-path-value="video-to-scorm-10">$25</td>
+	            <td data-fsc-item-pricetotal-callback data-fsc-item-path="video-to-scorm-30" data-format="%price" data-fsc-item-path-value="video-to-scorm-30">$25</td>
 	            <td><a href="#" data-fsc-item-path-value="video-to-scorm-30" data-fsc-action="Reset,Add,Checkout" class="uk-button uk-button-primary uk-button-small">Buy</a></td>
 	        </tr>
 	        <tr>
 	            <td>60 Days</td>
-	            <td data-fsc-item-pricetotal-callback data-fsc-item-path="video-to-scorm-60" data-format="%price" data-fsc-item-path-value="video-to-scorm-10">$50</td>
+	            <td data-fsc-item-pricetotal-callback data-fsc-item-path="video-to-scorm-60" data-format="%price" data-fsc-item-path-value="video-to-scorm-60">$50</td>
 	            <td><a href="#" data-fsc-item-path-value="video-to-scorm-60" data-fsc-action="Reset,Add,Checkout" class="uk-button uk-button-primary uk-button-small">Buy</a></td>
 	        </tr>
 	        <tr>
 	            <td>1 year</td>
-	            <td data-fsc-item-pricetotal-callback data-fsc-item-path="video-to-scorm-365" data-format="%price" data-fsc-item-path-value="video-to-scorm-10">$199</td>
+	            <td data-fsc-item-pricetotal-callback data-fsc-item-path="video-to-scorm-365" data-format="%price" data-fsc-item-path-value="video-to-scorm-365">$199</td>
 	            <td><a href="#" data-fsc-item-path-value="video-to-scorm-365" data-fsc-action="Reset,Add,Checkout" class="uk-button uk-button-primary uk-button-small">Buy</a></td>
 	        </tr>
 	    </tbody>
