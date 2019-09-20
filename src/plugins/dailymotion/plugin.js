@@ -17,14 +17,13 @@
             return response.json()
           })
           .then(function(content) {
-            console.log(content)
             // Search results
             if (content.list) {_render_thumbs(content.list)}
             // Direct video link
             else {_render_thumbs(content)}
           })
           .catch(function(e) {
-            console.error(e)
+            console.warn(e)
             window.alert('Dailymotion servers overloaded, try again later')
           })
         } else {
@@ -35,7 +34,6 @@
 
     function _render_thumbs(data) {
       var output = []
-      console.log(data)
       if (data.length) {
         // Search results
         data.forEach(function(video) {

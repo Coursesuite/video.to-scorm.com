@@ -11,8 +11,9 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 		if (e.target.id === 'download-button') {
 			downloadZip()
 		} else if (e.target.id === 'reset') {
-			localforage.clear()
-			location.reload(true)
+			localforage.clear().then(function() {
+				location.reload(true)
+			})
 		} else if (e.target.classList.contains("noUi-value")) {
 		  // click a pip
 			var pip = Number(e.target.dataset.value),
@@ -32,6 +33,8 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 	Array.prototype.forEach.call(window.v2s.plugins, function(plugin) {
 		plugin.init()
 	})
+
+	// --------------- DIRECT UPLOAD LISTENERS ----------- //
 
 	// Local upload listener
 	document.getElementById('localUpload').addEventListener('change', function _file_upload(e) {
@@ -59,30 +62,38 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 		embedSoundcloud()
 	})
 
-	//Facebook upload listener
+	// Facebook upload listener
 	document.getElementById('facebookLoad').addEventListener('click', function(e) {
 		window.v2s.plugin = 'facebook'
 		window.v2s.id = document.getElementById('facebookUrl').value
 		createVideo()
 	})
 
-	//Dacast upload listener
+	// Dacast upload listener
 	document.getElementById('dacastLoad').addEventListener('click', function(e) {
 		window.v2s.plugin = 'dacast'
 		window.v2s.id = document.getElementById('dacastUrl').value
 		createVideo()
 	})
 
-	//Wistia upload listener
+	// Wistia upload listener
 	document.getElementById('wistiaLoad').addEventListener('click', function(e) {
 		window.v2s.plugin = 'wistia'
 		window.v2s.id = document.getElementById('wistiaUrl').value
 		createVideo()
 	})
 
+	// Amazon upload listener
 	document.getElementById('amazonLoad').addEventListener('click', function(e) {
 		window.v2s.plugin = 'amazon'
 		window.v2s.id = document.getElementById('amazonUrl').value
+		createVideo()
+	})
+
+	// Brightcove upload listener
+	document.getElementById('brightcoveLoad').addEventListener('click', function(e) {
+		window.v2s.plugin = 'brightcove'
+		window.v2s.id = document.getElementById('brightcoveUrl').value
 		createVideo()
 	})
 
@@ -169,13 +180,14 @@ window.initMediaElementPlayer = function(source) {
 				var once = false;
 				function timeout() {
  					setTimeout(function() {
-			      if (me.duration || window.v2s.plugin === 'dacast' || window.v2s.plugin === 'wistia') {
+ 						// Streaming files don't get duration
+			      if (me.duration || window.v2s.plugin === 'dacast' || window.v2s.plugin === 'wistia' || window.v2s.plugin === 'brightcove') {
 			      	window.v2s.duration = me.duration
 			      	resolve()
 			      } else {
+			      // Direct videos get duration "after a while"
 			      	console.log('no duration, waiting...')
-			      	if (window.v2s.plugin === 'dailymotion' && window.v2s['player'].paused && !once) {
-			      		// play/pause to actually load the video
+			      	if (window.v2s.plugin === 'dailymotion' && window.v2s['player'].paused && !once) { // Dailymotion jank
 			      		once = true
 			      		window.v2s['player'].play()
 			      		window.v2s['player'].pause()
@@ -283,7 +295,7 @@ function createVideo(media=undefined) {
 			document.getElementById(current_plugin.name+'-LoadingIcon').innerHTML = ''
 			break
 		// MediaElement
-	  case 'youtube': case 'dailymotion': case 'soundcloud': case 'facebook': case 'cloud': case 'upload': case 'dacast': case 'wistia': case 'amazon':
+	  case 'youtube': case 'dailymotion': case 'soundcloud': case 'facebook': case 'cloud': case 'upload': case 'dacast': case 'wistia': case 'amazon': case 'brightcove':
 			current_plugin.get_media(window.v2s.id, media)
 			.then(function(source) {
 				window.v2s['source'] = source
@@ -292,7 +304,7 @@ function createVideo(media=undefined) {
 			.then(function() {
 				document.getElementById(current_plugin.name+'-LoadingIcon').innerHTML = ''
 
-				// Just for dacast
+				// Try and get streaming media duration
 				function testDuration(){
 					return new Promise(function(resolve,reject) {
 						function timeout(){
@@ -303,7 +315,7 @@ function createVideo(media=undefined) {
 									resolve()
 								} else {
 									window.v2s['player'].play()
-									console.log('timeout')
+									console.log('awaiting duration...')
 									timeout()
 								}
 							}, 500)
@@ -313,9 +325,6 @@ function createVideo(media=undefined) {
 				}
 				testDuration()
 				.then(function() {
-					// Becuase some videos dont start loading until played
-					// window.v2s['player'].play()
-					// window.v2s['player'].pause()
 
 					// Sizing stuff for videos
 					var wrapper = document.querySelector('mediaelementwrapper')
@@ -326,8 +335,14 @@ function createVideo(media=undefined) {
 						document.getElementById('videoContainer').style.height = frame.clientHeight+'px'
 					}
 					if (audio) document.getElementById('videoContainer').style.height = 'auto'
-					window.v2s['player'].setCurrentTime(0.1) // Becuase some videos start at the end // If you set it to 0 it wont buffer until you scrub manually
+
+
+					// Becuase some videos dont start loading until played
+					// window.v2s['player'].play()
+					// window.v2s['player'].pause()
+
 					createSlider()
+					window.v2s['player'].setCurrentTime(0.1) // Becuase some videos start at the end // If you set it to 0 it wont buffer until you scrub manually
 				})
 
 
@@ -345,8 +360,6 @@ function createSlider() {
 	var ranges = window.v2s.ranges || [0, window.v2s.duration * .75, window.v2s.duration],
 		step = (window.v2s.duration/8)
 
-	console.log('slider')
-	console.log(window.v2s.duration)
 	noUiSlider.create(range, {
 		range: {
 			'min': [0],
