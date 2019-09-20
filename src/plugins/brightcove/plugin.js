@@ -34,7 +34,7 @@
           .then(function(json) {
             resolve({
               name: 'Brightcove Media',
-              src: json[0].src,
+              src: json[0].src.replace('http','https'),
               poster: '',
               mime: json[0].type,
               sources: ['']
