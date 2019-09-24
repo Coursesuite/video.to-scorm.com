@@ -41,7 +41,6 @@
           return response.text()
         })
         .then(function(directUrl) {
-          console.log(directUrl)
           resolve({
             name: 'Facebook Video',
             src: directUrl,
