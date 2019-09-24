@@ -9,14 +9,19 @@ $context = [
 $context = stream_context_create($context);
 $data = file_get_contents($url, false, $context);
 
-$regex = '/hd_src_no_ratelimit:"([^"]+)"/';
+$regex = '/hd_src:"([^"]+)"/'; // no "no_ratelimit" for hd
 if (preg_match($regex, $data, $match)) {
     echo($match[1]);
 } else {
     $regex = '/sd_src_no_ratelimit:"([^"]+)"/';
     if (preg_match($regex, $data, $match)) {
-        echo($match[1]);
+        echo($match);
     } else {
-      echo('something went wrong');
+      $regex = '/sd_src:"([^"]+)"/'; // incase sd is missing "no_ratelimit" also
+      if (preg_match($regex, $data, $match)) {
+        echo($match);
+      } else {
+        echo('something went wrong');
+      }
     }
 }
