@@ -1,3 +1,7 @@
+:root {
+  --banner-height:80px;
+}
+
 body {
 	background-color: white;
 }
@@ -50,20 +54,6 @@ body {
 .m-e { background-color: #9e3810; }
 .m-c { background-color: #559d00; }
 
-
-.video-container::after {
-	content: '';
-	position: absolute;
-	padding-top: 56.25%;
-}
-
-.video-element {
-  position: absolute;
-  width: 100%;
-  top: 0;
-  max-height: 100vh;
-}
-
 .noUi-pips.noUi-pips-horizontal {
 	margin-top: 20px;
 }
@@ -81,7 +71,22 @@ body {
 	cursor: pointer;
 }
 
+#banner {
+  height: var(--banner-height);
+}
 
+.video-container::after {
+	content: '';
+	position: absolute;
+	padding-top: 56.25%;
+}
+
+.video-element {
+  position: absolute;
+  width: 100%;
+  top: 0;
+  max-height: 100vh;
+}
 /* PLYR Hacks */
 .plyr--vimeo > div > iframe {
     position: absolute;

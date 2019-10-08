@@ -325,14 +325,22 @@ function createVideo(media=undefined) {
 				}
 				testDuration()
 				.then(function() {
-
+					var bannerHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--banner-height').split('px')[0])
 					// Sizing stuff for videos
 					var wrapper = document.querySelector('mediaelementwrapper')
 					var frame = wrapper.querySelector('iframe') || wrapper.querySelector('video')
 					var audio = wrapper.querySelector('audio')
 					if (frame && !audio) {
 						window.v2s['player'].setPlayerSize(frame.clientWidth, frame.clientHeight)
-						document.getElementById('videoContainer').style.height = frame.clientHeight+'px'
+						// try and make fb videos fit
+						if (current_plugin.name === 'facebook') {
+							var height = (document.documentElement.clientHeight - bannerHeight) + 'px'
+							document.getElementById('videoContainer').style.height = height
+							document.querySelector('.video-element').style.height = height
+							frame.style.height = height
+						} else {
+							document.getElementById('videoContainer').style.height = frame.clientHeight+'px'
+						}
 					}
 					if (audio) document.getElementById('videoContainer').style.height = 'auto'
 

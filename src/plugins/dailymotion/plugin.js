@@ -13,7 +13,6 @@
             headers: { 'Content-type': 'application/x-www-form-urlencoded' }
           })
           .then(function(response) {
-          // response.text().then(function(t){console.warn(t)})
             return response.json()
           })
           .then(function(content) {
