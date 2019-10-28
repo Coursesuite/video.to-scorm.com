@@ -1,7 +1,7 @@
 (function (PLUGINS, undefined) {
-  
+
   var source = (function() {
-    
+
     function _init() {
     }
 
@@ -29,4 +29,4 @@
 
   PLUGINS.push(source)
 
-}(window.v2s.plugins = window.v2s.plugins || []))
+}(window.V2S.plugins = window.V2S.plugins || []))

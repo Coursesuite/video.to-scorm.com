@@ -10,9 +10,13 @@
 	cursor: pointer;
 	display: grid;
 	grid-template-rows: 120px 2fr .5fr;
+	border-radius: 4px;
 }
 .vim-results figure:hover {
-	background-color: lightyellow;
+	background-color: rgba(255,255,255,.5);
+}
+.vim-results figure:hover img {
+	border-radius: 4px 4px 0 0;
 }
 .vim-results img {
 	border-radius: 4px;

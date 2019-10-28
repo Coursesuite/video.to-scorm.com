@@ -11,7 +11,7 @@
         // var parseUrl = regExp.exec(url)
         // var oembed = "https://soundcloud.com/oembed?format=json&url=https://soundcloud.com/" + parseUrl[2]
         // if (parseUrl[2].indexOf("tracks/")===0) oembed = oembed.replace("url=https://soundcloud", "url=https://api.soundcloud")
-        
+
         // fetch(oembed)
 
 
@@ -80,4 +80,4 @@
 
   PLUGINS.push(source)
 
-})(window.v2s.plugins = window.v2s.plugins || [])
+})(window.V2S.plugins = window.V2S.plugins || [])

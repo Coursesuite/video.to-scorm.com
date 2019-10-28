@@ -75,21 +75,22 @@ foreach ($iter as $file) {
 		<meta name="author" content="coursesuite pty ltd" />
 		<link rel="shortcut icon" href="/favicon.ico">
 		<link rel="icon" href="/favicon.ico" type="image/x-icon">
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.1.5/dist/css/uikit.min.css" />
+		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.11/mediaelementplayer.min.css">
+
+		<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 		<script type="text/javascript" src="https://static-cdn.kloudless.com/p/platform/sdk/kloudless.explorer.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.0.2/jszip-utils.min.js" async="true"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
-		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.1.5/dist/css/uikit.min.css" />
-		<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js" async="true"></script>
-		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.11/mediaelementplayer.min.css">
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.11/mediaelement-and-player.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.11/renderers/dailymotion.min.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.11/renderers/vimeo.min.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.12/renderers/soundcloud.min.js"></script>
+		<!-- script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.11/renderers/vimeo.min.js"></script -->
+		<!-- script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.12/renderers/soundcloud.min.js"></script -->
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.12/renderers/facebook.min.js"></script>
 		<script src="https://cdn.jsdelivr.net/npm/localforage@1.7.3/dist/localforage.min.js" integrity="sha256-H/ZsHjKSJUnQyCQHZwPmn7VTWFeTTI+qgCP1GkiB9zI=" crossorigin="anonymous"></script>
-		<script type="text/javascript" src="https://connect.soundcloud.com/sdk/sdk-3.3.2.js"></script>
+		<!--script type="text/javascript" src="https://connect.soundcloud.com/sdk/sdk-3.3.2.js"></script-->
 		<script type="text/javascript">var App = <?php echo json_encode($jsApp, JSON_NUMERIC_CHECK); ?>, Layer = new WebSocket("<?php echo $verifier->app->socket; ?>"); <?php echo $verifier->app->layer; ?>;</script>
 		<script src="js/templates.js"></script>
 <?php
@@ -97,113 +98,187 @@ if ($verifier->code->minified) {
 	include("_head.inc.php");
 }
 foreach ($css as $link) {
-	echo "<link rel='stylesheet' type='text/css' href='{$link}'>", PHP_EOL;
+	echo "		", "<link rel='stylesheet' type='text/css' href='{$link}'>", PHP_EOL;
 }
 ?>
 </head>
 <?php if ($verifier->valid) { ?>
-<body>
-<!--
-<div class="uk-container-expand uk-margin-bottom" uk-sticky>
-<ul class="uk-wizard uk-wizard-steps uk-grid uk-grid-collapse uk-grid-width-medium-1-2 uk-grid-width-large-1-5">
-<li class="cs-logo"><img src="css/video-to-scorm.svg" width="200" alt="Video to Scorm"></li>
-<li class="uk-step">
-<div class="uk-step-content uk-text-truncate">
-<div class="uk-wizard-icon"></div>
-<div class="uk-wizard-title">Настройка базы данных</div>
-<div class="uk-wizard-desc">настройка подключения к БД</div>
-</div>
-</li>
-<li class="uk-step uk-complete">
-<div class="uk-step-content">
-<div class="uk-wizard-icon"></div>
-<div class="uk-wizard-title">Метаданные</div>
-<div class="uk-wizard-desc">настройки SEO</div>
-</div>
-</li>
-<li class="uk-step uk-active">
-<div class="uk-step-content">
-<div class="uk-wizard-icon"></div>
-<div class="uk-wizard-title">Аккаунт</div>
-<div class="uk-wizard-desc">настройка пользователя</div>
-</div>
-</li>
-<li class="uk-step">
-<div class="uk-step-content">
-<div class="uk-wizard-icon"></div>
-<div class="uk-wizard-title">Все готово!</div>
-<div class="uk-wizard-desc">давайте начинать</div>
-</div>
-</li>
-</ul>
-</div>
--->
-<nav id="banner" class="uk-navbar-container" uk-navbar uk-sticky>
-    <div class="uk-navbar-left">
-        <a class="uk-navbar-item uk-logo" href="?<?php echo $_SERVER['QUERY_STRING']; ?>#top">
-        	<img src="css/video-to-scorm.svg" width="300" alt="Video to Scorm">
-        </a>
-    </div>
-    <div class="uk-navbar-right">
-        <ul class="uk-navbar-nav">
-            <li><a href="#">Usage Survey</a></li>
-            <li><a href="#">Documentation</a></li>
-            <li><a id="reset" href="?<?php echo $_SERVER['QUERY_STRING']; ?>#top">Reset</a></li>
-        </ul>
-    </div>
+<body class="uk-light">
+
+<header id="banner" uk-sticky class="uk-padding-small uk-padding-small uk-padding-remove-bottom">
+<nav class="uk-child-width-1-2@m uk-child-width-1-1@s" uk-grid="margin:uk-margin-small">
+	<div class="uk-width-1-2@m uk-width-1-1@s">
+		<div class="uk-text-center@s uk-text-left@m">
+	        <a href="?<?php echo $_SERVER['QUERY_STRING']; ?>#top">
+	        	<img src="css/video-to-scorm.svg" class="v2s-logo" alt="Video to Scorm">
+	        </a>
+	    </div>
+	</div>
+	<div class="uk-width-1-2@m uk-width-1-1@s">
+	    <div class="uk-text-center@s uk-text-right@m">
+	        <a href="#" class="uk-button v2s-survey">Usage Survey</a>
+	        <a href="#" class="uk-button v2s-doco">Documentation</a>
+	        <a href="#" class="uk-button v2s-reset" data-action="clear-storage">Reset</a>
+	    </div>
+	</div>
+    <div class="uk-width-1-1">
+		<div class="uk-flex uk-flex-center">
+			<ul class="uk-subnav uk-margin-remove uk-subnav-pill v2s-nav-arrows uk-position-relative" uk-switcher="connect:#switchers">
+				<li><a href="#source">Select video source</a></li>
+				<li><a href="#range">Specify ranges</a></li>
+				<li><a href="#download">Download your package</a></li>
+			</ul>
+		</div>
+	</div>
 </nav>
+</header>
 
-<section class="uk-section uk-height-viewport">
-	<div class="uk-container">
-		<h2>Set up your video source</h2>
-		<div class="uk-margin">
+<div id="switchers" class="uk-switcher uk-margin">
+	<section class="uk-section uk-padding-remove-vertical">
+		<div class="uk-container">
+			<div class="uk-margin">
 
-		    <ul uk-tab="swiping: false" class="uk-tab">
-		<?php
-		    	for ($i = 0; $i < count($plugins); $i++) {
-			        echo "		", "<li", ($i===0) ? " class='uk-active'":"", "><a href='#' aria-expanded='false'>", $plugins[$i], "</a></li>", PHP_EOL;
-		    	}
-		?>
-		    </ul>
+			    <ul uk-tab="swiping: false" class="uk-tab">
+			<?php
+			    	for ($i = 0; $i < count($plugins); $i++) {
+				        echo "		", "<li", ($i===0) ? " class='uk-active'":"", "><a href='#' aria-expanded='false'>", $plugins[$i], "</a></li>", PHP_EOL;
+			    	}
+			?>
+			    </ul>
 
-		    <ul class="uk-switcher uk-margin">
-		<?php
-			   	for ($i = 0; $i < count($plugins); $i++) {
-			    	echo "		", "<li", ($i===0) ? " class='uk-active'":"", " data-plugin='", $plugins[$i], "'>", PHP_EOL;
-			    	include("./plugins/" . $plugins[$i] . "/plugin.php");
-			    	echo "		", "</li>", PHP_EOL;
-		    	}
-		?>
-		    </ul>
+			    <ul class="uk-switcher uk-margin">
+			<?php
+				   	for ($i = 0; $i < count($plugins); $i++) {
+				    	echo "		", "<li", ($i===0) ? " class='uk-active'":"", " data-plugin='", $plugins[$i], "'>", PHP_EOL;
+				    	include("./plugins/" . $plugins[$i] . "/plugin.php");
+				    	echo "		", "</li>", PHP_EOL;
+			    	}
+			?>
+			    </ul>
+			</div>
 		</div>
-	</div>
-</section>
+	</section>
+	<section class="uk-section uk-padding-remove-vertical">
+		<div class="uk-container">
+			<p>Drag the start (<span class='m-s'>S</span>) and end (<span class='m-e'>E</span>) video markers to indicate the portion of the video you want to show. Drag the completion marker (<span class='m-c'>C</span>) to where you want the video to be considered complete.</p>
 
-<section class="uk-section uk-height-viewport">
-	<div class="uk-container">
-		<h2>Set the video ranges and cue points</h2>
-		<p>Drag the start (<span class='m-s'>S</span>) and end (<span class='m-e'>E</span>) video markers to indicate the portion of the video you want to show. Drag the completion marker (<span class='m-c'>C</span>) to where you want the video to be complete.</p>
+			<div id="videoContainer" class="video-container uk-position-relative"></div>
 
-		<div id="videoContainer" class="video-container uk-position-relative">
-			
+			<div class="range-container">
+				<div id="range"></div>
+			</div>
+
+		</div>
+	</section>
+	<section class="uk-section uk-padding-remove-vertical">
+		<div class="uk-container">
+
+		<form id="settings" class="w-80 m-lr-auto">
+
+			<section id="basic-options" class="settings-panel">
+				<label for="ocn">Package Name<small class="r">required</small></label>
+				<input type="text" size="30" placeholder="Course name" name="option-course-name" id="ocn">
+
+				<label for="ocd">Description<small>optional</small></label>
+				<textarea rows="2" cols="30" placeholder="Description" name="option-course-description" id="ocd"></textarea>
+
+				<label for="occ">Copyright<small>optional</small></label>
+				<input type="text" size="30" placeholder="Copyright statement" name="option-course-copyright" id="occ">
+
+				<label for="gax">Google Analytics Id<small>optional</small></label>
+				<input type="text" size="30" placeholder="Google Analytics id (UA-XXXXXXXXX-X)" name="option-ga-id" id="gax">
+			</section>
+
+			<div class="grid-h grid-2 m-t-regular">
+
+				<fieldset class="radio-panel uk-margin-remove-vertical">
+					<legend>Navigation</legend>
+					<div class="grid-h grid-3">
+						<label>
+							<input type="radio" name="toggleScrub" value="false" checked>
+							<?php include("img/hide.svg"); ?>
+							<p>Hide the video range controls</p>
+						</label>
+						<label>
+							<input type="radio" name="toggleScrub" value="true">
+							<?php include("img/show.svg"); ?>
+							<p>Show the video range controls</p>
+						</label>
+					</div>
+				</fieldset>
+
+				<fieldset class="radio-panel uk-margin-remove-vertical">
+					<legend>Compatibility</legend>
+					<div class="grid-h grid-3">
+						<label>
+							<input type="radio" name="api" value="scorm12" checked>
+							<?php include("img/scorm.svg"); ?>
+							<p>Scorm 1.2 (default)</p>
+						</label>
+						<label>
+							<input type="radio" name="api" value="scorm2004">
+							<?php include("img/scorm.svg"); ?>
+							<p>Scorm 2004</p>
+						</label>
+						<label>
+							<input type="radio" name="api" value="none">
+							<?php include("img/html5.svg"); ?>
+							<p>Standalone</p>
+						</label>
+					</div>
+				</fieldset>
+
+			</div>
+
+
+		</form>
+
+		<div class="w-80 m-lr-auto m-t-regular">
+			<div class='grid-h grid-c <?php echo (isset($verifier->api->publish) && !empty($verifier->api->publish)) ? 'grid-4' : 'grid-3'; ?>'>
+
+				<div class="progress-button elastic" data-destination="download">
+					<button><span><i class="ninja-download"></i> Download</span></button>
+					<svg class="progress-circle" width="70" height="70"><path d="m35,2.5c17.955803,0 32.5,14.544199 32.5,32.5c0,17.955803 -14.544197,32.5 -32.5,32.5c-17.955803,0 -32.5,-14.544197 -32.5,-32.5c0,-17.955801 14.544197,-32.5 32.5,-32.5z"/></svg>
+					<svg class="checkmark" width="70" height="70"><path d="m31.5,46.5l15.3,-23.2"/><path d="m31.5,46.5l-8.5,-7.1"/></svg>
+					<svg class="cross" width="70" height="70"><path d="m35,35l-9.3,-9.3"/><path d="m35,35l9.3,9.3"/><path d="m35,35l-9.3,9.3"/><path d="m35,35l9.3,-9.3"/></svg>
+				</div>
+
+				<div class="progress-button elastic" data-destination="kloudless">
+					<button><span><i class="ninja-upload2"></i> Save to Cloud</span></button>
+					<svg class="progress-circle" width="70" height="70"><path d="m35,2.5c17.955803,0 32.5,14.544199 32.5,32.5c0,17.955803 -14.544197,32.5 -32.5,32.5c-17.955803,0 -32.5,-14.544197 -32.5,-32.5c0,-17.955801 14.544197,-32.5 32.5,-32.5z"/></svg>
+					<svg class="checkmark" width="70" height="70"><path d="m31.5,46.5l15.3,-23.2"/><path d="m31.5,46.5l-8.5,-7.1"/></svg>
+					<svg class="cross" width="70" height="70"><path d="m35,35l-9.3,-9.3"/><path d="m35,35l9.3,9.3"/><path d="m35,35l-9.3,9.3"/><path d="m35,35l9.3,-9.3"/></svg>
+				</div>
+
+				<div class="progress-button elastic" data-destination="preview">
+					<button><span><i class="fa fa-eye"></i> Preview</span></button>
+					<svg class="progress-circle" width="70" height="70"><path d="m35,2.5c17.955803,0 32.5,14.544199 32.5,32.5c0,17.955803 -14.544197,32.5 -32.5,32.5c-17.955803,0 -32.5,-14.544197 -32.5,-32.5c0,-17.955801 14.544197,-32.5 32.5,-32.5z" /></svg>
+					<svg class="checkmark" width="70" height="70"><path d="m31.5,46.5l15.3,-23.2" /><path d="m31.5,46.5l-8.5,-7.1" /></svg>
+					<svg class="cross" width="70" height="70"><path d="m35,35l-9.3,-9.3" /><path d="m35,35l9.3,9.3" /><path d="m35,35l-9.3,9.3" /><path d="m35,35l9.3,-9.3" /></svg>
+				</div>
+
+<?php if (isset($verifier->api->publish) && !empty($verifier->api->publish)) { ?>
+				<div class="progress-button elastic" data-destination="publish">
+					<button><span><i class="ninja-upload"></i> Publish to LMS</span></button>
+					<svg class="progress-circle" width="70" height="70"><path d="m35,2.5c17.955803,0 32.5,14.544199 32.5,32.5c0,17.955803 -14.544197,32.5 -32.5,32.5c-17.955803,0 -32.5,-14.544197 -32.5,-32.5c0,-17.955801 14.544197,-32.5 32.5,-32.5z"/></svg>
+					<svg class="checkmark" width="70" height="70"><path d="m31.5,46.5l15.3,-23.2"/><path d="m31.5,46.5l-8.5,-7.1"/></svg>
+					<svg class="cross" width="70" height="70"><path d="m35,35l-9.3,-9.3"/><path d="m35,35l9.3,9.3"/><path d="m35,35l-9.3,9.3"/><path d="m35,35l9.3,-9.3"/></svg>
+				</div>
+<?php } ?>
+			</div>
+
+		</div>
 		</div>
 
-		<div class="range-container">
-			<div id="range"></div>
-		</div>
 
-	</div>
-</section>
+	</section>
+</div>
 
-<section class="uk-section uk-height-viewport">
-	<div class="uk-container">
-		<h2>Download</h2>
-		<button class="uk-button uk-button-default" id="download-button">DOWNLOAD ZIP</button>
-		<input type="checkbox" id="toggleScrub" name="toggleScrub">
-		<label for="toggleScrub">Hide video scrub bar</label>
-	</div>
-</section>
-
+	<footer>
+		<a href="/">Video to Scorm</a> |
+		<a href="https://help.coursesuite.ninja/" target="_blank">Report a problem</a> |
+		App by <a href="https://www.coursesuite.com/" target="_blank">Coursesuite</a>.
+	</footer>
 
 <?php
 	foreach ($scripts as $script) {

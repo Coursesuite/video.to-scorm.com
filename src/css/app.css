@@ -1,10 +1,44 @@
 :root {
-  --banner-height:80px;
+  --banner-height:60px;
 }
 
-body {
-	background-color: white;
+html {
+	background-color: rgb(34,34,34);
 }
+
+
+/* ---------------------------
+	header
+-------------------------- */
+header {
+	background: #2a2a2a;
+	border-bottom: 1px solid #404040;
+}
+
+
+/* ---------------------------
+	powered by coursesuite
+-------------------------- */
+footer {
+	position: fixed;
+	bottom: 0;
+	width: 100vw;
+	background: #2a2a2a;
+	border-top: 1px solid #404040;
+	height: 18px;
+	font-size: 12px;
+	color: #999;
+	text-shadow: none;
+	text-align: center;
+	padding-right: .5em;
+}
+footer a {
+	color: inherit;
+}
+
+
+
+
 
 .noUi-tooltip {
     display: none;
@@ -63,16 +97,12 @@ body {
 }
 .noUi-target {
 	border: none;
-	background-color: white;
+	background-color: transparent;
 	box-shadow: none;
 	border-radius: 0;
 }
 .noUi-pips > .noUi-value {
 	cursor: pointer;
-}
-
-#banner {
-  height: var(--banner-height);
 }
 
 .video-container::after {
@@ -87,6 +117,22 @@ body {
   top: 0;
   max-height: 100vh;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* PLYR Hacks */
 .plyr--vimeo > div > iframe {
     position: absolute;
@@ -98,6 +144,23 @@ body {
   padding-bottom: 56.25%;
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* mediaelement Hacks */
 mediaelementwrapper > iframe {
   width: 100%;
@@ -105,6 +168,413 @@ mediaelementwrapper > iframe {
 }
 
 /* Prevent poster being hidden on play */
-/*.mejs__layer {   
+/*.mejs__layer {
   display: block !important;
 }*/
+
+
+
+
+
+
+
+
+
+/* ---------------------------
+	grid helpers
+-------------------------- */
+
+.grid-v {
+	display: grid;
+	grid-gap: 1em;
+	grid-template-columns: 1fr;
+	grid-template-rows: 1fr 1fr 1fr;
+}
+
+.grid-h {
+	display: grid;
+    grid-column-gap: 1em;
+    grid-row-gap: 1em;
+	justify-items: center;
+}
+.grid-2 {
+	grid-template-columns: 1fr 1fr;
+}
+.grid-3 {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+.grid-4 {
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+.grid-h label {
+	text-align: center;
+}
+.grid-c {
+    justify-items: center;
+    align-items: start;
+}
+
+/* ---------------------------
+	width helpers
+-------------------------- */
+.w-50 {
+	width: 50%;
+}
+.w-80 {
+	width: 80%;
+}
+.w-100 {
+	width: 100%;
+}
+
+/* ---------------------------
+	margin helpers
+-------------------------- */
+
+.m-lr-auto {
+	margin-left: auto;
+	margin-right: auto;
+}
+.m-t-large {
+	margin-top: 4em;
+}
+.m-t-regular {
+	margin-top: 2em;
+}
+.m-b-regular {
+	margin-bottom: 2em;
+}
+.m-t-half {
+	margin-top: .5em;
+}
+
+/* ---------------------------
+	flex helpers
+-------------------------- */
+
+.dn-flex {
+	display: flex;
+}
+
+.dn-flex-center {
+	text-align: center;
+	align-items: center;
+}
+
+.dn-flex-v-center {
+	align-items: center;
+}
+
+.dn-flex-c-1 > *,
+.dn-flex-1 {
+	flex: 1;
+}
+
+.dn-flex-right {
+	align-items: flex-end;
+	white-space:  nowrap;
+}
+
+.dn-flex-lr {
+	flex-direction: row;
+}
+
+.dn-flex-tb {
+	flex-direction: column;
+}
+
+.dn-height {
+	height: 100%;
+}
+.dn-flex-around {
+	justify-content: space-around;
+}
+.dn-flex-end {
+	justify-content: flex-end;
+}
+.flex-v {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.flex-1 {
+	flex: 1;
+}
+.pad-left {
+	padding-left: .5em;
+}
+.pad-right {
+	padding-left: .5em;
+}
+
+
+
+/* ---------------------------
+	header top bar colours and sizing
+-------------------------- */
+
+.v2s-logo {
+	height: 38px;
+	width: auto;
+}
+
+.v2s-survey {
+	background-color: #42b273;
+}
+.v2s-doco {
+	background-color:  #2cb3ec;
+}
+.v2s-reset {
+	background-color: #8341a0;
+}
+
+
+
+/* ---------------------------
+	triangles between the page tabs
+-------------------------- */
+
+.v2s-nav-arrows > li > a {
+	margin-right: 10px;
+	border-radius: 4px;
+}
+
+.v2s-nav-arrows li.uk-active > a {
+	background-color: #eda432 !important;
+	color: white !important;
+}
+
+.v2s-nav-arrows > li:not(.uk-active) > a {
+	background-color: rgba(255,255,255,.05) !important;
+    color: rgba(255,255,255,.7);
+}
+
+.v2s-nav-arrows > li:not(:last-of-type):after {
+	content: '';
+    display: block;
+    position: absolute;
+    right: calc((10px + 1em) * -1);
+    top: 5px;
+    margin: 0 .5em;
+    border: 10px solid transparent;
+    border-left-color: rgba(255,255,255,.5);
+}
+
+
+
+
+
+/* ---------------------------
+	settings page
+-------------------------- */
+
+#download-zip {
+	color: black;
+	overflow: auto;
+}
+
+.settings-panel {
+	display: grid;
+	grid-template-columns: 200px 1fr;
+	grid-gap: 1em;
+}
+.settings-panel label>small {
+	display: block;
+	color: #8341a0;
+}
+.settings-panel label>small.r{color:red}
+
+.settings-panel > * {
+	padding: .5em;
+}
+
+.settings-panel input, .settings-panel textarea {
+	color: black;
+	border: 1px solid rgba(255,255,255,.2);
+	background-color: rgba(255,255,255,.05);
+	font-size: 16px;
+	transition: background-color .2s, border-color .2s;
+}
+.settings-panel input:focus, .settings-panel textarea:focus {
+	background-color:  rgba(255,255,255,.8);
+	border-color: white;
+	color: black;
+}
+
+.radio-panel [type='radio'] {
+	position: absolute;
+	opacity: 0;
+	height: 0;
+	width: 0;
+}
+.radio-panel [type='radio']+svg {
+	cursor: pointer;
+	height: 64px;
+	outline: none;
+}
+.radio-panel [type='radio']:not(:checked)+svg polygon,
+.radio-panel [type='radio']:not(:checked)+svg path {
+	fill: #d1d1d1;
+}
+.radio-panel [type='radio']:checked+svg+p {
+	font-weight: bold;
+}
+
+#download-zip fieldset {
+    display: block;
+    margin-inline-start: 2px;
+    margin-inline-end: 2px;
+    padding-block-start: 0.35em;
+    padding-inline-start: 0.75em;
+    padding-inline-end: 0.75em;
+    padding-block-end: 0.625em;
+    min-inline-size: min-content;
+    border: 1px solid var(--edge);
+    border-image: initial;
+    margin-bottom: 1em;
+}
+#download-zip legend {
+	color: var(--base);
+	font-weight: bold;
+}
+
+
+
+
+
+/* ---------------------------
+	circular progress button
+-------------------------- */
+
+
+/* Button container */
+.progress-button {
+	position: relative;
+	display: inline-block;
+/*
+	text-align: center;
+	width: 45%;
+	min-width: 250px;
+	margin: 10px;
+*/
+}
+
+/* Button style */
+.progress-button button {
+	display: block;
+	margin: 0 auto;
+	padding: 0;
+	width: 250px;
+	height: 70px;
+	border: 2px solid #8341a0;
+	border-radius: 40px;
+	background: white;
+	color: #8341a0;
+	letter-spacing: 1px;
+	font-size: 18px;
+	/* font-family: 'Montserrat', sans-serif; */
+	-webkit-tap-highlight-color: transparent;
+	-webkit-transition: background-color 0.3s, color 0.3s, width 0.3s, border-width 0.3s, border-color 0.3s;
+	transition: background-color 0.3s, color 0.3s, width 0.3s, border-width 0.3s, border-color 0.3s;
+}
+
+.progress-button button:hover {
+	background-color: #8341a0;
+	color: #fff;
+}
+
+.progress-button button:focus {
+	outline: none;
+}
+
+/* Text (transition for when returning to initial state) */
+.progress-button button span {
+	-webkit-transition: opacity 0.3s 0.1s;
+	transition: opacity 0.3s 0.1s;
+}
+
+/* Common style of SVGs */
+.progress-button svg {
+	position: absolute;
+	top: 0;
+	left: 50%;
+	-webkit-transform: translateX(-50%);
+	transform: translateX(-50%);
+	pointer-events: none;
+}
+
+.progress-button svg path {
+	opacity: 0;
+	fill: none;
+}
+
+.progress-button svg.progress-circle path {
+	stroke: #8341a0;
+	stroke-width: 5;
+}
+
+.progress-button svg.checkmark path,
+.progress-button svg.cross path {
+	stroke: #fff;
+	stroke-linecap: round;
+	stroke-width: 4;
+	-webkit-transition: opacity 0.1s;
+	transition: opacity 0.1s;
+}
+
+/* Loading, success and error effects */
+.loading.progress-button button {
+	width: 70px; /* make a circle */
+	border-width: 5px;
+	border-color: #ddd;
+	background-color: transparent;
+	color: #fff;
+}
+
+.loading.progress-button span {
+	-webkit-transition: opacity 0.15s;
+	transition: opacity 0.15s;
+}
+
+.loading.progress-button span,
+.success.progress-button span,
+.error.progress-button span {
+	opacity: 0; /* keep it hidden in all states */
+}
+
+.success.progress-button button,
+.error.progress-button button {
+	-webkit-transition: background-color 0.3s, width 0.3s, border-width 0.3s;
+	transition: background-color 0.3s, width 0.3s, border-width 0.3s;
+}
+
+.success.progress-button button {
+	border-color: #8341a0;
+	background-color: #8341a0;
+}
+
+.error.progress-button button {
+	border-color: #FB797E;
+	background-color: #FB797E;
+}
+
+.loading.progress-button svg.progress-circle path,
+.success.progress-button svg.checkmark path,
+.error.progress-button svg.cross path {
+	opacity: 1;
+	-webkit-transition: stroke-dashoffset 0.3s;
+	transition: stroke-dashoffset 0.3s;
+}
+
+/* Optional elastic effect for the width of the button */
+.elastic.progress-button button {
+	-webkit-transition: background-color 0.3s, color 0.3s, width 0.3s cubic-bezier(0.25, 0.25, 0.4, 1), border-width 0.3s, border-color 0.3s;
+	-webkit-transition: background-color 0.3s, color 0.3s, width 0.3s cubic-bezier(0.25, 0.25, 0.4, 1.6), border-width 0.3s, border-color 0.3s;
+	transition: background-color 0.3s, color 0.3s, width 0.3s cubic-bezier(0.25, 0.25, 0.4, 1.6), border-width 0.3s, border-color 0.3s;
+}
+
+.loading.elastic.progress-button button {
+	-webkit-transition: background-color 0.3s, color 0.3s, width 0.3s cubic-bezier(0.6, 0, 0.75, 0.75), border-width 0.3s, border-color 0.3s;
+	-webkit-transition: background-color 0.3s, color 0.3s, width 0.3s cubic-bezier(0.6, -0.6, 0.75, 0.75), border-width 0.3s, border-color 0.3s;
+	transition: background-color 0.3s, color 0.3s, width 0.3s cubic-bezier(0.6, -0.6, 0.75, 0.75), border-width 0.3s, border-color 0.3s;
+}

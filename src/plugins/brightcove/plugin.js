@@ -3,7 +3,7 @@
 
     var CLIENT_ID = 'e754600a-667f-4a89-8c08-afd9364f9bb7';
     var CLIENT_SECRET = 'SEcSAp6McVPL4Y2zOo0q1AquFGIOdrmcbuu6P_FkR0TQ0ANYp4GgtmgFH-_1odSRkFgdpuUAiABaf2J0o_6pQQ';
-    
+
     function _init() {
 
     }
@@ -39,7 +39,7 @@
               mime: json[0].type,
               sources: ['']
             })
-          }) 
+          })
         })
       })
     }
@@ -53,4 +53,4 @@
   })()
 
   PLUGINS.push(source)
-})(window.v2s.plugins = window.v2s.plugins || [])
+})(window.V2S.plugins = window.V2S.plugins || [])

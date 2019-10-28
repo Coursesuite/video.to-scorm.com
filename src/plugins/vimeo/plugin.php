@@ -12,7 +12,7 @@
 	        </div>
         </div>
     </fieldset>
-	<div class="vim-results"></div>
+	<div class="vim-results" data-results></div>
 </form>
 <div id="vimeo-LoadingIcon"></div>
 </section>

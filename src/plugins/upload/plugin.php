@@ -7,5 +7,5 @@
       </div>
     </div>
 	</form>
-  <div id="upload-LoadingIcon"></div>
+  <div id="upload-LoadingIcon" data-results></div>
 </section>

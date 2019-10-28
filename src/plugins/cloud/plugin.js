@@ -1,11 +1,11 @@
 (function(PLUGINS, undefined) {
 
   var source = (function() {
-    
+
     function _init() {
       document.getElementById('kloudlessUpload').addEventListener('click', function(e) {
         window.KLOUDLESS_INPUT.choose()
-      }) 
+      })
     }
 
     function _get_media(id, file) {
@@ -33,26 +33,26 @@
     }
 
     function _handle_file_upload(file) {
-      
+
     }
 
     function _re_upload(blob) {
       return new Promise(function _cloud_reupload_promise(resolve, reject) {
         var blobUrl = URL.createObjectURL(blob)
-        window.v2s.source = {
+        window.V2S.source = {
           src: blobUrl,
           sources: [''],
           original: blob,
           mime: blob.type,
           poster: '',
         }
-        // window.v2s['player'].source = {
-        //   type: window.v2s.source.mime.split('/')[0],
+        // window.V2S.'player'].source = {
+        //   type: window.V2S.source.mime.split('/')[0],
         //   sources: [{
-        //     src: window.v2s.source.src
+        //     src: window.V2S.source.src
         //   }]
         // }
-        window.initMediaElementPlayer(window.v2s.source)
+        window.initMediaElementPlayer(window.V2S.source)
         .then(function(){
           resolve()
         })
@@ -72,4 +72,4 @@
 
   PLUGINS.push(source)
 
-})(window.v2s.plugins = window.v2s.plugins || [])
+})(window.V2S.plugins = window.V2S.plugins || [])

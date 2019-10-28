@@ -61,7 +61,7 @@
 				// resolve({
 				return {
 					name: 'Vimeo Video',
-					src: "https://player.vimeo.com/video/" + id + "?loop=false&amp;byline=false&amp;portrait=false&amp;title=false&amp;speed=true&amp;transparent=0&amp;gesture=media",
+					src: "https://player.vimeo.com/video/" + id + "?loop=0&amp;byline=0&amp;portrait=0&amp;title=0&amp;speed=1&amp;transparent=0&amp;gesture=media&amp;badge=0",
 					mime: ["video/vimeo", "video/x-vimeo"],
 					sources: ['https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.11/renderers/vimeo.min.js']
 				}
@@ -87,4 +87,4 @@
 
 	PLUGINS.push(source)
 
-})(window.v2s.plugins = window.v2s.plugins || [])
+})(window.V2S.plugins = window.V2S.plugins || [])
