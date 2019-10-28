@@ -335,34 +335,34 @@ function createVideo(media) {
 						})
 					}
 					testDuration()
-					.then(function() {
-						var bannerHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--banner-height').split('px')[0]);
-						// Sizing stuff for videos
-						var wrapper = document.querySelector('mediaelementwrapper');
-						var frame = wrapper.querySelector('iframe') || wrapper.querySelector('video');
-						var audio = wrapper.querySelector('audio');
-						if (frame && !audio) {
-							V2S['player'].setPlayerSize(frame.clientWidth, frame.clientHeight);
-							// try and make fb videos fit
-							if (current_plugin.name === 'facebook') {
-								var height = (document.documentElement.clientHeight - bannerHeight) + 'px';
-								document.getElementById('videoContainer').style.height = height;
-								document.querySelector('.video-element').style.height = height;
-								frame.style.height = height;
-							} else {
-								document.getElementById('videoContainer').style.height = frame.clientHeight+'px';
+						.then(function() {
+							var bannerHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--banner-height').split('px')[0]);
+							// Sizing stuff for videos
+							var wrapper = document.querySelector('mediaelementwrapper');
+							var frame = wrapper.querySelector('iframe') || wrapper.querySelector('video');
+							var audio = wrapper.querySelector('audio');
+							if (frame && !audio) {
+								V2S['player'].setPlayerSize(frame.clientWidth, frame.clientHeight);
+								// try and make fb videos fit
+								if (current_plugin.name === 'facebook') {
+									var height = (document.documentElement.clientHeight - bannerHeight) + 'px';
+									document.getElementById('videoContainer').style.height = height;
+									document.querySelector('.video-element').style.height = height;
+									frame.style.height = height;
+								} else {
+									document.getElementById('videoContainer').style.height = frame.clientHeight+'px';
+								}
 							}
-						}
-						if (audio) document.getElementById('videoContainer').style.height = 'auto';
+							if (audio) document.getElementById('videoContainer').style.height = 'auto';
 
 
-						// Becuase some videos dont start loading until played
-						// V2S['player'].play()
-						// V2S['player'].pause()
+							// Becuase some videos dont start loading until played
+							// V2S['player'].play()
+							// V2S['player'].pause()
 
-						createSlider();
-						V2S['player'].setCurrentTime(0.1); // Becuase some videos start at the end // If you set it to 0 it wont buffer until you scrub manually
-					});
+							createSlider();
+							V2S['player'].setCurrentTime(0.1); // Becuase some videos start at the end // If you set it to 0 it wont buffer until you scrub manually
+						});
 				});
 			break
 	}
@@ -426,13 +426,6 @@ function createSlider() {
 	saveCache();
 }
 
-function timeString(val) {
-	var date = new Date(null);
-	date.setSeconds(val);
-	var fmt = date.toISOString();
-	return (val < 3600) ? fmt.substr(14,5) : fmt.substr(11, 8); // trim hours
-}
-
 function downloadZip() {
 	var zip = new JSZip();
 	var current_plugin = V2S.plugins.find(function(obj) {
@@ -475,3 +468,11 @@ function downloadZip() {
 }
 
 })(window.V2S = window.V2S || {}, App, undefined);
+
+// out in global scope for now
+function timeString(val) {
+	var date = new Date(null);
+	date.setSeconds(val);
+	var fmt = date.toISOString();
+	return (val < 3600) ? fmt.substr(14,5) : fmt.substr(11, 8); // trim hours
+}
