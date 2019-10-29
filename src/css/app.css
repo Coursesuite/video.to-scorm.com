@@ -153,8 +153,10 @@ footer a {
 
 
 
-
-
+/* #videoContainer {
+	border:  2px dashed orange;
+}
+ */
 
 
 
@@ -468,7 +470,7 @@ mediaelementwrapper > iframe {
 	height: 70px;
 	border: 2px solid #8341a0;
 	border-radius: 40px;
-	background: white;
+	background: rgba(255,255,255,.75);
 	color: #8341a0;
 	letter-spacing: 1px;
 	font-size: 18px;

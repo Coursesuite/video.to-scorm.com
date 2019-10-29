@@ -259,13 +259,20 @@ function embedSoundcloud() {
 }
 
 function clearPlayer() {
-	V2S.playerType = ''
-	var vidContainer = document.getElementById('videoContainer');
-	if (vidContainer.children.length) {
-		while (vidContainer.children.length) {
-			vidContainer.children[0].parentNode.removeChild(vidContainer.children[0]);
-		}
-	}
+	V2S.playerType = '';
+
+	document.getElementById('videoContainer').innerHTML = '';
+
+//	var vidContainer = document.getElementById('videoContainer');
+//	while(vidContainer.firstChild) vidContainer.removeChild(vidContainer.firstChild);
+
+	// while (vidContainer.childNodes) vidContainer.
+	// console.dir(vidContainer);
+	// if (vidContainer.children.length) {
+	// 	while (vidContainer.children.length) {
+	// 		vidContainer.children[0].parentNode.removeChild(vidContainer.children[0]);
+	// 	}
+	// }
 }
 
 function saveCache() {
@@ -309,8 +316,8 @@ function createVideo(media) {
 			current_plugin
 				.get_media(V2S.id, media)
 				.then(function(source) {
-					V2S['source'] = source
-					return window.initMediaElementPlayer(source)
+					V2S['source'] = source;
+					return window.initMediaElementPlayer(source);
 				})
 				.then(function() {
 					document.getElementById(current_plugin.name+'-LoadingIcon').innerHTML = ''
@@ -321,39 +328,73 @@ function createVideo(media) {
 							function timeout(){
 								setTimeout(function(){
 									if (V2S.player.duration) {
-										V2S['player'].pause()
-										V2S.duration = V2S.player.duration
-										resolve()
+										V2S.player.pause();
+										V2S.duration = V2S.player.duration;
+										resolve();
 									} else {
-										V2S['player'].play()
-										console.log('awaiting duration...')
-										timeout()
+										V2S.player.play();
+										// console.info('awaiting duration...');
+										timeout();
 									}
-								}, 500)
+								}, 500);
 							}
 							timeout()
 						})
 					}
 					testDuration()
 						.then(function() {
-							var bannerHeight = parseInt(getComputedStyle(document.documentElement).getPropertyValue('--banner-height').split('px')[0]);
-							// Sizing stuff for videos
-							var wrapper = document.querySelector('mediaelementwrapper');
-							var frame = wrapper.querySelector('iframe') || wrapper.querySelector('video');
-							var audio = wrapper.querySelector('audio');
-							if (frame && !audio) {
-								V2S['player'].setPlayerSize(frame.clientWidth, frame.clientHeight);
-								// try and make fb videos fit
+
+							// calculate the intro text height (which might not yet be visible, so we have to do all this)
+							var p = document.querySelector("#range-intro").cloneNode(true),
+								c = document.createElement("section"),
+								d = document.createElement("div");
+							d.appendChild(p);c.appendChild(d);document.body.appendChild(c);
+							c.classList.add("uk-section");d.classList.add("uk-container");p.setAttribute("id","");
+							var ph = p.offsetHeight;
+							document.body.removeChild(c);
+
+							// calculate the remaining space taken up by on-screen elements
+							var container = document.getElementById('videoContainer'),
+								MEwrapper = document.querySelector('mediaelementwrapper'),
+								MEaudio   = MEwrapper.querySelector('audio'),
+								MEvideo	  = MEwrapper.querySelector('video') || MEwrapper.querySelector('iframe'),
+								remaining = window.innerHeight - // figure out maximum space without scrollbars
+										document.querySelector("#banner").getBoundingClientRect().height - // header
+										ph - // intro text
+										document.querySelector("#range").scrollHeight - // range container sliders and pips, some of whos height isn't in the document flow, so you have to use this property instead of offsetHeight
+										18 - // footer (hardcoded in css)
+										125; // some magic number that you get from trial and error which is probably margins or padding somewhere
+
+							if (MEaudio) {
+								container.style.height = 'auto';
+							} else {
+								container.style.height = remaining + 'px';
+
+								// heights are all zero at this point, because we are building the video before the tab is visible
+								console.log(container.offsetWidth, container.offsetHeight, container.scrollWidth, container.scrollHeight, container.getBoundingClientRect());
+								//V2S.player.setPlayerSize(container.offsetWidth, container.offsetHeight);
 								if (current_plugin.name === 'facebook') {
-									var height = (document.documentElement.clientHeight - bannerHeight) + 'px';
-									document.getElementById('videoContainer').style.height = height;
-									document.querySelector('.video-element').style.height = height;
-									frame.style.height = height;
-								} else {
-									document.getElementById('videoContainer').style.height = frame.clientHeight+'px';
+									document.querySelector('.video-element').style.height = remaining + 'px';
+									frame.style.height = height + 'px';
 								}
 							}
-							if (audio) document.getElementById('videoContainer').style.height = 'auto';
+
+
+				// var wrapper = document.querySelector('mediaelementwrapper');
+				// //var frame = wrapper.querySelector('iframe') || wrapper.querySelector('video');
+				// var audio = wrapper.querySelector('audio');
+				// if (frame && !audio) {
+				// // 	// try and make fb videos fit
+				// // 	if (current_plugin.name === 'facebook') {
+				// // 		var height = (document.documentElement.clientHeight - bannerHeight) + 'px';
+				// // 		document.getElementById('videoContainer').style.height = height;
+				// // 		document.querySelector('.video-element').style.height = height;
+				// // 		frame.style.height = height;
+				// // 	} else {
+				// // 		document.getElementById('videoContainer').style.height = frame.clientHeight+'px';
+				// // 	}
+				// }
+				// if (audio) document.getElementById('videoContainer').style.height = 'auto';
 
 
 							// Becuase some videos dont start loading until played
@@ -361,7 +402,7 @@ function createVideo(media) {
 							// V2S['player'].pause()
 
 							createSlider();
-							V2S['player'].setCurrentTime(0.1); // Becuase some videos start at the end // If you set it to 0 it wont buffer until you scrub manually
+							V2S['player'].setCurrentTime(0.01); // Becuase some videos start at the end // If you set it to 0 it wont buffer until you scrub manually
 						});
 				});
 			break

@@ -160,7 +160,7 @@ foreach ($css as $link) {
 	</section>
 	<section class="uk-section uk-padding-remove-vertical">
 		<div class="uk-container">
-			<p>Drag the start (<span class='m-s'>S</span>) and end (<span class='m-e'>E</span>) video markers to indicate the portion of the video you want to show. Drag the completion marker (<span class='m-c'>C</span>) to where you want the video to be considered complete.</p>
+			<p id="range-intro">Drag the start (<span class='m-s'>S</span>) and end (<span class='m-e'>E</span>) video markers to indicate the portion of the video you want to show. Drag the completion marker (<span class='m-c'>C</span>) to where you want the video to be considered complete.</p>
 
 			<div id="videoContainer" class="video-container uk-position-relative"></div>
 
