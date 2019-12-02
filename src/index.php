@@ -103,9 +103,9 @@ foreach ($css as $link) {
 ?>
 </head>
 <?php if ($verifier->valid) { ?>
-<body class="uk-light">
+<body>
 
-<header id="banner" uk-sticky class="uk-padding-small uk-padding-small uk-padding-remove-bottom">
+<header id="banner" uk-sticky class="uk-padding-small uk-padding-small uk-padding-remove-bottom uk-light">
 <nav class="uk-child-width-1-2@m uk-child-width-1-1@s" uk-grid="margin:uk-margin-small">
 	<div class="uk-width-1-2@m uk-width-1-1@s">
 		<div class="uk-text-center@s uk-text-left@m">
@@ -134,7 +134,7 @@ foreach ($css as $link) {
 </header>
 
 <div id="switchers" class="uk-switcher uk-margin">
-	<section class="uk-section uk-padding-remove-vertical">
+	<section class="uk-section uk-padding-remove-vertical section-source">
 		<div class="uk-container">
 			<div class="uk-margin">
 
@@ -158,7 +158,7 @@ foreach ($css as $link) {
 			</div>
 		</div>
 	</section>
-	<section class="uk-section uk-padding-remove-vertical">
+	<section class="uk-section uk-padding-remove-vertical section-range">
 		<div class="uk-container">
 			<p id="range-intro">Drag the start (<span class='m-s'>S</span>) and end (<span class='m-e'>E</span>) video markers to indicate the portion of the video you want to show. Drag the completion marker (<span class='m-c'>C</span>) to where you want the video to be considered complete.</p>
 
@@ -170,7 +170,7 @@ foreach ($css as $link) {
 
 		</div>
 	</section>
-	<section class="uk-section uk-padding-remove-vertical">
+	<section class="uk-section uk-padding-remove-vertical section-download">
 		<div class="uk-container">
 
 		<form id="settings" class="w-80 m-lr-auto">
