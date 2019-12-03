@@ -163,7 +163,6 @@ foreach ($css as $link) {
 			<p id="range-intro">Drag the start (<span class='m-s'>S</span>) and end (<span class='m-e'>E</span>) video markers to indicate the portion of the video you want to show. Drag the completion marker (<span class='m-c'>C</span>) to where you want the video to be considered complete.</p>
 
 			<div id="videoContainer" class="video-container uk-position-relative"></div>
-
 			<div class="range-container">
 				<div id="range"></div>
 			</div>

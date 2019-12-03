@@ -263,41 +263,52 @@ function setPlayerWorkAreaSize(fromEvent) {
 
 	if (fromEvent && !document.querySelector(".section-range.uk-active")) { console.warn("bail"); return};
 
-	// calculate the intro text height (which might not yet be visible, so we have to do all this)
-	var p = document.querySelector("#range-intro").cloneNode(true),
-		c = document.createElement("section"),
-		d = document.createElement("div");
-	d.appendChild(p);c.appendChild(d);document.body.appendChild(c);
-	c.classList.add("uk-section");d.classList.add("uk-container");p.setAttribute("id","");
-	var ph = p.offsetHeight;
-	document.body.removeChild(c);
+	var w = document.querySelector("section.uk-active .uk-container").offsetWidth, // same everywhere
+		h = w * .5625, // height=56.25% of width,  or (w / 16) * 9
+		a = document.querySelector('mediaelementwrapper audio');
 
-	// calculate the remaining space taken up by on-screen elements
-	var container = document.getElementById('videoContainer'),
-		MEwrapper = document.querySelector('mediaelementwrapper'),
-		MEaudio   = MEwrapper.querySelector('audio'),
-		MEvideo	  = MEwrapper.querySelector('video') || MEwrapper.querySelector('iframe'),
-		remaining = window.innerHeight - // figure out maximum space without scrollbars
-				document.querySelector("#banner").getBoundingClientRect().height - // header
-				ph - // intro text
-				document.querySelector("#range").scrollHeight - // range container sliders and pips, some of whos height isn't in the document flow, so you have to use this property instead of offsetHeight
-				18 - // footer (hardcoded in css)
-				125; // some magic number that you get from trial and error which is probably margins or padding somewhere
-
-	if (MEaudio) {
-		container.style.height = 'auto';
+	if (a) {
+		document.getElementById("videoContainer").style.height = "auto";
 	} else {
-		container.style.height = remaining + 'px';
+		document.getElementById("videoContainer").style.height = h + "px";
+	}
 
+	// // calculate the intro text height (which might not yet be visible, so we have to do all this)
+	// var p = document.querySelector("#range-intro").cloneNode(true),
+	// 	c = document.createElement("section"),
+	// 	d = document.createElement("div");
+	// d.appendChild(p);c.appendChild(d);document.body.appendChild(c);
+	// c.classList.add("uk-section");d.classList.add("uk-container");p.setAttribute("id","");
+	// var ph = p.offsetHeight;
+	// document.body.removeChild(c);
+
+	// // calculate the remaining space taken up by on-screen elements
+	// var container = document.getElementById('videoContainer'),
+	// 	MEwrapper = document.querySelector('mediaelementwrapper'),
+	// 	MEaudio   = MEwrapper.querySelector('audio'),
+	// 	MEvideo	  = MEwrapper.querySelector('video') || MEwrapper.querySelector('iframe'),
+	// 	remaining = window.innerHeight - // figure out maximum space without scrollbars
+	// 			document.querySelector("#banner").getBoundingClientRect().height - // header
+	// 			ph - // intro text
+	// 			document.querySelector("#range").scrollHeight - // range container sliders and pips, some of whos height isn't in the document flow, so you have to use this property instead of offsetHeight
+	// 			18 - // footer (hardcoded in css)
+	// 			125; // some magic number that you get from trial and error which is probably margins or padding somewhere
+
+	// if (MEaudio) {
+	// 	container.style.height = 'auto';
+	// } else {
+	// 	container.style.height = remaining + 'px';
+	// }
 		// heights are all zero at this point, because we are building the video before the tab is visible
 		//V2S.player.setPlayerSize(container.offsetWidth, container.offsetHeight);
 		if (V2S.plugin === 'facebook') {
 			document.querySelector('.video-element').style.height = remaining + 'px';
 			frame.style.height = height + 'px';
 		}
-	}
+//	}
 
-console.log(container.style.height, container.offsetWidth, container.offsetHeight, container.scrollWidth, container.scrollHeight, container.getBoundingClientRect());
+//console.log(container.style.height, container.offsetWidth, container.offsetHeight, container.scrollWidth, container.scrollHeight, container.getBoundingClientRect());
+//}
 
 }
 
