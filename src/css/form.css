@@ -1,0 +1,79 @@
+/* ---------------------------
+	settings page
+-------------------------- */
+
+#download-zip {
+	color: black;
+	overflow: auto;
+}
+
+.settings-panel {
+	display: grid;
+	grid-template-columns: 200px 1fr;
+	grid-gap: 1em;
+}
+.settings-panel label>small {
+	display: block;
+	color: #8341a0;
+}
+.settings-panel label>small.r{color:red}
+
+.settings-panel > * {
+	padding: .5em;
+}
+
+.settings-panel input, .settings-panel textarea {
+	color: black;
+	border: 1px solid rgba(255,255,255,.2);
+	background-color: rgba(255,255,255,.05);
+	font-size: 16px;
+	transition: background-color .2s, border-color .2s;
+}
+.settings-panel input:focus, .settings-panel textarea:focus {
+	background-color:  rgba(255,255,255,.8);
+	border-color: white;
+	color: black;
+}
+
+.radio-panel [type='radio'] {
+	position: absolute;
+	opacity: 0;
+	height: 0;
+	width: 0;
+}
+.radio-panel [type='radio']+svg {
+	cursor: pointer;
+	height: 64px;
+	outline: none;
+}
+.radio-panel [type='radio']:not(:checked)+svg polygon,
+.radio-panel [type='radio']:not(:checked)+svg path {
+	fill: #d1d1d1;
+}
+.radio-panel [type='radio']:checked+svg+p {
+	font-weight: bold;
+}
+
+#download-zip fieldset {
+    display: block;
+    margin-inline-start: 2px;
+    margin-inline-end: 2px;
+    padding-block-start: 0.35em;
+    padding-inline-start: 0.75em;
+    padding-inline-end: 0.75em;
+    padding-block-end: 0.625em;
+    min-inline-size: min-content;
+    border: 1px solid var(--edge);
+    border-image: initial;
+    margin-bottom: 1em;
+}
+#download-zip legend {
+	color: var(--base);
+	font-weight: bold;
+}
+
+#basic-options textarea,
+#basic-options input[type='text'] {
+	background-color: rgba(255,255,255,.7);
+	border: 1px solid rgba(0,0,0,.2);
+}

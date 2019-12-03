@@ -1,0 +1,126 @@
+/* ---------------------------
+	grid helpers
+-------------------------- */
+
+.grid-v {
+	display: grid;
+	grid-gap: 1em;
+	grid-template-columns: 1fr;
+	grid-template-rows: 1fr 1fr 1fr;
+}
+
+.grid-h {
+	display: grid;
+    grid-column-gap: 1em;
+    grid-row-gap: 1em;
+	justify-items: center;
+}
+.grid-2 {
+	grid-template-columns: 1fr 1fr;
+}
+.grid-3 {
+    grid-template-columns: 1fr 1fr 1fr;
+}
+.grid-4 {
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+}
+.grid-h label {
+	text-align: center;
+}
+.grid-c {
+    justify-items: center;
+    align-items: start;
+}
+
+/* ---------------------------
+	width helpers
+-------------------------- */
+.w-50 {
+	width: 50%;
+}
+.w-80 {
+	width: 80%;
+}
+.w-100 {
+	width: 100%;
+}
+
+/* ---------------------------
+	margin helpers
+-------------------------- */
+
+.m-lr-auto {
+	margin-left: auto;
+	margin-right: auto;
+}
+.m-t-large {
+	margin-top: 4em;
+}
+.m-t-regular {
+	margin-top: 2em;
+}
+.m-b-regular {
+	margin-bottom: 2em;
+}
+.m-t-half {
+	margin-top: .5em;
+}
+
+/* ---------------------------
+	flex helpers
+-------------------------- */
+
+.dn-flex {
+	display: flex;
+}
+
+.dn-flex-center {
+	text-align: center;
+	align-items: center;
+}
+
+.dn-flex-v-center {
+	align-items: center;
+}
+
+.dn-flex-c-1 > *,
+.dn-flex-1 {
+	flex: 1;
+}
+
+.dn-flex-right {
+	align-items: flex-end;
+	white-space:  nowrap;
+}
+
+.dn-flex-lr {
+	flex-direction: row;
+}
+
+.dn-flex-tb {
+	flex-direction: column;
+}
+
+.dn-height {
+	height: 100%;
+}
+.dn-flex-around {
+	justify-content: space-around;
+}
+.dn-flex-end {
+	justify-content: flex-end;
+}
+.flex-v {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.flex-1 {
+	flex: 1;
+}
+.pad-left {
+	padding-left: .5em;
+}
+.pad-right {
+	padding-left: .5em;
+}
