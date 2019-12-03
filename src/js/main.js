@@ -37,7 +37,13 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 
 	Array.prototype.forEach.call(V2S.plugins, function(plugin) {
 		plugin.init();
-	})
+
+	});
+
+	// persist form fields to cache
+	document.getElementById("settings").addEventListener('change', function settings_change(event) {
+		saveCache();
+	});
 
 	// --------------- DIRECT UPLOAD LISTENERS ----------- //
 
@@ -109,6 +115,14 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 			V2S['duration'] = ~~value.duration;
 			V2S['ranges'] = value.ranges;
 			V2S['playerType'] = value.playerType;
+
+			document.getElementById("ocn").value = value['option-course-name'];
+			document.getElementById("ocd").value = value['option-course-description'];
+			document.getElementById("occ").value = value['option-course-copyright'];
+			document.getElementById("gax").value = value['option-ga-id'];
+			document.querySelector("input[name='option-toggle-scrub'][value='" + (value['option-toggle-scrub'] || "false") + "']").checked = true;
+			document.querySelector("input[name='option-api'][value='" + (value['option-api'] || "scorm12") + "']").checked = true;
+
 			if (value.plugin === 'upload') { // locally uploaded file
 				V2S['original'] = value.original;
 				V2S.plugins
@@ -147,8 +161,22 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 				event.target.closest("section").querySelector("button[data-action]").click();
 			}
 		})
-	})
-})
+	});
+
+	/* -----------------------------------------
+		bind download button animation
+	----------------------------------------- */
+	[].forEach.call(document.querySelectorAll("div[data-destination]"), function (elm, idx) {
+		new UIProgressButton(elm, {
+			callback: function core_download_button_callback(instance) {
+				console.dir(instance);
+				// DocNinja.routines.Statistics(instance.el.getAttribute("data-destination")); //,App);
+			},
+			onbegin: downloadZip
+		});
+	});
+
+});
 
 window.initMediaElementPlayer = function(source) {
 	return new Promise(function _init_me_promise(resolve, reject) {
@@ -272,65 +300,20 @@ function setPlayerWorkAreaSize(fromEvent) {
 	} else {
 		document.getElementById("videoContainer").style.height = h + "px";
 	}
-
-	// // calculate the intro text height (which might not yet be visible, so we have to do all this)
-	// var p = document.querySelector("#range-intro").cloneNode(true),
-	// 	c = document.createElement("section"),
-	// 	d = document.createElement("div");
-	// d.appendChild(p);c.appendChild(d);document.body.appendChild(c);
-	// c.classList.add("uk-section");d.classList.add("uk-container");p.setAttribute("id","");
-	// var ph = p.offsetHeight;
-	// document.body.removeChild(c);
-
-	// // calculate the remaining space taken up by on-screen elements
-	// var container = document.getElementById('videoContainer'),
-	// 	MEwrapper = document.querySelector('mediaelementwrapper'),
-	// 	MEaudio   = MEwrapper.querySelector('audio'),
-	// 	MEvideo	  = MEwrapper.querySelector('video') || MEwrapper.querySelector('iframe'),
-	// 	remaining = window.innerHeight - // figure out maximum space without scrollbars
-	// 			document.querySelector("#banner").getBoundingClientRect().height - // header
-	// 			ph - // intro text
-	// 			document.querySelector("#range").scrollHeight - // range container sliders and pips, some of whos height isn't in the document flow, so you have to use this property instead of offsetHeight
-	// 			18 - // footer (hardcoded in css)
-	// 			125; // some magic number that you get from trial and error which is probably margins or padding somewhere
-
-	// if (MEaudio) {
-	// 	container.style.height = 'auto';
-	// } else {
-	// 	container.style.height = remaining + 'px';
-	// }
-		// heights are all zero at this point, because we are building the video before the tab is visible
-		//V2S.player.setPlayerSize(container.offsetWidth, container.offsetHeight);
-		if (V2S.plugin === 'facebook') {
-			document.querySelector('.video-element').style.height = remaining + 'px';
-			frame.style.height = height + 'px';
-		}
-//	}
-
-//console.log(container.style.height, container.offsetWidth, container.offsetHeight, container.scrollWidth, container.scrollHeight, container.getBoundingClientRect());
-//}
-
+	if (V2S.plugin === 'facebook') {
+		document.querySelector('.video-element').style.height = remaining + 'px';
+		frame.style.height = height + 'px';
+	}
 }
 
 function clearPlayer() {
 	V2S.playerType = '';
-
 	document.getElementById('videoContainer').innerHTML = '';
-
-//	var vidContainer = document.getElementById('videoContainer');
-//	while(vidContainer.firstChild) vidContainer.removeChild(vidContainer.firstChild);
-
-	// while (vidContainer.childNodes) vidContainer.
-	// console.dir(vidContainer);
-	// if (vidContainer.children.length) {
-	// 	while (vidContainer.children.length) {
-	// 		vidContainer.children[0].parentNode.removeChild(vidContainer.children[0]);
-	// 	}
-	// }
 }
 
 function saveCache() {
-	var query = document.querySelector("li[data-plugin='" + V2S.plugin + "'] input[name='q']");
+	var query = document.querySelector("li[data-plugin='" + V2S.plugin + "'] input[name='q']"),
+		fields = document.querySelectorAll("section.section-download input,section.section-download textarea");
 	var v = {
 		id: 				V2S.id,
 		plugin: 			V2S.plugin,
@@ -339,7 +322,13 @@ function saveCache() {
 		ranges: 			V2S.ranges,
 		original: 			(V2S.source.original) ? V2S.source.original : '',
 		playerType: 		V2S.playerType,
-		searchResults: 		document.querySelector("#switchers .uk-switcher > .uk-active div[data-results]").innerHTML
+		searchResults: 		document.querySelector("#switchers .uk-switcher > .uk-active div[data-results]").innerHTML,
+		"option-course-name": document.getElementById("ocn").value,
+		"option-course-description": document.getElementById("ocd").value,
+		"option-course-copyright": document.getElementById("occ").value,
+		"option-ga-id": document.getElementById("gax").value,
+		"option-toggle-scrub": document.querySelector("input[name='option-toggle-scrub']:checked").value,
+		"option-api": document.querySelector("input[name='option-api']:checked").value,
 	};
 	localforage.setItem("cache", v);
 }

@@ -191,12 +191,12 @@ foreach ($css as $link) {
 					<legend>Navigation</legend>
 					<div class="grid-h grid-3">
 						<label>
-							<input type="radio" name="toggleScrub" value="false" checked>
+							<input type="radio" name="option-toggle-scrub" value="false" checked>
 							<?php include("img/hide.svg"); ?>
 							<p>Hide the video range controls</p>
 						</label>
 						<label>
-							<input type="radio" name="toggleScrub" value="true">
+							<input type="radio" name="option-toggle-scrub" value="true">
 							<?php include("img/show.svg"); ?>
 							<p>Show the video range controls</p>
 						</label>
@@ -207,17 +207,17 @@ foreach ($css as $link) {
 					<legend>Compatibility</legend>
 					<div class="grid-h grid-3">
 						<label>
-							<input type="radio" name="api" value="scorm12" checked>
+							<input type="radio" name="option-api" value="scorm12" checked>
 							<?php include("img/scorm.svg"); ?>
 							<p>Scorm 1.2 (default)</p>
 						</label>
 						<label>
-							<input type="radio" name="api" value="scorm2004">
+							<input type="radio" name="option-api" value="scorm2004">
 							<?php include("img/scorm.svg"); ?>
 							<p>Scorm 2004</p>
 						</label>
 						<label>
-							<input type="radio" name="api" value="none">
+							<input type="radio" name="option-api" value="none">
 							<?php include("img/html5.svg"); ?>
 							<p>Standalone</p>
 						</label>
