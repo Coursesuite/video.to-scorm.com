@@ -20,9 +20,8 @@
   </organizations>
   <resources>
     <resource identifier="R{{timestamp}}" type="webcontent" adlcp:scormtype="sco" href="index.html">
-      <file href="index.html" />
-      <file href="_package.js" />
-      <file href="_package.css" />
+      {{#each files}}<file href="{{dest}}" />
+      {{/each}}
     </resource>
   </resources>
 </manifest>
