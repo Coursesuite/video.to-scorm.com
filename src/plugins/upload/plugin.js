@@ -2,7 +2,7 @@
 
   var source = (function() {
 
-    function _init() {
+    function _init(context) {
     }
 
     function _get_media(id, media) {
