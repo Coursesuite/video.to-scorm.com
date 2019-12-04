@@ -120,7 +120,7 @@ foreach ($css as $link) {
 	</div>
 	<div class="uk-width-1-2@m uk-width-1-1@s">
 	    <div class="uk-text-center@s uk-text-right@m">
-	        <a href="#" class="uk-button v2s-survey">Usage Survey</a>
+	        <!--a href="#" class="uk-button v2s-survey">Usage Survey</a-->
 	        <a href="#" class="uk-button v2s-doco">Documentation</a>
 	        <a href="#" class="uk-button v2s-reset" data-action="clear-storage">Reset</a>
 	    </div>

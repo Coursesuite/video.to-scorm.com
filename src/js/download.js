@@ -97,8 +97,10 @@
 					description:  	value['option-course-description'],
 					copyright:  	value['option-course-copyright'],
 					analytics:  	value['option-ga-id'],
-					hideScrub:  	value['option-toggle-scrub'] === true,
+					hideScrub:  	value['option-toggle-scrub'] === "false",
 					api: 			value['option-api'],
+
+					hasApi:  value['option-api'] !== "none",
 
 					files: [
 						{"template":"outputcss","dest":"style.css"},
