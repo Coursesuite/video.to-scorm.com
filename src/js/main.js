@@ -1,5 +1,5 @@
-window.KLOUDLESS_APP_ID = atob("VU5oR1p2bXpzc3VQQ25Kdm5NZ19FYlF5MVo5a0s1el9nUU1PRk01cXhUU0VnSmxx")
-window.KLOUDLESS_INPUT = window.Kloudless.explorer({app_id: KLOUDLESS_APP_ID})
+// window.KLOUDLESS_APP_ID = atob("VU5oR1p2bXpzc3VQQ25Kdm5NZ19FYlF5MVo5a0s1el9nUU1PRk01cXhUU0VnSmxx")
+// window.KLOUDLESS_INPUT = window.Kloudless.explorer({app_id: KLOUDLESS_APP_ID})
 localforage.config({ name: 'video2scorm' });
 
 ;(function(V2S, App, undefined) {
@@ -13,31 +13,33 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 
 	function globalClickHandler(e) {
 		if (!e.target) return;
-		if (e.target.id === 'download-button') {
-			downloadZip()
-		} else if (e.target.id === 'reset') {
-			localforage.clear().then(function() {
-				location.reload(true)
-			})
-		} else if (e.target.classList.contains("noUi-value")) {
-		  // click a pip
-			var pip = Number(e.target.dataset.value),
-				range = document.getElementById('range'),
-				curr = range.noUiSlider.get().map(Number)
-			curr[1] = pip;
-			range.noUiSlider.set(curr);
-		} else if (e.target.parentNode.dataset.plugin) { // click a video
-			V2S['plugin'] = e.target.parentNode.dataset.plugin;
-			V2S['id'] = e.target.parentNode.dataset.id;
-			V2S['duration'] = ~~e.target.parentNode.dataset.duration;
-			createVideo();
-			saveCache();
+		switch (e.dataset.action) {
+			case 'clear-storage':
+				e.preventDefault();
+				localforage.clear().then(function() {
+					location.reload(true)
+				});
+				break;
+			default:
+				if (e.target.classList.contains("noUi-value")) {
+				  // click a pip
+					var pip = Number(e.target.dataset.value),
+						range = document.getElementById('range'),
+						curr = range.noUiSlider.get().map(Number)
+					curr[1] = pip;
+					range.noUiSlider.set(curr);
+				} else if (e.target.parentNode.dataset.plugin) { // click a video
+					V2S['plugin'] = e.target.parentNode.dataset.plugin;
+					V2S['id'] = e.target.parentNode.dataset.id;
+					V2S['duration'] = ~~e.target.parentNode.dataset.duration;
+					createVideo();
+					saveCache();
+				}
 		}
 	}
 
 	Array.prototype.forEach.call(V2S.plugins, function(plugin) {
-		plugin.init();
-
+		plugin.init(V2S);
 	});
 
 	// persist form fields to cache
@@ -45,25 +47,31 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 		saveCache();
 	});
 
+	document.querySelector("a[data-action='clear-storage']").addEventListener('click', function click_reset(e) {
+
+	});
+
+
 	// --------------- DIRECT UPLOAD LISTENERS ----------- //
 
-	// Local upload listener
+      // Local upload listener
 	document.getElementById('localUpload').addEventListener('change', function _file_upload(e) {
 		V2S.plugin = 'upload';
 		V2S.id = undefined;
+		document.getElementById('upload-FileName').textContent = e.target.files[0].name;
 		createVideo({
-			raw: e.target.files[0],
-			mime: e.target.files[0].type,
+		  raw: e.target.files[0],
+		  mime: e.target.files[0].type,
 		});
-		e.target.value = null;
-	})
+	});
+
 
 	// Kloudless upload listener
-	KLOUDLESS_INPUT.on('success', function(files) {
-		V2S.plugin = 'cloud';
-		V2S.id = undefined;
-		createVideo(files[0]);
-	})
+	// KLOUDLESS_INPUT.on('success', function(files) {
+	// 	V2S.plugin = 'cloud';
+	// 	V2S.id = undefined;
+	// 	createVideo(files[0]);
+	// })
 
 	// Soundcloud upload listener
 	// document.getElementById('soundcloudLoad').addEventListener('click', function(e) {
@@ -78,35 +86,35 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 		V2S.plugin = 'facebook';
 		V2S.id = document.getElementById('facebookUrl').value;
 		createVideo();
-	})
+	});
 
 	// Dacast upload listener
 	document.getElementById('dacastLoad').addEventListener('click', function(e) {
 		V2S.plugin = 'dacast';
 		V2S.id = document.getElementById('dacastUrl').value;
 		createVideo();
-	})
+	});
 
 	// Wistia upload listener
 	document.getElementById('wistiaLoad').addEventListener('click', function(e) {
 		V2S.plugin = 'wistia';
 		V2S.id = document.getElementById('wistiaUrl').value;
 		createVideo();
-	})
+	});
 
 	// Amazon upload listener
 	document.getElementById('amazonLoad').addEventListener('click', function(e) {
 		V2S.plugin = 'amazon';
 		V2S.id = document.getElementById('amazonUrl').value;
 		createVideo();
-	})
+	});
 
 	// Brightcove upload listener
 	document.getElementById('brightcoveLoad').addEventListener('click', function(e) {
 		V2S.plugin = 'brightcove';
 		V2S.id = document.getElementById('brightcoveUrl').value;
 		createVideo();
-	})
+	});
 
 	localforage.getItem("cache").then(function(value) {
 		if (value) {
@@ -115,6 +123,11 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 			V2S['duration'] = ~~value.duration;
 			V2S['ranges'] = value.ranges;
 			V2S['playerType'] = value.playerType;
+
+			var tab =document.querySelector("section.section-source .uk-tab");
+			for (var n=tab.querySelectorAll("li"), i=0,j=n.length;i<j;i++) {
+				if (n[i].firstElementChild.textContent===value.plugin) UIkit.tab(tab).show(i);
+			}
 
 			document.getElementById("ocn").value = value['option-course-name'];
 			document.getElementById("ocd").value = value['option-course-description'];
@@ -125,24 +138,28 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 
 			if (value.plugin === 'upload') { // locally uploaded file
 				V2S['original'] = value.original;
-				V2S.plugins
-					.find(function(el){return el.type === 'local'})
-					.handleFileUpload(value.original)
-					.then(function() {
-						if (!V2S['player'].paused) V2S['player'].pause();
-						createSlider();
-						V2S.player.setCurrentTime(0.001);
-					});
-			} else if (value.plugin === 'cloud') { // Kloudless uploaded file
-				V2S['original'] = value.original;
-				V2S.plugins
-					.find(function(el){return el.type === 'cloud'})
-					.reUpload(value.original)
-					.then(function() {
-						if (!V2S['player'].paused) V2S['player'].pause();
-						createSlider();
-						V2S.player.setCurrentTime(0.1);
-					});
+				document.getElementById('upload-FileName').textContent = value.original.name;
+				// var p = V2S.plugins.find(function(el){return el.type === 'local'});
+		        createVideo({
+		          raw: value.original,
+		          mime: value.original.type,
+		        });
+
+				// if (p.handleFileUpload) p.handleFileUpload(value.original)
+				// 		.then(function() {
+				// 			if (!V2S['player'].paused) V2S['player'].pause();
+				// 			createSlider();
+				// 			V2S.player.setCurrentTime(0.001);
+				// 		});
+			// } else if (value.plugin === 'cloud') { // Kloudless uploaded file disabled for now
+			// 	V2S['original'] = value.original;
+			// 	var p = V2S.plugins.find(function(el){return el.type === 'cloud'});
+			// 	if (p.reUpload) p.reUpload(value.original)
+			// 			.then(function() {
+			// 				if (!V2S['player'].paused) V2S['player'].pause();
+			// 				createSlider();
+			// 				V2S.player.setCurrentTime(0.1);
+			// 			});
 			} else { // embeded videos
 				var form = document.querySelector("li[data-plugin='" + value.plugin + "']"),
 					index = Array.prototype.indexOf.call(form.parentNode.children, form);
@@ -172,7 +189,7 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 				console.dir(instance);
 				// DocNinja.routines.Statistics(instance.el.getAttribute("data-destination")); //,App);
 			},
-			onbegin: downloadZip
+			onbegin: V2S.Downloader.Begin
 		});
 	});
 
@@ -288,7 +305,6 @@ function embedSoundcloud() {
 }
 
 function setPlayerWorkAreaSize(fromEvent) {
-
 	if (fromEvent && !document.querySelector(".section-range.uk-active")) { console.warn("bail"); return};
 
 	var w = document.querySelector("section.uk-active .uk-container").offsetWidth, // same everywhere
@@ -357,64 +373,41 @@ function createVideo(media) {
 		// MediaElement
 	  case 'youtube': case 'dailymotion': case 'soundcloud': case 'facebook': case 'cloud': case 'upload': case 'dacast': case 'wistia': case 'amazon': case 'brightcove':
 			current_plugin
-				.get_media(V2S.id, media)
-				.then(function(source) {
-					V2S['source'] = source;
-					return window.initMediaElementPlayer(source);
-				})
+			.get_media(V2S.id, media)
+			.then(function(source) {
+				V2S['source'] = source;
+				return window.initMediaElementPlayer(source);
+			})
+			.then(function() {
+				if (current_plugin.name !== "upload") document.getElementById(current_plugin.name+'-LoadingIcon').innerHTML = '';
+
+				// Try and get streaming media duration
+				function testDuration(){
+					return new Promise(function(resolve,reject) {
+						function timeout(){
+							setTimeout(function(){
+								if (V2S.player.duration) {
+									V2S.player.pause();
+									V2S.duration = V2S.player.duration;
+									resolve();
+								} else {
+									V2S.player.play();
+									// console.info('awaiting duration...');
+									timeout();
+								}
+							}, 500);
+						}
+						timeout();
+					})
+				}
+				testDuration()
 				.then(function() {
-					document.getElementById(current_plugin.name+'-LoadingIcon').innerHTML = ''
-
-					// Try and get streaming media duration
-					function testDuration(){
-						return new Promise(function(resolve,reject) {
-							function timeout(){
-								setTimeout(function(){
-									if (V2S.player.duration) {
-										V2S.player.pause();
-										V2S.duration = V2S.player.duration;
-										resolve();
-									} else {
-										V2S.player.play();
-										// console.info('awaiting duration...');
-										timeout();
-									}
-								}, 500);
-							}
-							timeout()
-						})
-					}
-					testDuration()
-						.then(function() {
-
-							setPlayerWorkAreaSize();
-
-
-				// var wrapper = document.querySelector('mediaelementwrapper');
-				// //var frame = wrapper.querySelector('iframe') || wrapper.querySelector('video');
-				// var audio = wrapper.querySelector('audio');
-				// if (frame && !audio) {
-				// // 	// try and make fb videos fit
-				// // 	if (current_plugin.name === 'facebook') {
-				// // 		var height = (document.documentElement.clientHeight - bannerHeight) + 'px';
-				// // 		document.getElementById('videoContainer').style.height = height;
-				// // 		document.querySelector('.video-element').style.height = height;
-				// // 		frame.style.height = height;
-				// // 	} else {
-				// // 		document.getElementById('videoContainer').style.height = frame.clientHeight+'px';
-				// // 	}
-				// }
-				// if (audio) document.getElementById('videoContainer').style.height = 'auto';
-
-
-							// Becuase some videos dont start loading until played
-							// V2S['player'].play()
-							// V2S['player'].pause()
-
-							createSlider();
-							V2S['player'].setCurrentTime(0.01); // Becuase some videos start at the end // If you set it to 0 it wont buffer until you scrub manually
-						});
+					createSlider();
+					setPlayerWorkAreaSize();
+					window.dispatchEvent(new Event('resize'));
+					V2S['player'].setCurrentTime(0.01); // Becuase some videos start at the end // If you set it to 0 it wont buffer until you scrub manually
 				});
+			});
 			break
 	}
 }
