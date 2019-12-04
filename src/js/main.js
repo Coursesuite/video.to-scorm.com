@@ -13,7 +13,7 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 
 	function globalClickHandler(e) {
 		if (!e.target) return;
-		switch (e.dataset.action) {
+		switch (e.target.dataset) {
 			case 'clear-storage':
 				e.preventDefault();
 				localforage.clear().then(function() {
