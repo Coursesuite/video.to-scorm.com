@@ -42,129 +42,128 @@ function emitEvent(name,data){var event=new CustomEvent(name,{detail:data});docu
 
 // create a proxy for sub-runtimes bound to pages
 function apiProxy() {
-  this.LMSInitialize = function() { return "true"; };
-  this.LMSFinish = function () { return "true"; };
-  this.LMSCommit = function (param) { return "true"; };
-  this.LMSGetLastError = function () { return 0; };
-  this.LMSGetErrorString = function () { return "No error"; };
-  this.LMSGetDiagnostic = function (param) { return param; };
-  this.LMSGetValue = function (param) { switch(param){default: return "";}; };
-  this.LMSSetValue = function (param,value) { switch(param){default: return "true";}; };
+	this.LMSInitialize = function() { return "true"; };
+	this.LMSFinish = function () { return "true"; };
+	this.LMSCommit = function (param) { return "true"; };
+	this.LMSGetLastError = function () { return 0; };
+	this.LMSGetErrorString = function () { return "No error"; };
+	this.LMSGetDiagnostic = function (param) { return param; };
+	this.LMSGetValue = function (param) { switch(param){default: return "";}; };
+	this.LMSSetValue = function (param,value) { switch(param){default: return "true";}; };
 }
-window.ninjaApiProxy = new apiProxy()
+window.ninjaApiProxy = new apiProxy();
 
 // find scorm API; getAPI() also sets _sAPI; apiHandle is the object reference
-var apiHandle = (parent && parent !== self && parent.ninjaApiProxy) ? parent.ninjaApiProxy : getAPI()
-scormInitialize()
+var apiHandle = (parent && parent !== self && parent.ninjaApiProxy) ? parent.ninjaApiProxy : getAPI();
+scormInitialize();
 
-var complete = false
+var complete = false;
 
 function doUnload() {
-    if (!_unloaded) {
-        scormCommit()
-        setSessionTime(_timeSessionStart)
-        scormTerminate()
-        _unloaded = true
-    }
+	if (!_unloaded) {
+		scormCommit();
+		setSessionTime(_timeSessionStart);
+		scormTerminate();
+		_unloaded = true;
+	}
 }
 function setComplete() {
-  if (!complete) {
-    learnerWillReturn(false)
-    if ("API_1484_11"==_sAPI) setPassFail("passed")
-    setCompletionStatus("completed")
-    setScore(100)
-    scormCommit()
-  }
+	if (!complete) {
+		learnerWillReturn(false);
+		if ("API_1484_11"==_sAPI) setPassFail("passed");
+		setCompletionStatus("completed");
+		setScore(100);
+		scormCommit();
+	}
 }
 
 document.addEventListener("DOMContentLoaded", function domLoader(event) {
-  var plyrEl = document.querySelector('.plyr')
-  var contain = document.getElementById('frameContainer')
-  var wrap = document.querySelector('.plyr__video-wrapper')
-  if (plyrEl) {
-    fit(plyrEl,contain)
-    fit(wrap, plyrEl)
-  }
-  startSessionTime();
-  setCompletionStatus("incomplete")
-  learnerWillReturn(true)
-  scormCommit()
-  if ("{{playerType}}" === 'plyr') {
-    var Player = new Plyr(document.getElementById('player'), {
-      settings: ['quality','speed'],
-      duration: {{ends}},
-      youtube: {noCookie: true},
-    })
-    Player.source = {
-      type: 'video',
-      sources: [{
-        src: "{{videoId}}",
-        {{#if provider}}provider: "{{provider}}",{{/if}}
-        {{#unless provider}}type: "{{mime}}",{{/unless}}
-      }]
-    }
-    Player.on('timeupdate', function(e){
-      if (Player.currentTime >= {{completes}}) {
-        setComplete()
-      }
-      if (Player.currentTime >= {{ends}}) {
-        Player.pause()
-      }
-    })
-    Player.on('play', function(e) {
-      if (Player.currentTime >= {{ends}}) {
-        Player.currentTime = {{starts}}
-      }
-      if (Player.currentTime < {{starts}}) {
-        Player.currentTime = {{starts}}
-      }
-    })
-    Player.on('loadedmetadata', function(e) {
-      Player.currentTime = {{starts}}
-    })
-  } else {
-    var Player = new MediaElementPlayer(document.getElementById('player'), {
-      features: ['playpause','current', 'duration', 'volume', 'progress'],
-      startVolume: 0.5,
-      youtube: {
-        nocookie: true,
-        autoplay: 0,
-        controls: 0,
-        modestbranding: 1
-      },
-      poster: "{{{poster}}}",
-      showPosterWhenPaused: true,
-      showPosterWhenEnded: true,
-      stretching: 'auto',
-      videoHeight: '100%',
-      videoWidth: '100%',
-      src: "{{{src}}}",
-      success: function(me, node) {
-        me.addEventListener('timeupdate', function() {
-          if (Player.currentTime >= {{completes}}) {
-            setComplete()
-          }
-          if (Player.currentTime >= {{ends}}) {
-            Player.currentTime = {{starts}}
-            Player.pause()
-          }
-        })
-        me.addEventListener('play', function() {
-          if (Player.currentTime >= {{ends}}) {
-            Player.currentTime = {{starts}}
-          }
-          if (Player.currentTime < {{starts}}) {
-            Player.currentTime = {{starts}}
-          }
-        })
-        me.addEventListener('loadedmetadata', function() {
-          console.log('loadedmetadata', {{starts}}, Player)
-          Player.currentTime = {{starts}}
-        })
-      }
-    })
-    Player.setSrc("{{{src}}}")
-    Player.setPoster("{{poster}}")
-    Player.load()
-  }
-})
+	startSessionTime();
+	setCompletionStatus("incomplete");
+	learnerWillReturn(true);
+	scormCommit();
+{{#if isPlyr}}
+	var Player = new Plyr(document.getElementById('player'), {
+	  settings: ['quality','speed'],
+	  duration: {{ends}},
+	  youtube: {noCookie: true},
+	});
+	Player.source = {
+	  type: 'video',
+	  sources: [{
+		src: "{{videoId}}",
+		{{#if provider}}provider: "{{provider}}",{{/if}}
+		{{#unless provider}}type: "{{mime}}",{{/unless}}
+	  }]
+	};
+	Player.on('timeupdate', function(e){
+		if (Player.currentTime >= {{completes}}) {
+			setComplete()
+		}
+		if (Player.currentTime >= {{ends}}) {
+			Player.pause()
+		}
+	});
+	Player.on('play', function(e) {
+		if (Player.currentTime >= {{ends}}) {
+			Player.currentTime = {{starts}};
+		}
+		if (Player.currentTime < {{starts}}) {
+			Player.currentTime = {{starts}};
+		}
+	});
+	Player.on('loadedmetadata', function(e) {
+		Player.currentTime = {{starts}};
+	});
+	var plyrEl = document.querySelector('.plyr'),
+		contain = document.getElementById('frameContainer'),
+		wrap = document.querySelector('.plyr__video-wrapper');
+	if (plyrEl) {
+		fit(plyrEl, contain);
+		fit(wrap, plyrEl);
+	}
+{{else}}
+	var Player = new MediaElementPlayer(document.getElementById('player'), {
+		features: ['playpause','current', 'duration', 'volume', 'progress'],
+		startVolume: 0.5,
+		youtube: {
+			nocookie: true,
+			autoplay: 0,
+			controls: 0,
+			modestbranding: 1
+		},
+		poster: '{{{poster}}}',
+		showPosterWhenPaused: true,
+		showPosterWhenEnded: true,
+		stretching: 'auto',
+		videoHeight: '100%',
+		videoWidth: '100%',
+		src: '{{{src}}}',
+		success: function(me, node) {
+			me.addEventListener('timeupdate', function() {
+				if (Player.currentTime >= {{completes}}) {
+					setComplete();
+				}
+				if (Player.currentTime >= {{ends}}) {
+					Player.currentTime = {{starts}};
+					Player.pause();
+				}
+			})
+			me.addEventListener('play', function() {
+				if (Player.currentTime >= {{ends}}) {
+					Player.currentTime = {{starts}};
+				}
+				if (Player.currentTime < {{starts}}) {
+					Player.currentTime = {{starts}};
+				}
+			})
+			me.addEventListener('loadedmetadata', function() {
+				Player.currentTime = {{starts}};
+			})
+		}
+	});
+	Player.setSrc("{{{src}}}");
+	Player.setPoster("{{poster}}");
+	Player.load();
+{{/if}}
+}

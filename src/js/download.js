@@ -79,6 +79,7 @@
 			        	src: value.plugin === 'upload' ? "video.mp4" : value.id,
 			        	provider: value.plugin,
 		      		}),
+		      		isPlyr: value.playerType === 'plyr',
 					videoId: value.id||'file-upload',
 					starts: value.ranges[0],
 					completes: value.ranges[1],
@@ -89,7 +90,7 @@
 					isVideo: (value.plugin !== 'soundcloud') ? true : false,
 					playerType: value.playerType,
 					isMediaElement: value.playerType === "mediaelement",
-					src: (V2S.plugin === 'upload' || V2S.plugin === 'cloud' || V2S.plugin === 'wistia') ? "video.mp4" : V2S.source.src,
+					src: (value.plugin === 'upload' || value.plugin === 'cloud' || value.plugin === 'wistia') ? "video.mp4" : V2S.source.src,
 					poster: V2S.source.poster,
 
 					name:  			value['option-course-name'],
@@ -109,7 +110,6 @@
 			.then(function check_settings(settings) {
 
 				manifest = settings;
-				console.dir(manifest);
 
 				if (manifest.name.trim() === "") {
 					alert("Hang about! Something isn't right.\n\nYou need to at least name your course.");
@@ -124,8 +124,7 @@
 			})
 			.then(function compress_files() {
 
-				manifest.files.push({"template":manifest.api + "manifest","dest":"imsmanifest.xml"});
-
+				// compile player templates and add them to the zip
 				for (var i=0; i<manifest.files.length; i++ ) {
 					var name = manifest.files[i].dest,
 						content = Handlebars.templates[manifest.files[i].template](manifest);
@@ -134,13 +133,18 @@
 					uiButtonInstance.setProgress(progress);
 				}
 
+				// attach the uploaded media, if required
 				if (manifest.videoId === "file-upload") {
-					manifest.files.push({"template":"","dest":"video.mp4"});
+					manifest.files.push({"dest":"video.mp4"});
 					zip.file("video.mp4", manifest.original); // , {base64: true});
 					delete manifest.original;
 				}
 
-				zip.file("video.2scorm", JSON.stringify(manifest));
+				// add the scorm manifest
+				zip.file("imsmanifest.xml", Handlebars.templates[manifest.api + "manifest"](manifest));
+
+				// add the settings manifest
+				zip.file("v2s.ninja", JSON.stringify(manifest));
 
 				return Promise.resolve();
 

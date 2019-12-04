@@ -186,7 +186,6 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 	[].forEach.call(document.querySelectorAll("div[data-destination]"), function (elm, idx) {
 		new UIProgressButton(elm, {
 			callback: function core_download_button_callback(instance) {
-				console.dir(instance);
 				// DocNinja.routines.Statistics(instance.el.getAttribute("data-destination")); //,App);
 			},
 			onbegin: V2S.Downloader.Begin
