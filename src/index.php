@@ -23,9 +23,13 @@ $plugins = [];
 $scripts = [];
 $css = [];
 
-$scripts[] = 'https://cdn.jsdelivr.net/combine/npm/nouislider@14.0.2,npm/uikit@3.1.5/dist/js/uikit-icons.min.js,npm/uikit@3.1.5';
+$scripts[] = 'https://cdn.jsdelivr.net/combine/npm/nouislider@14.0.2,npm/uikit@3.1.5/dist/js/uikit-icons.min.js,npm/uikit@3.1.5'; //,npm/classie@1.0.0/classie.min.js';
+$scripts[] = 'https://cdnjs.cloudflare.com/ajax/libs/classie/1.0.1/classie.min.js';
 $scripts[] = 'https://cdn.plyr.io/3.5.6/plyr.js';
+$scripts[] = 'js/modernizr.custom.js';
+$scripts[] = 'js/uiProgressButton.js';
 $scripts[] = 'js/main.js';
+$scripts[] = 'js/download.js';
 
 $css[] = 'https://cdn.jsdelivr.net/combine/npm/uikit@3.1.5/dist/css/uikit.min.css,npm/nouislider@14.0.2/distribute/nouislider.min.css';
 $css[] = 'https://cdn.plyr.io/3.5.6/plyr.css'; // can't be combined because of relative pathing
@@ -36,6 +40,7 @@ $plugins_path = realpath("./plugins");
 $pfold = new DirectoryIterator($plugins_path);
 foreach ($pfold as $fi) {
     if ($fi->isDot()) continue;
+    if (substr($fi->getFilename(), 0, 1) === "_") continue;
     if (file_exists($fi->getPathname() . '/plugin.php')) {
     	$plugins[] = $fi->getFilename();
     }
@@ -55,10 +60,12 @@ usort($plugins,"cmp");
 
 $iter = new RegexIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($plugins_path)), '/^.+(plugin|templates)\.js$/', RecursiveRegexIterator::GET_MATCH);
 foreach ($iter as $file) {
+	if (substr(basename(dirname($file[0])), 0, 1) === "_") continue;
 	$scripts[] = 'plugins' . substr($file[0], strlen($plugins_path));
 }
 $iter = new RegexIterator(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($plugins_path)), '/^.+\.css$/', RecursiveRegexIterator::GET_MATCH);
 foreach ($iter as $file) {
+	if (substr(basename(dirname($file[0])), 0, 1) === "_") continue;
 	$css[] = 'plugins' . substr($file[0], strlen($plugins_path));
 }
 
@@ -79,7 +86,7 @@ foreach ($iter as $file) {
 		<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.11/mediaelementplayer.min.css">
 
 		<script src="https://cdn.polyfill.io/v2/polyfill.min.js"></script>
-		<script type="text/javascript" src="https://static-cdn.kloudless.com/p/platform/sdk/kloudless.explorer.js"></script>
+		<!-- script type="text/javascript" src="https://static-cdn.kloudless.com/p/platform/sdk/kloudless.explorer.js"></script -->
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.0.2/jszip-utils.min.js" async="true"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
