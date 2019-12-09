@@ -1,7 +1,14 @@
 (function(PLUGINS, undefined) {
+  // User will have to enter their api key
+  // Maybe some way of listing users videos? if not enter twitter/facebook share code i.e https://iframe.dacast.com/b/137022/f/740970
   var APIKEY = '137022_e1d4e0f2b35db30808c0'
   var source = (function() {
     function _init() {
+      document.getElementById('dacastLoad').addEventListener('click', function(e) {
+        V2S.plugin = 'dacast';
+        V2S.id = document.getElementById('dacastUrl').value;
+        createVideo();
+      });
     }
 
     function _get_media(url) {
@@ -44,4 +51,4 @@
 
   PLUGINS.push(source)
 
-})(window.V2S.plugins = window.V2S.plugins || [])
+})(V2S.plugins = V2S.plugins || [])

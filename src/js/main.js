@@ -1,9 +1,9 @@
-// window.KLOUDLESS_APP_ID = atob("VU5oR1p2bXpzc3VQQ25Kdm5NZ19FYlF5MVo5a0s1el9nUU1PRk01cXhUU0VnSmxx")
-// window.KLOUDLESS_INPUT = window.Kloudless.explorer({app_id: KLOUDLESS_APP_ID})
+KLOUDLESS_APP_ID = atob("VU5oR1p2bXpzc3VQQ25Kdm5NZ19FYlF5MVo5a0s1el9nUU1PRk01cXhUU0VnSmxx")
+KLOUDLESS_INPUT = Kloudless.explorer({app_id: KLOUDLESS_APP_ID})
 localforage.config({ name: 'video2scorm' });
 
-;(function(V2S, App, undefined) {
-
+// ;(function(V2S, App, undefined) {
+V2S = {};
 V2S.plugins = [];
 V2S.source = {};
 
@@ -55,18 +55,18 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 	// --------------- DIRECT UPLOAD LISTENERS ----------- //
 
       // Local upload listener
-	document.getElementById('localUpload').addEventListener('change', function _file_upload(e) {
-		V2S.plugin = 'upload';
-		V2S.id = undefined;
-		document.getElementById('upload-FileName').textContent = e.target.files[0].name;
-		createVideo({
-		  raw: e.target.files[0],
-		  mime: e.target.files[0].type,
-		});
-	});
+	// document.getElementById('localUpload').addEventListener('change', function _file_upload(e) {
+	// 	V2S.plugin = 'upload';
+	// 	V2S.id = undefined;
+	// 	document.getElementById('upload-FileName').textContent = e.target.files[0].name;
+	// 	createVideo({
+	// 	  raw: e.target.files[0],
+	// 	  mime: e.target.files[0].type,
+	// 	});
+	// });
 
 
-	// Kloudless upload listener
+	//Kloudless upload listener
 	// KLOUDLESS_INPUT.on('success', function(files) {
 	// 	V2S.plugin = 'cloud';
 	// 	V2S.id = undefined;
@@ -82,39 +82,39 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 	// })
 
 	// Facebook upload listener
-	document.getElementById('facebookLoad').addEventListener('click', function(e) {
-		V2S.plugin = 'facebook';
-		V2S.id = document.getElementById('facebookUrl').value;
-		createVideo();
-	});
+	// document.getElementById('facebookLoad').addEventListener('click', function(e) {
+	// 	V2S.plugin = 'facebook';
+	// 	V2S.id = document.getElementById('facebookUrl').value;
+	// 	createVideo();
+	// });
 
 	// Dacast upload listener
-	document.getElementById('dacastLoad').addEventListener('click', function(e) {
-		V2S.plugin = 'dacast';
-		V2S.id = document.getElementById('dacastUrl').value;
-		createVideo();
-	});
+	// document.getElementById('dacastLoad').addEventListener('click', function(e) {
+	// 	V2S.plugin = 'dacast';
+	// 	V2S.id = document.getElementById('dacastUrl').value;
+	// 	createVideo();
+	// });
 
 	// Wistia upload listener
-	document.getElementById('wistiaLoad').addEventListener('click', function(e) {
-		V2S.plugin = 'wistia';
-		V2S.id = document.getElementById('wistiaUrl').value;
-		createVideo();
-	});
+	// document.getElementById('wistiaLoad').addEventListener('click', function(e) {
+	// 	V2S.plugin = 'wistia';
+	// 	V2S.id = document.getElementById('wistiaUrl').value;
+	// 	createVideo();
+	// });
 
 	// Amazon upload listener
-	document.getElementById('amazonLoad').addEventListener('click', function(e) {
-		V2S.plugin = 'amazon';
-		V2S.id = document.getElementById('amazonUrl').value;
-		createVideo();
-	});
+	// document.getElementById('amazonLoad').addEventListener('click', function(e) {
+	// 	V2S.plugin = 'amazon';
+	// 	V2S.id = document.getElementById('amazonUrl').value;
+	// 	createVideo();
+	// });
 
 	// Brightcove upload listener
-	document.getElementById('brightcoveLoad').addEventListener('click', function(e) {
-		V2S.plugin = 'brightcove';
-		V2S.id = document.getElementById('brightcoveUrl').value;
-		createVideo();
-	});
+	// document.getElementById('brightcoveLoad').addEventListener('click', function(e) {
+	// 	V2S.plugin = 'brightcove';
+	// 	V2S.id = document.getElementById('brightcoveUrl').value;
+	// 	createVideo();
+	// });
 
 	localforage.getItem("cache").then(function(value) {
 		if (value) {
@@ -510,7 +510,7 @@ function downloadZip() {
 	});
 }
 
-})(window.V2S = window.V2S || {}, App, undefined);
+// })(window.V2S = window.V2S || {}, App, undefined);
 
 // out in global scope for now
 function timeString(val) {

@@ -3,6 +3,15 @@
   var source = (function() {
 
     function _init(context) {
+      document.getElementById('localUpload').addEventListener('change', function _file_upload(e) {
+        V2S.plugin = 'upload';
+        V2S.id = undefined;
+        document.getElementById('upload-FileName').textContent = e.target.files[0].name;
+        createVideo({
+          raw: e.target.files[0],
+          mime: e.target.files[0].type,
+        });
+      });
     }
 
     function _get_media(id, media) {
@@ -29,4 +38,4 @@
 
   PLUGINS.push(source)
 
-}(window.V2S.plugins = window.V2S.plugins || []))
+}(V2S.plugins = V2S.plugins || []))

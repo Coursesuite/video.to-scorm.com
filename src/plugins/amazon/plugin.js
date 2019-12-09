@@ -2,8 +2,15 @@
 
   var source = (function() {
 
-    function _init() {
+    // Url can be found by viewing an S3 bucket and getting the Object url of the appropriate file
+    // e.g https://fabs-test.s3-ap-southeast-2.amazonaws.com/sample.mp4
 
+    function _init() {
+      document.getElementById('amazonLoad').addEventListener('click', function(e) {
+        V2S.plugin = 'amazon';
+        V2S.id = document.getElementById('amazonUrl').value;
+        createVideo();
+      });
     }
 
     function _get_media(url) {
@@ -30,4 +37,4 @@
 
   PLUGINS.push(source)
 
-})(window.V2S.plugins = window.V2S.plugins || [])
+})(V2S.plugins = V2S.plugins || [])

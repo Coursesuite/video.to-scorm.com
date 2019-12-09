@@ -1,10 +1,17 @@
 (function(PLUGINS, undefined) {
 
+  // Currently no feedback when loading selected video
+
   var source = (function() {
 
     function _init() {
       document.getElementById('kloudlessUpload').addEventListener('click', function(e) {
-        window.KLOUDLESS_INPUT.choose()
+        KLOUDLESS_INPUT.choose()
+      })
+      KLOUDLESS_INPUT.on('success', function(files) {
+        V2S.plugin = 'cloud';
+        V2S.id = undefined;
+        createVideo(files[0]);
       })
     }
 
@@ -39,7 +46,7 @@
     function _re_upload(blob) {
       return new Promise(function _cloud_reupload_promise(resolve, reject) {
         var blobUrl = URL.createObjectURL(blob)
-        window.V2S.source = {
+        V2S.source = {
           src: blobUrl,
           sources: [''],
           original: blob,
@@ -52,7 +59,7 @@
         //     src: window.V2S.source.src
         //   }]
         // }
-        window.initMediaElementPlayer(window.V2S.source)
+        window.initMediaElementPlayer(V2S.source)
         .then(function(){
           resolve()
         })
@@ -72,4 +79,4 @@
 
   PLUGINS.push(source)
 
-})(window.V2S.plugins = window.V2S.plugins || [])
+})(V2S.plugins = V2S.plugins || [])

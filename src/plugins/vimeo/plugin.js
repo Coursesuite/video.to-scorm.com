@@ -87,4 +87,4 @@
 
 	PLUGINS.push(source)
 
-})(window.V2S.plugins = window.V2S.plugins || [])
+})(V2S.plugins = V2S.plugins || [])
