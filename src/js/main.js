@@ -82,35 +82,35 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 	// })
 
 	// Facebook upload listener
-	document.getElementById('facebookLoad').addEventListener('click', function(e) {
+	document.getElementById('facebookLoad') && document.getElementById('facebookLoad').addEventListener('click', function(e) {
 		V2S.plugin = 'facebook';
 		V2S.id = document.getElementById('facebookUrl').value;
 		createVideo();
 	});
 
 	// Dacast upload listener
-	document.getElementById('dacastLoad').addEventListener('click', function(e) {
+	document.getElementById('dacastLoad') && document.getElementById('dacastLoad').addEventListener('click', function(e) {
 		V2S.plugin = 'dacast';
 		V2S.id = document.getElementById('dacastUrl').value;
 		createVideo();
 	});
 
 	// Wistia upload listener
-	document.getElementById('wistiaLoad').addEventListener('click', function(e) {
+	document.getElementById('wistiaLoad') && document.getElementById('wistiaLoad').addEventListener('click', function(e) {
 		V2S.plugin = 'wistia';
 		V2S.id = document.getElementById('wistiaUrl').value;
 		createVideo();
 	});
 
 	// Amazon upload listener
-	document.getElementById('amazonLoad').addEventListener('click', function(e) {
+	document.getElementById('amazonLoad') && document.getElementById('amazonLoad').addEventListener('click', function(e) {
 		V2S.plugin = 'amazon';
 		V2S.id = document.getElementById('amazonUrl').value;
 		createVideo();
 	});
 
 	// Brightcove upload listener
-	document.getElementById('brightcoveLoad').addEventListener('click', function(e) {
+	document.getElementById('brightcoveLoad') && document.getElementById('brightcoveLoad').addEventListener('click', function(e) {
 		V2S.plugin = 'brightcove';
 		V2S.id = document.getElementById('brightcoveUrl').value;
 		createVideo();
