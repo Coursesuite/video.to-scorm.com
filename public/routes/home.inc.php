@@ -26,7 +26,9 @@
 				<p>The best reasons is that you don't pay for the data transfer delivering video. You also don't have to account for transient network conditions and browser variations or mobile issues. Using online providers means <i>they</i> solve those problems.</p>
 
 				<h3>Supported formats</h3>
-				<p>We support streaming providers such as YouTube, SoundCloud, Vimeo, Facebook, DailyMotion, S3, or you can upload your own video or audio files. (Other providers such as Dacast/Vzaar, Microsoft Stream, IGTV and so on are in the works - we're always working to expand the list of providers - let us know if you need something specific).</p>
+				<p>You can upload your own MP4 file from your computer or from your Cloud-based services.</p>
+				<p>We also support streaming providers such as YouTube and Vimeo and Amazon S3.</p>
+				<p>Other streaming services such as Facebook, DailyMotion, Dacast/Vzaar, Microsoft Stream, IGTV and so on are in the works - we're always working to expand the list of providers - let us know if you need something specific.</p>
 
 			</div>
 		</div>
