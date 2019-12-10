@@ -2,14 +2,20 @@
 
   var source = (function() {
 
-    // Url can be found by viewing an S3 bucket and getting the Object url of the appropriate file
+    // Any direct link to an mp4 stream
     // e.g https://fabs-test.s3-ap-southeast-2.amazonaws.com/sample.mp4
 
     function _init() {
-      document.getElementById('amazonLoad').addEventListener('click', function(e) {
-        V2S.plugin = 'amazon';
-        V2S.id = document.getElementById('amazonUrl').value;
-        createVideo();
+      document.getElementById('directLoad').addEventListener('click', function(e) {
+        V2S.plugin = 'direct';
+        var url = document.getElementById('directUrl').value;
+        var urlAr = url.split('.');
+        if (urlAr[urlAr.length-1] === 'mp4') {
+          V2S.id = url;
+          createVideo();
+        } else {
+          alert("Invalid url");
+        }
       });
     }
 
@@ -28,7 +34,7 @@
     }
 
     return {
-      name: 'amazon',
+      name: 'direct',
       init: _init,
       get_media: _get_media
     }

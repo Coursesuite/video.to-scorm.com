@@ -370,7 +370,7 @@ function createVideo(media) {
 			break;
 
 		// MediaElement
-	  case 'youtube': case 'dailymotion': case 'soundcloud': case 'facebook': case 'cloud': case 'upload': case 'dacast': case 'wistia': case 'amazon': case 'brightcove':
+	  case 'youtube': case 'dailymotion': case 'soundcloud': case 'facebook': case 'cloud': case 'upload': case 'dacast': case 'wistia': case 'direct': case 'brightcove':
 			current_plugin
 			.get_media(V2S.id, media)
 			.then(function(source) {
