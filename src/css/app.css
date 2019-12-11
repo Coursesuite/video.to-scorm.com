@@ -33,6 +33,7 @@ footer {
 	text-shadow: none;
 	text-align: center;
 	padding-right: .5em;
+	z-index: 9;
 }
 footer a {
 	color: inherit;

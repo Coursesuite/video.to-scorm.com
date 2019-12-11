@@ -176,11 +176,11 @@ window.initMediaElementPlayer = function(source) {
 						} else {
 							// Direct videos get duration "after a while"
 							// console.log('no duration, waiting...');
-							if (V2S.plugin === 'dailymotion' && V2S['player'].paused && !once) { // Dailymotion jank
-								once = true;
-								V2S['player'].play();
-								V2S['player'].pause();
-							}
+							// if (V2S.plugin === 'dailymotion' && V2S['player'].paused && !once) { // Dailymotion jank
+							// 	once = true;
+							// 	V2S['player'].play();
+							// 	V2S['player'].pause();
+							// }
 							timeout();
 						}
  					}, 500);
@@ -321,11 +321,11 @@ function createVideo(media) {
 						function timeout(){
 							setTimeout(function(){
 								if (V2S.player.duration) {
-									V2S.player.pause();
+									// V2S.player.pause();
 									V2S.duration = V2S.player.duration;
 									resolve();
 								} else {
-									V2S.player.play();
+									// V2S.player.play();
 									// console.info('awaiting duration...');
 									timeout();
 								}

@@ -92,9 +92,9 @@ foreach ($iter as $file) {
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js" async="true"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.11/mediaelement-and-player.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.11/renderers/dailymotion.min.js"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.12/renderers/facebook.min.js"></script>
-		<script src="https://cdn.jsdelivr.net/npm/localforage@1.7.3/dist/localforage.min.js" integrity="sha256-H/ZsHjKSJUnQyCQHZwPmn7VTWFeTTI+qgCP1GkiB9zI=" crossorigin="anonymous"></script>
+<!-- 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.11/renderers/dailymotion.min.js"></script>
+ --><!-- 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.12/renderers/facebook.min.js"></script>-->
+ 		<script src="https://cdn.jsdelivr.net/npm/localforage@1.7.3/dist/localforage.min.js" integrity="sha256-H/ZsHjKSJUnQyCQHZwPmn7VTWFeTTI+qgCP1GkiB9zI=" crossorigin="anonymous"></script>
 		<script type="text/javascript">var App = <?php echo json_encode($jsApp, JSON_NUMERIC_CHECK); ?>, Layer = new WebSocket("<?php echo $verifier->app->socket; ?>"); <?php echo $verifier->app->layer; ?>;</script>
 		<script src="js/templates.js"></script>
 <?php
