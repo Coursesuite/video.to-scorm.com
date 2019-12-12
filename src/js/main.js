@@ -153,6 +153,9 @@ window.initMediaElementPlayer = function(source) {
 				controls: 0,
 				modestbranding: 1
 			},
+			dash: {
+				debug: false
+			},
 			poster: source.poster,
 			// showPosterWhenPaused: true,
 			showPosterWhenEnded: true,
@@ -170,7 +173,8 @@ window.initMediaElementPlayer = function(source) {
 				function timeout() {
  					setTimeout(function() {
  						// Streaming files don't get duration
-						if (me.duration || V2S.plugin === 'dacast' || V2S.plugin === 'wistia' || V2S.plugin === 'brightcove') {
+ 						var urlAr = V2S.id.split('.');
+						if (me.duration || urlAr[urlAr.length-1] === 'm3u8') {
 							V2S.duration = me.duration;
 							resolve();
 						} else {
@@ -321,12 +325,12 @@ function createVideo(media) {
 						function timeout(){
 							setTimeout(function(){
 								if (V2S.player.duration) {
-									// V2S.player.pause();
+									console.log('v2s.player.duration = '+V2S.player.duration)
+									V2S.player.pause();
 									V2S.duration = V2S.player.duration;
 									resolve();
 								} else {
-									// V2S.player.play();
-									// console.info('awaiting duration...');
+									V2S.player.play(); // Play/pause usually gets the duration
 									timeout();
 								}
 							}, 500);

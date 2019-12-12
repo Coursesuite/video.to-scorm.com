@@ -5,12 +5,14 @@
     // Any direct link to an mp4 stream
     // e.g https://fabs-test.s3-ap-southeast-2.amazonaws.com/sample.mp4
 
+    var supported = ['mp4','m3u8','ogg','ogv','webm'];
+
     function _init() {
       document.getElementById('directLoad').addEventListener('click', function(e) {
         V2S.plugin = 'direct';
         var url = document.getElementById('directUrl').value;
         var urlAr = url.split('.');
-        if (urlAr[urlAr.length-1] === 'mp4') {
+        if (supported.includes(urlAr[urlAr.length-1])) {
           V2S.id = url;
           createVideo();
         } else {
