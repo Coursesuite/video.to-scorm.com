@@ -99,7 +99,7 @@ foreach ($iter as $file) {
 		<script src="js/templates.js"></script>
 <?php
 if ($verifier->code->minified) {
-	include("_head.inc.php");
+	include("_analytics.php");
 }
 foreach ($css as $link) {
 	echo "		", "<link rel='stylesheet' type='text/css' href='{$link}'>", PHP_EOL;
