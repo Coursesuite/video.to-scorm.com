@@ -134,9 +134,8 @@
 					progress += 0.1;
 					uiButtonInstance.setProgress(progress);
 				}
-
 				// attach the uploaded media, if required
-				if (manifest.videoId === "file-upload") {
+				if (manifest.videoId === "file-upload" || manifest.src === "video.mp4") {
 					manifest.files.push({"dest":"video.mp4"});
 					zip.file("video.mp4", manifest.original); // , {base64: true});
 					delete manifest.original;
