@@ -77,8 +77,8 @@ foreach ($iter as $file) {
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>Video to Scorm</title>
-		<meta name="description" content="Add an audio track to your scorm-enabled slide presentation" />
-		<meta name="keywords" content="scorm, scorm wrapper, scorm content, content packaging, ims manifest, coursesuite ninja, scorm ninja" />
+		<meta name="description" content="Add a scorm completion to your video" />
+		<meta name="keywords" content="video, scorm, scorm wrapper, scorm content, content packaging, ims manifest, coursesuite" />
 		<meta name="author" content="coursesuite pty ltd" />
 		<link rel="shortcut icon" href="/favicon.ico">
 		<link rel="icon" href="/favicon.ico" type="image/x-icon">
