@@ -1,5 +1,3 @@
-KLOUDLESS_APP_ID = atob("VU5oR1p2bXpzc3VQQ25Kdm5NZ19FYlF5MVo5a0s1el9nUU1PRk01cXhUU0VnSmxx")
-KLOUDLESS_INPUT = Kloudless.explorer({app_id: KLOUDLESS_APP_ID})
 localforage.config({ name: 'video2scorm' });
 
 // ;(function(V2S, App, undefined) {
@@ -59,7 +57,8 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 			V2S['ranges'] = value.ranges;
 			V2S['playerType'] = value.playerType;
 
-			var tab =document.querySelector("section.section-source .uk-tab");
+			// select the plugin tab, on the video source page
+			var tab = document.querySelector("section.section-source .uk-tab");
 			for (var n=tab.querySelectorAll("li"), i=0,j=n.length;i<j;i++) {
 				if (n[i].firstElementChild.textContent===value.plugin) UIkit.tab(tab).show(i);
 			}
@@ -68,10 +67,13 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 			document.getElementById("ocd").value = value['option-course-description'];
 			document.getElementById("occ").value = value['option-course-copyright'];
 			document.getElementById("gax").value = value['option-ga-id'];
+
 			document.querySelector("input[name='option-toggle-scrub'][value='" + (value['option-toggle-scrub'] || "false") + "']").checked = true;
 			document.querySelector("input[name='option-api'][value='" + (value['option-api'] || "scorm12") + "']").checked = true;
 
-			if (value.plugin === 'upload') { // locally uploaded file
+console.dir(value);
+
+			if (value.plugin === 'upload' || (value.plugin === 'cloud' && value.original)) { // locally uploaded file
 				V2S['original'] = value.original;
 				document.getElementById('upload-FileName').textContent = value.original.name;
 				// var p = V2S.plugins.find(function(el){return el.type === 'local'});
@@ -173,7 +175,7 @@ window.initMediaElementPlayer = function(source) {
 				function timeout() {
  					setTimeout(function() {
  						// Streaming files don't get duration
- 						var urlAr = V2S.id.split('.');
+ 						var urlAr = V2S.id ? V2S.id.split('.') : [];
 						if (me.duration || urlAr[urlAr.length-1] === 'm3u8') {
 							V2S.duration = me.duration;
 							resolve();
@@ -291,7 +293,9 @@ function createVideo(media) {
 	var current_plugin = V2S.plugins.find(function(obj) {
 		return (obj.name === V2S.plugin);
 	});
+
 	document.getElementById(current_plugin.name+'-LoadingIcon').innerHTML = "<img src='css/Infinity-1.5s-50px.svg'>";
+
 	switch (current_plugin.name) {
 		// PLYR
 		case 'vimeo':
@@ -325,7 +329,7 @@ function createVideo(media) {
 						function timeout(){
 							setTimeout(function(){
 								if (V2S.player.duration) {
-									console.log('v2s.player.duration = '+V2S.player.duration)
+									// console.log('v2s.player.duration = '+V2S.player.duration)
 									V2S.player.pause();
 									V2S.duration = V2S.player.duration;
 									resolve();
@@ -408,46 +412,46 @@ function createSlider() {
 	saveCache();
 }
 
-function downloadZip() {
-	var zip = new JSZip();
-	var current_plugin = V2S.plugins.find(function(obj) {
-		return (obj.name === V2S.plugin);
-	})
-	var uploadName = V2S.source.name;
-	var setup = {
-		provider: (V2S.plugin === 'upload' || V2S.plugin === 'cloud')?'':V2S.plugin,
-		playerApi: V2S.source.sources[0],
-		videoId: V2S.id||uploadName,
-		starts: V2S.ranges[0],
-		completes: V2S.ranges[1],
-		ends: V2S.ranges[2],
-		timeStamp: (new Date().getTime()),
-		mime: V2S.source.mime||'',
-		hideScrub: document.getElementById('toggleScrub').checked,
-		isVideo: (V2S.plugin !== 'soundcloud') ? true : false,
-		playerType: current_plugin.playerType,
-		src: (V2S.plugin === 'upload' || V2S.plugin === 'cloud' || V2S.plugin === 'wistia') ? uploadName : V2S.source.src,
-		poster: V2S.source.poster
-	}
-	zip.file('index.html', Handlebars.templates['outputhtml'](setup));
-	zip.file('_package.css', Handlebars.templates['outputcss'](setup));
-	zip.file('_package.js', Handlebars.templates['outputjs'](setup));
-	zip.file('imsmanifest.xml', Handlebars.templates['scorm12manifest'](setup));
-	if (V2S.plugin === 'upload' || V2S.plugin === 'cloud' || V2S.plugin === 'wistia') {
-		zip.file(uploadName, V2S.source.original);
-	}
+// function downloadZip() {
+// 	var zip = new JSZip();
+// 	var current_plugin = V2S.plugins.find(function(obj) {
+// 		return (obj.name === V2S.plugin);
+// 	})
+// 	var uploadName = V2S.source.name;
+// 	var setup = {
+// 		provider: (V2S.plugin === 'upload' || V2S.plugin === 'cloud')?'':V2S.plugin,
+// 		playerApi: V2S.source.sources[0],
+// 		videoId: V2S.id||uploadName,
+// 		starts: V2S.ranges[0],
+// 		completes: V2S.ranges[1],
+// 		ends: V2S.ranges[2],
+// 		timeStamp: (new Date().getTime()),
+// 		mime: V2S.source.mime||'',
+// 		hideScrub: document.getElementById('toggleScrub').checked,
+// 		isVideo: (V2S.plugin !== 'soundcloud') ? true : false,
+// 		playerType: current_plugin.playerType,
+// 		src: (V2S.plugin === 'upload' || V2S.plugin === 'cloud' || V2S.plugin === 'wistia') ? uploadName : V2S.source.src,
+// 		poster: V2S.source.poster
+// 	}
+// 	zip.file('index.html', Handlebars.templates['outputhtml'](setup));
+// 	zip.file('_package.css', Handlebars.templates['outputcss'](setup));
+// 	zip.file('_package.js', Handlebars.templates['outputjs'](setup));
+// 	zip.file('imsmanifest.xml', Handlebars.templates['scorm12manifest'](setup));
+// 	if (V2S.plugin === 'upload' || V2S.plugin === 'cloud' || V2S.plugin === 'wistia') {
+// 		zip.file(uploadName, V2S.source.original);
+// 	}
 
-	zip.generateAsync({
-		type:"blob",
-	    compression: "DEFLATE",
-	    compressionOptions: {
-	        level: 9
-	    }
-	})
-	.then(function(content) {
-		saveAs(content, 'v2sTest.zip')
-	});
-}
+// 	zip.generateAsync({
+// 		type:"blob",
+// 	    compression: "DEFLATE",
+// 	    compressionOptions: {
+// 	        level: 9
+// 	    }
+// 	})
+// 	.then(function(content) {
+// 		saveAs(content, 'v2sTest.zip')
+// 	});
+// }
 
 // })(window.V2S = window.V2S || {}, App, undefined);
 
