@@ -5,8 +5,7 @@
   var source = (function() {
 
     function _init() {
-      KLOUDLESS_APP_ID = atob("VU5oR1p2bXpzc3VQQ25Kdm5NZ19FYlF5MVo5a0s1el9nUU1PRk01cXhUU0VnSmxx")
-      KLOUDLESS_INPUT = window.Kloudless.explorer({app_id: KLOUDLESS_APP_ID})
+      KLOUDLESS_INPUT = window.Kloudless.explorer({app_id: window.KLOUDLESS_APP_ID})
       document.getElementById('kloudlessUpload').addEventListener('click', function(e) {
         window.KLOUDLESS_INPUT.choose()
       })
