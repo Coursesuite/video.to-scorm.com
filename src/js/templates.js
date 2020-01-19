@@ -114,7 +114,7 @@ templates['outputjs'] = template({"1":function(container,depth0,helpers,partials
     + alias4(((helper = (helper = helpers.completes || (depth0 != null ? depth0.completes : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"completes","hash":{},"data":data}) : helper)))
     + ") {\n			setComplete()\n		}\n		if (Player.currentTime >= "
     + alias4(((helper = (helper = helpers.ends || (depth0 != null ? depth0.ends : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"ends","hash":{},"data":data}) : helper)))
-    + ") {\n			Player.pause()\n		}\n	});\n	Player.on('play', function(e) {\n		if (Player.currentTime >= "
+    + ") {\n			Player.pause()\n		}\n		setBookmark(Player.currentTime);\n	});\n	Player.on('play', function(e) {\n		if (Player.currentTime >= "
     + alias4(((helper = (helper = helpers.ends || (depth0 != null ? depth0.ends : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"ends","hash":{},"data":data}) : helper)))
     + ") {\n			Player.currentTime = "
     + alias4(((helper = (helper = helpers.starts || (depth0 != null ? depth0.starts : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"starts","hash":{},"data":data}) : helper)))
@@ -152,7 +152,7 @@ templates['outputjs'] = template({"1":function(container,depth0,helpers,partials
     + alias4(((helper = (helper = helpers.ends || (depth0 != null ? depth0.ends : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"ends","hash":{},"data":data}) : helper)))
     + ") {\n					Player.currentTime = "
     + alias4(((helper = (helper = helpers.starts || (depth0 != null ? depth0.starts : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"starts","hash":{},"data":data}) : helper)))
-    + ";\n					Player.pause();\n				}\n			})\n			me.addEventListener('play', function() {\n				if (Player.currentTime >= "
+    + ";\n					Player.pause();\n				}\n				setBookmark(Player.currentTime);\n			})\n			me.addEventListener('play', function() {\n				if (Player.currentTime >= "
     + alias4(((helper = (helper = helpers.ends || (depth0 != null ? depth0.ends : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"ends","hash":{},"data":data}) : helper)))
     + ") {\n					Player.currentTime = "
     + alias4(((helper = (helper = helpers.starts || (depth0 != null ? depth0.starts : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"starts","hash":{},"data":data}) : helper)))

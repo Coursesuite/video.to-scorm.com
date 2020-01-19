@@ -107,6 +107,7 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
 		if (Player.currentTime >= {{ends}}) {
 			Player.pause()
 		}
+		setBookmark(Player.currentTime);
 	});
 	Player.on('play', function(e) {
 		if (Player.currentTime >= {{ends}}) {
@@ -152,6 +153,7 @@ document.addEventListener("DOMContentLoaded", function domLoader(event) {
 					Player.currentTime = {{starts}};
 					Player.pause();
 				}
+				setBookmark(Player.currentTime);
 			})
 			me.addEventListener('play', function() {
 				if (Player.currentTime >= {{ends}}) {
