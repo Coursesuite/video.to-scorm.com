@@ -5,6 +5,8 @@ V2S = {};
 V2S.plugins = [];
 V2S.source = {};
 
+window.KLOUDLESS_APP_ID = atob("VU5oR1p2bXpzc3VQQ25Kdm5NZ19FYlF5MVo5a0s1el9nUU1PRk01cXhUU0VnSmxx");
+
 window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 	document.body.addEventListener("click", globalClickHandler)
 	window.addEventListener("resize", setPlayerWorkAreaSize, false);
@@ -70,8 +72,6 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 
 			document.querySelector("input[name='option-toggle-scrub'][value='" + (value['option-toggle-scrub'] || "false") + "']").checked = true;
 			document.querySelector("input[name='option-api'][value='" + (value['option-api'] || "scorm12") + "']").checked = true;
-
-console.dir(value);
 
 			if (value.plugin === 'upload' || (value.plugin === 'cloud' && value.original)) { // locally uploaded file
 				V2S['original'] = value.original;
@@ -461,4 +461,44 @@ function timeString(val) {
 	date.setSeconds(val);
 	var fmt = date.toISOString();
 	return (val < 3600) ? fmt.substr(14,5) : fmt.substr(11, 8); // trim hours
+}
+
+function highestZindex() {
+    return Array.from(document.querySelectorAll("body *")).map(function(a) {
+        return parseFloat(window.getComputedStyle(a).zIndex)
+    }).filter(function(a) {
+        return !isNaN(a)
+    }).sort(function(a, b) {
+        return a - b
+    }).pop()
+}
+
+function popIframe(url) {
+    var b = document.createElement("div"),
+        d = document.createElement("iframe"),
+        c = document.createElement("div");
+    o = "cs-overlay";
+    if (x = document.querySelector("#" + o)) return document.body.style.overflow = "auto", document.body.removeChild(x), !1;
+    b.id = o;
+    b.style = "position:fixed;top:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:" + highestZindex() + 1;
+    b.appendChild(d);
+    d.setAttribute("allowfullscreen","true");
+    d.style = "position:absolute;width:90%;height:90%;left:5%;top:5%;box-shadow:0 10px 25px rgba(0,0,0,.5);";
+    d.src = url;
+    c.style = "position:absolute;top:calc(5% - 24px);left:96%;width:24px;height:24px;cursor:pointer";
+    c.innerHTML = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path stroke=\"white\" stroke-width=\"3px\" d=\"M0 0l24 24M0 24L24 0\"/></svg>";
+    c.onclick = popIframe;
+    b.appendChild(c);
+    document.body.appendChild(b);
+    document.body.style.overflow = "hidden";
+    return 1
+};
+
+function isJson(json) {
+	try {
+		const foo = JSON.parse(json);
+	} catch (ex) {
+		return false;
+	}
+	return true;
 }
