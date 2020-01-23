@@ -117,9 +117,14 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 		})
 	});
 
-	/* -----------------------------------------
-		bind download button animation
-	----------------------------------------- */
+	bindDownloadButtons();
+
+});
+
+/* -----------------------------------------
+	bind download button animation
+----------------------------------------- */
+function bindDownloadButtons() {
 	[].forEach.call(document.querySelectorAll("div[data-destination]"), function (elm, idx) {
 		new UIProgressButton(elm, {
 			callback: function core_download_button_callback(instance) {
@@ -128,8 +133,7 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 			onbegin: V2S.Downloader.Begin
 		});
 	});
-
-});
+}
 
 window.initMediaElementPlayer = function(source) {
 	return new Promise(function _init_me_promise(resolve, reject) {
@@ -474,25 +478,12 @@ function highestZindex() {
 }
 
 function popIframe(url) {
-    var b = document.createElement("div"),
-        d = document.createElement("iframe"),
-        c = document.createElement("div");
-    o = "cs-overlay";
-    if (x = document.querySelector("#" + o)) return document.body.style.overflow = "auto", document.body.removeChild(x), !1;
-    b.id = o;
-    b.style = "position:fixed;top:0;width:100%;height:100%;background:rgba(0,0,0,.5);z-index:" + highestZindex() + 1;
-    b.appendChild(d);
-    d.setAttribute("allowfullscreen","true");
-    d.style = "position:absolute;width:90%;height:90%;left:5%;top:5%;box-shadow:0 10px 25px rgba(0,0,0,.5);";
-    d.src = url;
-    c.style = "position:absolute;top:calc(5% - 24px);left:96%;width:24px;height:24px;cursor:pointer";
-    c.innerHTML = "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 24 24\"><path stroke=\"white\" stroke-width=\"3px\" d=\"M0 0l24 24M0 24L24 0\"/></svg>";
-    c.onclick = popIframe;
-    b.appendChild(c);
-    document.body.appendChild(b);
-    document.body.style.overflow = "hidden";
-    return 1
-};
+	if (x = document.getElementById("cs-overlay")) return document.body.style.overflow = "auto", document.body.removeChild(x), !1;
+    document.body.insertAdjacentHTML("beforeend", Handlebars.templates['popup']({
+    	zindex: highestZindex() + 1,
+    	url: url
+    }));
+}
 
 function isJson(json) {
 	try {

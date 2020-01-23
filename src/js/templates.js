@@ -179,6 +179,19 @@ templates['outputjs'] = template({"1":function(container,depth0,helpers,partials
     + ((stack1 = helpers["if"].call(alias1,(depth0 != null ? depth0.isPlyr : depth0),{"name":"if","hash":{},"fn":container.program(7, data, 0),"inverse":container.program(12, data, 0),"data":data})) != null ? stack1 : "")
     + "});";
 },"useData":true});
+templates['popup'] = template({"compiler":[7,">= 4.0.0"],"main":function(container,depth0,helpers,partials,data) {
+    var helper, alias1=depth0 != null ? depth0 : (container.nullContext || {}), alias2=helpers.helperMissing, alias3="function", alias4=container.escapeExpression;
+
+  return "<div id=\"cs-overlay\" class=\"pi\" style=\"z-index:"
+    + alias4(((helper = (helper = helpers.zindex || (depth0 != null ? depth0.zindex : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"zindex","hash":{},"data":data}) : helper)))
+    + "\">\n	<div class=\"pi-wrapper\">\n		<div class=\"pi-toolbar\">\n			<div class=\"pi-icon\">URL:</div>\n			<a class=\"pi-url\" href=\""
+    + alias4(((helper = (helper = helpers.url || (depth0 != null ? depth0.url : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"url","hash":{},"data":data}) : helper)))
+    + "\" target=\"_blank\">"
+    + alias4(((helper = (helper = helpers.url || (depth0 != null ? depth0.url : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"url","hash":{},"data":data}) : helper)))
+    + "</a>\n			<div class=\"pi-close\" onclick=\"popIframe()\"><svg xmlns=\"http://www.w3.org/2000/svg\" width=\"24\" height=\"24\" viewBox=\"0 0 24 24\"><path stroke=\"white\" stroke-width=\"3px\" d=\"M0 0l24 24M0 24L24 0\"/></svg></div>\n		</div>\n		<iframe class=\"pi-content\" allowfullscreen src=\""
+    + alias4(((helper = (helper = helpers.url || (depth0 != null ? depth0.url : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"url","hash":{},"data":data}) : helper)))
+    + "\"></iframe>\n	</div>\n</div>";
+},"useData":true});
 templates['scorm12manifest'] = template({"1":function(container,depth0,helpers,partials,data) {
     var helper;
 

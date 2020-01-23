@@ -250,6 +250,7 @@
 				span.innerHTML = "Uploaded";
 				setTimeout(function() {
 					button.innerHTML = html;
+					bindDownloadButtons();
 				},3456);
 			}
 			xhr.upload.onprogress = function (e) {
@@ -263,6 +264,7 @@
 				if (result.type === "error") {
 					setTimeout(function() {
 						button.innerHTML = html;
+						bindDownloadButtons();
 					},3456);
 				}
 			}
@@ -315,12 +317,16 @@
 					popIframe(obj.href);
 					setTimeout(function() {
 						button.innerHTML = html;
+						button.querySelector("button").removeAttribute("disabled");
+						bindDownloadButtons();
 					},3456);
 				} else {
 					var ui = new UIProgressButton(button); ui.stop(-1);
 					span.innerHTML = "<i class='fa fa-eye'></i> Failed (unauthorized?)";
 					setTimeout(function() {
 						button.innerHTML = html;
+						button.querySelector("button").removeAttribute("disabled");
+						bindDownloadButtons();
 					},6789);
 				}
 			}
@@ -335,13 +341,15 @@
 				if (result.type === "error") {
 					setTimeout(function() {
 						button.innerHTML = html;
+						button.querySelector("button").removeAttribute("disabled");
+						bindDownloadButtons();
 					},3456);
 				}
 			}
-			xhr.setRequestHeader("content-type", "application/octet-stream");
+			// xhr.setRequestHeader("content-type", "application/octet-stream");
 			xhr.setRequestHeader("Authorization", location.search);
 			xhr.setRequestHeader("X-Filename", name);
-			xhr.setRequestHeader("X-App", "video2scorm");
+			//TODO: support telling the app name xhr.setRequestHeader("X-App", "video2scorm");
 			span.innerHTML = ''; span.appendChild(progress);
 			xhr.send(fd);
 
