@@ -207,11 +207,15 @@ templates['scorm12manifest'] = template({"1":function(container,depth0,helpers,p
     + alias4(((helper = (helper = helpers.timestamp || (depth0 != null ? depth0.timestamp : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"timestamp","hash":{},"data":data}) : helper)))
     + "\">\n    <organization identifier=\"O"
     + alias4(((helper = (helper = helpers.timestamp || (depth0 != null ? depth0.timestamp : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"timestamp","hash":{},"data":data}) : helper)))
-    + "\">\n      <title>Video2Scorm</title>\n      <item identifier=\"I"
+    + "\">\n      <title>"
+    + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))
+    + "</title>\n      <item identifier=\"I"
     + alias4(((helper = (helper = helpers.timestamp || (depth0 != null ? depth0.timestamp : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"timestamp","hash":{},"data":data}) : helper)))
     + "\" identifierref=\"R"
     + alias4(((helper = (helper = helpers.timestamp || (depth0 != null ? depth0.timestamp : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"timestamp","hash":{},"data":data}) : helper)))
-    + "\" isvisible=\"true\">\n        <title>Video2Scorm</title>\n      </item>\n    </organization>\n  </organizations>\n  <resources>\n    <resource identifier=\"R"
+    + "\" isvisible=\"true\">\n        <title>"
+    + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))
+    + "</title>\n      </item>\n    </organization>\n  </organizations>\n  <resources>\n    <resource identifier=\"R"
     + alias4(((helper = (helper = helpers.timestamp || (depth0 != null ? depth0.timestamp : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"timestamp","hash":{},"data":data}) : helper)))
     + "\" type=\"webcontent\" adlcp:scormtype=\"sco\" href=\"index.html\">\n"
     + ((stack1 = helpers.each.call(alias1,(depth0 != null ? depth0.files : depth0),{"name":"each","hash":{},"fn":container.program(1, data, 0),"inverse":container.noop,"data":data})) != null ? stack1 : "")
@@ -229,7 +233,7 @@ templates['scorm2004manifest'] = template({"1":function(container,depth0,helpers
   return "﻿<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<manifest xmlns=\"http://www.imsglobal.org/xsd/imscp_v1p1\" xmlns:imsmd=\"http://ltsc.ieee.org/xsd/LOM\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:adlcp=\"http://www.adlnet.org/xsd/adlcp_v1p3\" xmlns:imsss=\"http://www.imsglobal.org/xsd/imsss\" xmlns:adlseq=\"http://www.adlnet.org/xsd/adlseq_v1p3\" xmlns:adlnav=\"http://www.adlnet.org/xsd/adlnav_v1p3\" identifier=\"MANIFEST-"
     + alias4(((helper = (helper = helpers.timestamp || (depth0 != null ? depth0.timestamp : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"timestamp","hash":{},"data":data}) : helper)))
     + "\" xsi:schemaLocation=\"http://www.imsglobal.org/xsd/imscp_v1p1 imscp_v1p1.xsd http://ltsc.ieee.org/xsd/LOM lom.xsd http://www.adlnet.org/xsd/adlcp_v1p3 adlcp_v1p3.xsd http://www.imsglobal.org/xsd/imsss imsss_v1p0.xsd http://www.adlnet.org/xsd/adlseq_v1p3 adlseq_v1p3.xsd http://www.adlnet.org/xsd/adlnav_v1p3 adlnav_v1p3.xsd\">\r\n  <metadata>\r\n    <schema>ADL SCORM</schema>\r\n    <schemaversion>2004 4th Edition</schemaversion>\r\n    <imsmd:lom>\r\n      <imsmd:general>\r\n        <imsmd:title>\r\n          <imsmd:string>"
-    + alias4(((helper = (helper = helpers["option-course-name"] || (depth0 != null ? depth0["option-course-name"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"option-course-name","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))
     + "</imsmd:string>\r\n        </imsmd:title>\r\n        <imsmd:language>en</imsmd:language>\r\n        <imsmd:description>\r\n          <imsmd:string><![CDATA["
     + alias4(((helper = (helper = helpers["option-course-description"] || (depth0 != null ? depth0["option-course-description"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"option-course-description","hash":{},"data":data}) : helper)))
     + "]]></imsmd:string>\r\n        </imsmd:description>\r\n      </imsmd:general>\r\n    </imsmd:lom>\r\n  </metadata>\r\n  <organizations default=\"O"
@@ -237,13 +241,13 @@ templates['scorm2004manifest'] = template({"1":function(container,depth0,helpers
     + "\">\r\n    <organization identifier=\"O"
     + alias4(((helper = (helper = helpers.timestamp || (depth0 != null ? depth0.timestamp : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"timestamp","hash":{},"data":data}) : helper)))
     + "\" structure=\"hierarchical\">\r\n      <title>"
-    + alias4(((helper = (helper = helpers["option-course-name"] || (depth0 != null ? depth0["option-course-name"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"option-course-name","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))
     + "</title>\r\n      <item identifier=\"I"
     + alias4(((helper = (helper = helpers.timestamp || (depth0 != null ? depth0.timestamp : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"timestamp","hash":{},"data":data}) : helper)))
     + "\" identifierref=\"R"
     + alias4(((helper = (helper = helpers.timestamp || (depth0 != null ? depth0.timestamp : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"timestamp","hash":{},"data":data}) : helper)))
     + "\" isvisible=\"true\">\r\n        <title>"
-    + alias4(((helper = (helper = helpers["option-course-name"] || (depth0 != null ? depth0["option-course-name"] : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"option-course-name","hash":{},"data":data}) : helper)))
+    + alias4(((helper = (helper = helpers.name || (depth0 != null ? depth0.name : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"name","hash":{},"data":data}) : helper)))
     + "</title>\r\n      </item>\r\n      <imsss:sequencing>\r\n        <imsss:controlMode choiceExit=\"true\" flow=\"true\" />\r\n        <imsss:deliveryControls completionSetByContent=\"true\" objectiveSetByContent=\"false\" />\r\n      </imsss:sequencing>\r\n    </organization>\r\n  </organizations>\r\n  <resources>\r\n    <resource identifier=\"R"
     + alias4(((helper = (helper = helpers.timestamp || (depth0 != null ? depth0.timestamp : depth0)) != null ? helper : alias2),(typeof helper === alias3 ? helper.call(alias1,{"name":"timestamp","hash":{},"data":data}) : helper)))
     + "\" adlcp:scormType=\"sco\" type=\"webcontent\" href=\"index.html\">\r\n"
