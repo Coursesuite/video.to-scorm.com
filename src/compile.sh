@@ -51,10 +51,9 @@ echo "\$verifier->code->minified = true;" >> load.php
 
 echo "// generate a csrf token for form postbacks" >> load.php
 echo "session_start();" >> load.php
-echo "if (empty(\$_SESSION['token'])) {" >> load.php
-echo "    \$_SESSION['token'] = bin2hex(random_bytes(32));" >> load.php
+echo "if (empty(\$_SESSION['sesskey'])) {" >> load.php
+echo "    \$_SESSION['sesskey'] = md5(time());" >> load.php
 echo "}" >> load.php
-echo "\$token = \$_SESSION['token'];" >> load.php
 echo "\$timestamp = '$TS';" >> load.php
 
 echo "\$minified_css = 'css/app.min.$TS.css';" >> load.php
