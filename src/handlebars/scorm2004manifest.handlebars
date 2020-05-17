@@ -6,7 +6,7 @@
     <imsmd:lom>
       <imsmd:general>
         <imsmd:title>
-          <imsmd:string>{{option-course-name}}</imsmd:string>
+          <imsmd:string>{{name}}</imsmd:string>
         </imsmd:title>
         <imsmd:language>en</imsmd:language>
         <imsmd:description>
@@ -17,9 +17,9 @@
   </metadata>
   <organizations default="O{{timestamp}}">
     <organization identifier="O{{timestamp}}" structure="hierarchical">
-      <title>{{option-course-name}}</title>
+      <title>{{name}}</title>
       <item identifier="I{{timestamp}}" identifierref="R{{timestamp}}" isvisible="true">
-        <title>{{option-course-name}}</title>
+        <title>{{name}}</title>
       </item>
       <imsss:sequencing>
         <imsss:controlMode choiceExit="true" flow="true" />
