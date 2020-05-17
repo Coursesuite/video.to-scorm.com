@@ -27,6 +27,16 @@
     </head>
     <body class="<?php echo str_replace('.inc.php','',$fn); ?>">
     	<div uk-sticky="media: 960" class="uk-navbar-container my-bg-blue uk-sticky uk-sticky-fixed uk-navbar-transparent">
+			<div class="uk-container uk-container-expand coursesuite-bar">
+				<div class=" uk-padding-small">
+					<img src="assets/coursesuite-glyph.svg" style="width:1rem" class="embiggen">
+					<a href="https://www.coursesuite.com/?from=video2scorm">Coursesuite</a>
+					<a href="https://www.courseassembler.com/?from=video2scorm">Course Assembler</a>
+					<a href="https://video.to-scorm.com/?from=video2scorm">Video 2 Scorm</a>
+					<a href="https://presentation.to-scorm.com/?from=video2scorm">Audio Presentation Ninja</a>
+					<a href="https://coursebuildr.coursesuite.ninja/app/login/?from=video2scorm">CourseBuilder</a>
+				</div>
+			</div>
     		<div class="uk-container uk-container-expand">
     			<nav uk-navbar>
     				<div class="uk-navbar-left">
