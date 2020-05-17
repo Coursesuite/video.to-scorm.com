@@ -2,7 +2,6 @@
 define("APP",true);
 include("load.php");
 
-$verifier->app->socket = "ws://127.0.0.1";
 
 $jsApp = new stdClass();
 $jsApp->Home = $verifier->home;
@@ -10,10 +9,17 @@ $jsApp->Tier =  $verifier->licence->tier;
 $jsApp->Api = isset($verifier->api);
 $jsApp->Timestamp = "$timestamp";
 $jsApp->Minified = $verifier->code->minified;
+// $jsApp->Themes = [$themes];
+
+// if publish url is not https proxy it through publish.php
 if (isset($verifier->api->publish) && !empty($verifier->api->publish)) {
-	$jsApp->Publish = $verifier->api->publish;
 	$jsApp->Bearer = $verifier->api->bearer;
-	$jsApp->Method = "POST"; // or PUT
+	$jsApp->Method = "POST";
+	if (strpos($verifier->api->publish,"https:") === false) {
+		$jsApp->Publish = "publish.php?dest=" . rawurlencode($verifier->api->publish) . "&sesskey=" . $_SESSION['sesskey'] . "&bearer=" . rawurlencode($jsApp->Bearer);
+	} else {
+		$jsApp->Publish = $verifier->api->publish;
+	}
 }
 
 // api url = coursesuite url / api / dl / apikey / appkey / template.zip

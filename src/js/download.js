@@ -243,11 +243,15 @@
 			const span = button.querySelector("button>span");
 			const html = button.innerHTML;
 			const progress = document.createElement("progress");
-			// span.innerHTML = "<i class='fa fa-circle-o-notch fa-spin'></i> Uploading ...";
+			span.innerHTML = "<i class='fa fa-circle-o-notch fa-spin'></i> Uploading ...";
 			fd.append("file", content, name);
 			xhr.open(App.Method, App.Publish, true);
 			xhr.onload = function (result) {
-				span.innerHTML = "Uploaded";
+				if (this.status == 200) {
+					span.innerHTML = "Uploaded";
+				} else {
+					span.innerHTML = "Failed";
+				}
 				setTimeout(function() {
 					button.innerHTML = html;
 					bindDownloadButtons();
@@ -268,11 +272,12 @@
 					},3456);
 				}
 			}
-			xhr.setRequestHeader("content-type", "application/octet-stream");
+			// xhr.setRequestHeader("content-type", "application/octet-stream");
 			xhr.setRequestHeader("Authorization", "Bearer " + App.Bearer);
 			xhr.setRequestHeader("X-Filename", name);
 			span.innerHTML = ''; span.appendChild(progress);
 			xhr.send(fd);
+
 			// var div = document.querySelector("div.progress-button[data-destination='publish']"),
 			// 	$span = div.querySelector("button>span"),
 			// 	_html = $span.innerHTML;
