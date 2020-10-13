@@ -14,7 +14,7 @@ $token = isset($_POST['token']) ? $_POST['token'] : '';
 
 // die early if we aren't expecteding this data
 if (empty($token) || empty($param)) die("token=$token param=$param");
-if (!hash_equals($_SESSION['token'], $token)) die('token didnt match');
+if (!hash_equals($_SESSION['sesskey'], $token)) die('token didnt match');
 
 // set up the vimeo api connection
 $lib = new \Vimeo\Vimeo($client_id, $client_secret);

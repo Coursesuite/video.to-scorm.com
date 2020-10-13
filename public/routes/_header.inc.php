@@ -27,25 +27,13 @@
     </head>
     <body class="<?php echo str_replace('.inc.php','',$fn); ?>">
     	<div uk-sticky="media: 960" class="uk-navbar-container my-bg-blue uk-sticky uk-sticky-fixed uk-navbar-transparent">
-			<div class="uk-container uk-container-expand coursesuite-bar">
-				<div class=" uk-padding-small">
-					<img src="assets/coursesuite-glyph.svg" style="width:1rem" class="embiggen">
-					<a href="https://www.coursesuite.com/?from=video2scorm">Coursesuite</a>
-					<a href="https://www.courseassembler.com/?from=video2scorm">Course Assembler</a>
-					<a href="https://video.to-scorm.com/?from=video2scorm">Video 2 Scorm</a>
-					<a href="https://presentation.to-scorm.com/?from=video2scorm">Audio Presentation Ninja</a>
-					<a href="https://coursebuildr.coursesuite.ninja/app/login/?from=video2scorm">CourseBuilder</a>
-				</div>
-			</div>
     		<div class="uk-container uk-container-expand">
     			<nav uk-navbar>
     				<div class="uk-navbar-left">
     					<a href="/" class="uk-navbar-item uk-logo" title="Video to Scorm"><img src="assets/video-to-scorm.svg" width="200" alt="Video to Scorm"></a>
 					</div>
-					<div class="uk-navbar-right uk-visible@m">
+					<div class="uk-navbar-right">
 						<ul class="uk-navbar-nav">
-							<li><a href="/">Home</a></li>
-							<li><a href="/faq">Faq</a></li>
 							<li><a href="/assets/Video2Scorm_Documentation.pdf" download>Documentation</a></li>
 						</ul>
 						<div class="uk-navbar-item">

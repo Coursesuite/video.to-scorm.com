@@ -11,7 +11,7 @@ $token = isset($_POST['token']) ? $_POST['token'] : '';
 
 // die early if we aren't expecteding this data
 if (empty($token) || empty($param)) die("token=$token param=$param");
-if (!hash_equals($_SESSION['token'], $token)) die('token didnt match');
+if (!hash_equals($_SESSION['sesskey'], $token)) die('token didnt match');
 
 // user may have entered a video url, so extract the video id from it, see https://stackoverflow.com/a/17030234
 if (strpos($param,'/') !== false && strpos($param,'yout') !== false) {

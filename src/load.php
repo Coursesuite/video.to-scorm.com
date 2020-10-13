@@ -16,7 +16,7 @@ $verifier->valid = true;
 
 // generate a csrf token for form postbacks
 session_start();
-if (empty($_SESSION['token'])) {
-    $_SESSION['token'] = bin2hex(random_bytes(32));
+if (empty($_SESSION['sesskey'])) {
+    $_SESSION['sesskey'] = bin2hex(random_bytes(32));
 }
-$token = $_SESSION['token'];
+$token = $_SESSION['sesskey'];

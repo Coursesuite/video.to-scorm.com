@@ -116,13 +116,6 @@ body.faq, body.changelog {
 	color: white;
 	border-bottom-color: white;
 }
-.coursesuite-bar a:first-of-type {
+.coursesuite-bar a.uk-active {
 	font-weight: bold;
-}
-.coursesuite-bar .embiggen {
-	transform: rotate(0);
-	transition: transform .3s ease;
-}
-.coursesuite-bar .embiggen:hover {
-	transform: rotate(1turn);
 }

@@ -85,7 +85,7 @@ foreach ($iter as $file) {
 		<title>Video to Scorm</title>
 		<meta name="description" content="Add a scorm completion to your video" />
 		<meta name="keywords" content="video, scorm, scorm wrapper, scorm content, content packaging, ims manifest, coursesuite" />
-		<meta name="author" content="coursesuite pty ltd" />
+		<meta name="author" content="coursesuite ltd; coursesuite.com" />
 		<link rel="shortcut icon" href="/favicon.ico">
 		<link rel="icon" href="/favicon.ico" type="image/x-icon">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.1.5/dist/css/uikit.min.css" />
@@ -95,13 +95,14 @@ foreach ($iter as $file) {
 		<script type="text/javascript" src="https://static-cdn.kloudless.com/p/platform/sdk/kloudless.explorer.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip-utils/0.0.2/jszip-utils.min.js" async="true"></script>
-		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.0.5/handlebars.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.6/handlebars.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.3/FileSaver.min.js" async="true"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.11/mediaelement-and-player.js"></script>
-<!-- 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.11/renderers/dailymotion.min.js"></script>
- --><!-- 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.12/renderers/facebook.min.js"></script>-->
+ 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.11/renderers/dailymotion.min.js"></script>
+ 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.12/renderers/facebook.min.js"></script>
  		<script src="https://cdn.jsdelivr.net/npm/localforage@1.7.3/dist/localforage.min.js" integrity="sha256-H/ZsHjKSJUnQyCQHZwPmn7VTWFeTTI+qgCP1GkiB9zI=" crossorigin="anonymous"></script>
-		<script type="text/javascript">var App = <?php echo json_encode($jsApp, JSON_NUMERIC_CHECK); ?>, Layer = new WebSocket("<?php echo $verifier->app->socket; ?>"); <?php echo $verifier->app->layer; ?>;</script>
+		<script src="https://browser.sentry-cdn.com/5.17.0/bundle.min.js" integrity="sha384-lowBFC6YTkvMIWPORr7+TERnCkZdo5ab00oH5NkFLeQUAmBTLGwJpFjF6djuxJ/5" crossorigin="anonymous"></script>
+		<script type="text/javascript">var App = <?php echo json_encode($jsApp, JSON_NUMERIC_CHECK); ?>;</script>
 		<script src="js/templates.js"></script>
 <?php
 if ($verifier->code->minified) {
@@ -112,6 +113,7 @@ foreach ($css as $link) {
 }
 ?>
 </head>
+
 <?php if ($verifier->valid) { ?>
 <body>
 
@@ -285,9 +287,10 @@ foreach ($css as $link) {
 
 	<footer>
 		<a href="/">Video to Scorm</a> |
-		<a href="https://help.coursesuite.ninja/" target="_blank">Report a problem</a> |
-		App by <a href="https://www.coursesuite.com/" target="_blank">Coursesuite</a>.
+		<a href="https://forms.gle/5fFKKhHXviXRfbwg7" target="_blank">Feedback</a> |
+		<a href="https://www.courseassembler.com" target="_blank">Course Assembler</a>
 	</footer>
+
 
 <?php
 	foreach ($scripts as $script) {
