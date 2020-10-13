@@ -1,3 +1,6 @@
+// Sentry.io error tracking
+if ('undefined' !== typeof Sentry) Sentry.init({ dsn: 'https://225fed05ac574eb083343bf7b872446e@o264333.ingest.sentry.io/5269398' });
+
 localforage.config({ name: 'video2scorm' });
 
 // ;(function(V2S, App, undefined) {
