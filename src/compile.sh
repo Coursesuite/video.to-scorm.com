@@ -31,10 +31,15 @@ rm -rf ./handlebars
 rm -rf importcss.php
 
 cd plugins
+echo "Removing disabled plugins"
 rm -rf _*
-
 cd ..
 
+echo "Fixing autoloader paths"
+php ./fixautoloader.php
+rm -rf fixautoloader.php
+
+echo "cleanup"
 rm compile.sh
 rm load.php
 
@@ -46,18 +51,15 @@ echo "defined('APP')?assert(true):die();" >> load.php
 # echo "ini_set("display_errors", 1);" >> load.php
 
 echo "require_once('../../vendor/autoload.php');" >> load.php
-echo "\$verifier = (new CoursesuiteValidator())->Validate(\$_GET);" >> load.php
+echo "\$verifier = (new CoursesuiteValidator(false,false,true))->Validate(\$_GET);" >> load.php
 echo "\$verifier->code->minified = true;" >> load.php
-
-echo "// generate a csrf token for form postbacks" >> load.php
 echo "session_start();" >> load.php
 echo "if (empty(\$_SESSION['sesskey'])) {" >> load.php
 echo "    \$_SESSION['sesskey'] = md5(time());" >> load.php
 echo "}" >> load.php
+echo "\$token = \$_SESSION['sesskey'];" >> load.php
 echo "\$timestamp = '$TS';" >> load.php
-
 echo "\$minified_css = 'css/app.min.$TS.css';" >> load.php
-
 echo "?>" >> load.php
 
 cd ..
