@@ -270,6 +270,9 @@ function setPlayerWorkAreaSize(fromEvent) {
 }
 
 function clearPlayer() {
+	// destroying a player that is already undefine crashes the plugin renderer - mediaelement doesn't handle it internally
+	if (V2S.player) { try { V2S.player.remove(); } catch(ex) {} }
+	V2S.player = undefined;
 	V2S.playerType = '';
 	document.getElementById('videoContainer').innerHTML = '';
 }
