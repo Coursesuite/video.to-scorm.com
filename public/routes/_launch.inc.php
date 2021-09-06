@@ -1,1 +1,0 @@
-<a href="/app/" class="uk-button my-launch"><span uk-icon="bolt"></span> Launch App</a>
