@@ -1,36 +1,22 @@
 <?php
-define("APP",true);
-include("load.php");
 
+error_reporting(E_ERROR);
+ini_set("display_errors", 1);
 
-$jsApp = new stdClass();
-$jsApp->Home = $verifier->home;
-$jsApp->Tier =  $verifier->licence->tier;
-$jsApp->Api = isset($verifier->api);
-$jsApp->Timestamp = "$timestamp";
-$jsApp->Minified = $verifier->code->minified;
-// $jsApp->Themes = [$themes];
+require_once('../vendor/autoload.php');
 
-// if publish url is not https proxy it through publish.php
-if (isset($verifier->api->publish) && !empty($verifier->api->publish)) {
-	$jsApp->Bearer = $verifier->api->bearer;
-	$jsApp->Method = "POST";
-	if (strpos($verifier->api->publish,"https:") === false) {
-		$jsApp->Publish = "publish.php?dest=" . rawurlencode($verifier->api->publish) . "&sesskey=" . $_SESSION['sesskey'] . "&bearer=" . rawurlencode($jsApp->Bearer);
-	} else {
-		$jsApp->Publish = $verifier->api->publish;
-	}
+session_start();
+if (empty($_SESSION['sesskey'])) {
+    $_SESSION['sesskey'] = bin2hex(random_bytes(32));
 }
-
-// api url = coursesuite url / api / dl / apikey / appkey / template.zip
-$api_template = isset($verifier->api->template) ? $verifier->api->template : "";
+$token = $_SESSION['sesskey'];
 
 $plugins = [];
 $scripts = [];
 $css = [];
 
 $scripts[] = 'https://cdn.jsdelivr.net/combine/npm/nouislider@14.0.2,npm/uikit@3.1.5/dist/js/uikit-icons.min.js,npm/uikit@3.1.5'; //,npm/classie@1.0.0/classie.min.js';
-$scripts[] = 'https://cdnjs.cloudflare.com/ajax/libs/classie/1.0.1/classie.min.js';
+// $scripts[] = 'https://cdnjs.cloudflare.com/ajax/libs/classie/1.0.1/classie.min.js';
 $scripts[] = 'https://cdn.plyr.io/3.5.6/plyr.js';
 $scripts[] = 'js/modernizr.custom.js';
 $scripts[] = 'js/uiProgressButton.js';
@@ -85,7 +71,7 @@ foreach ($iter as $file) {
 		<title>Video to Scorm</title>
 		<meta name="description" content="Add a scorm completion to your video" />
 		<meta name="keywords" content="video, scorm, scorm wrapper, scorm content, content packaging, ims manifest, coursesuite" />
-		<meta name="author" content="coursesuite ltd; coursesuite.com" />
+		<meta name="author" content="coursesuite ltd; coursesuite.com, a now defunct enterprise" />
 		<link rel="shortcut icon" href="/favicon.ico">
 		<link rel="icon" href="/favicon.ico" type="image/x-icon">
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/uikit@3.1.5/dist/css/uikit.min.css" />
@@ -105,51 +91,55 @@ foreach ($iter as $file) {
  		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.17/renderers/vimeo.min.js"></script>
  		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mediaelement/4.2.17/renderers/youtube.min.js"></script>
  		<script src="https://cdn.jsdelivr.net/npm/localforage@1.7.3/dist/localforage.min.js" integrity="sha256-H/ZsHjKSJUnQyCQHZwPmn7VTWFeTTI+qgCP1GkiB9zI=" crossorigin="anonymous"></script>
-		<script src="https://browser.sentry-cdn.com/5.17.0/bundle.min.js" integrity="sha384-lowBFC6YTkvMIWPORr7+TERnCkZdo5ab00oH5NkFLeQUAmBTLGwJpFjF6djuxJ/5" crossorigin="anonymous"></script>
-		<script type="text/javascript">var App = <?php echo json_encode($jsApp, JSON_NUMERIC_CHECK); ?>;</script>
 		<script src="js/templates.js"></script>
 <?php
-if ($verifier->code->minified) {
-	include("_analytics.php");
-}
+
+include("_analytics.php");
+
 foreach ($css as $link) {
 	echo "		", "<link rel='stylesheet' type='text/css' href='{$link}'>", PHP_EOL;
 }
 ?>
 </head>
 
-<?php if ($verifier->valid) { ?>
 <body>
 
-<header id="banner" uk-sticky class="uk-padding-small uk-padding-small uk-padding-remove-bottom uk-light">
-<nav class="uk-child-width-1-2@m uk-child-width-1-1@s" uk-grid="margin:uk-margin-small">
-	<div class="uk-width-1-2@m uk-width-1-1@s">
-		<div class="uk-text-center@s uk-text-left@m">
-	        <a href="?<?php echo $_SERVER['QUERY_STRING']; ?>#top">
-	        	<img src="css/video-to-scorm.svg" class="v2s-logo" alt="Video to Scorm">
-	        </a>
-	    </div>
-	</div>
-	<div class="uk-width-1-2@m uk-width-1-1@s">
-	    <div class="uk-text-center@s uk-text-right@m">
-	        <!--a href="#" class="uk-button v2s-survey">Usage Survey</a-->
-	        <a href="/assets/Video2Scorm_Documentation.pdf" class="uk-button v2s-doco" download>Documentation</a>
-	        <a href="#" class="uk-button v2s-reset" data-action="clear-storage">Reset</a>
-	    </div>
-	</div>
-    <div class="uk-width-1-1">
-		<div class="uk-flex uk-flex-center">
+<header id="banner" uk-sticky class="uk-padding-small uk-light">
+	<nav class="uk-navbar-container uk-navbar-transparent" uk-navbar>
+		<div class="uk-navbar-left">
+			<a href="/app">
+				<img src="css/video-to-scorm.svg" class="v2s-logo" alt="Video to Scorm">
+			</a>
+		</div>
+		<div class="uk-navbar-center" style="min-width: 720px">
 			<ul class="uk-subnav uk-margin-remove uk-subnav-pill v2s-nav-arrows uk-position-relative" uk-switcher="connect:#switchers">
+				<li><a href="#about">About</a></li>
 				<li><a href="#source">Select video source</a></li>
 				<li><a href="#range">Specify ranges</a></li>
 				<li><a href="#download">Download your package</a></li>
 			</ul>
 		</div>
-	</div>
-</nav>
+		<div class="uk-navbar-right">
+			<a href="#" class="uk-button v2s-reset" data-action="clear-storage">Reset</a>
+		</div>
+	</nav>
 </header>
 
+
 <div id="switchers" class="uk-switcher uk-margin">
+	<section class="uk-section uk-padding-remove-vertical section-source">
+		<div class="uk-container">
+			<div class="uk-margin">
+				<h3>Add SCORM completions to your video</h3>
+				<p>How can you ensure that your learners watch 45 minutes of your 1 hour induction video which is hosted on Vimeo?</p>
+				<p>Video 2 Scorm lets you use Vimeo, Youtube, a HLS stream or your own uploaded files and performs a completion when the user watches a set amount of the video.</p>
+				<p>You can optionally hide the "scrubber" bar (the draggable item that lets users skip ahead or back in a video) so your learners can't skip ahead, plus choose when to start and end a video (in case you only want to show a portion of a longer peice without having to edit and re-upload it).</p>
+				<p>Simply select your video source, then set a marker which identifies where the video will complete, then download a SCORM-compatible ZIP file.</p>
+
+			</div>
+		</div>
+	</section>
+
 	<section class="uk-section uk-padding-remove-vertical section-source">
 		<div class="uk-container">
 			<div class="uk-margin">
@@ -258,28 +248,6 @@ foreach ($css as $link) {
 					<svg class="cross" width="70" height="70"><path d="m35,35l-9.3,-9.3"/><path d="m35,35l9.3,9.3"/><path d="m35,35l-9.3,9.3"/><path d="m35,35l9.3,-9.3"/></svg>
 				</div>
 
-				<div class="progress-button elastic" data-destination="kloudless">
-					<button><span><i class="ninja-upload2"></i> Save to Cloud</span></button>
-					<svg class="progress-circle" width="70" height="70"><path d="m35,2.5c17.955803,0 32.5,14.544199 32.5,32.5c0,17.955803 -14.544197,32.5 -32.5,32.5c-17.955803,0 -32.5,-14.544197 -32.5,-32.5c0,-17.955801 14.544197,-32.5 32.5,-32.5z"/></svg>
-					<svg class="checkmark" width="70" height="70"><path d="m31.5,46.5l15.3,-23.2"/><path d="m31.5,46.5l-8.5,-7.1"/></svg>
-					<svg class="cross" width="70" height="70"><path d="m35,35l-9.3,-9.3"/><path d="m35,35l9.3,9.3"/><path d="m35,35l-9.3,9.3"/><path d="m35,35l9.3,-9.3"/></svg>
-				</div>
-
-				<div class="progress-button elastic" data-destination="preview">
-					<button><span><i class="fa fa-eye"></i> Preview</span></button>
-					<svg class="progress-circle" width="70" height="70"><path d="m35,2.5c17.955803,0 32.5,14.544199 32.5,32.5c0,17.955803 -14.544197,32.5 -32.5,32.5c-17.955803,0 -32.5,-14.544197 -32.5,-32.5c0,-17.955801 14.544197,-32.5 32.5,-32.5z" /></svg>
-					<svg class="checkmark" width="70" height="70"><path d="m31.5,46.5l15.3,-23.2" /><path d="m31.5,46.5l-8.5,-7.1" /></svg>
-					<svg class="cross" width="70" height="70"><path d="m35,35l-9.3,-9.3" /><path d="m35,35l9.3,9.3" /><path d="m35,35l-9.3,9.3" /><path d="m35,35l9.3,-9.3" /></svg>
-				</div>
-
-<?php if (isset($verifier->api->publish) && !empty($verifier->api->publish)) { ?>
-				<div class="progress-button elastic" data-destination="publish">
-					<button><span><i class="ninja-upload"></i> Publish to LMS</span></button>
-					<svg class="progress-circle" width="70" height="70"><path d="m35,2.5c17.955803,0 32.5,14.544199 32.5,32.5c0,17.955803 -14.544197,32.5 -32.5,32.5c-17.955803,0 -32.5,-14.544197 -32.5,-32.5c0,-17.955801 14.544197,-32.5 32.5,-32.5z"/></svg>
-					<svg class="checkmark" width="70" height="70"><path d="m31.5,46.5l15.3,-23.2"/><path d="m31.5,46.5l-8.5,-7.1"/></svg>
-					<svg class="cross" width="70" height="70"><path d="m35,35l-9.3,-9.3"/><path d="m35,35l9.3,9.3"/><path d="m35,35l-9.3,9.3"/><path d="m35,35l9.3,-9.3"/></svg>
-				</div>
-<?php } ?>
 			</div>
 
 		</div>
@@ -300,34 +268,7 @@ foreach ($css as $link) {
 	foreach ($scripts as $script) {
 		echo "<script src='{$script}'></script>", PHP_EOL;
 	}
-} else { ?>
-
-	<body class="buildbot-sad">
-
-		<header>
-			video 2 scorm
-		</header>
-
-		<main>
-			<h1>Your beaker has exploded.</h1>
-			<h2><?php
-			switch ($verifier->licence->error) {
-				case "bad-token":
-					echo "Your licence or subscription key is missing or invalid.";
-					break;
-				case "licence-key-expired":
-					echo "Your licence key has expired.";
-					break;
-
-				default:
-					echo "Something went horribly wrong. ", $verifier->licence->error;
-					break;
-			}
-			?></h2>
-			<p><a href="<?php echo getenv("HOME_URL"); ?>">Home</a></p>
-		</main>
-
-	<?php } ?>
+?>
 
 </body>
 </html>

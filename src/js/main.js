@@ -1,14 +1,9 @@
-// Sentry.io error tracking
-if ('undefined' !== typeof Sentry) Sentry.init({ dsn: 'https://225fed05ac574eb083343bf7b872446e@o264333.ingest.sentry.io/5269398' });
-
 localforage.config({ name: 'video2scorm' });
 
 // ;(function(V2S, App, undefined) {
 V2S = {};
 V2S.plugins = [];
 V2S.source = {};
-
-window.KLOUDLESS_APP_ID = atob("b1R1eGV3OXVjZGtHaWpDZllnRVl5RncxV0dMSFNWaVJWQ0pQdWpKZ3l5YlZ3VVR3Cg==");
 
 window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 	document.body.addEventListener("click", globalClickHandler)
@@ -51,7 +46,8 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 	});
 
 	document.querySelector("a[data-action='clear-storage']").addEventListener('click', function click_reset(e) {
-
+		localforage.setItem("cache", undefined);
+		location.reload();
 	});
 
 	localforage.getItem("cache").then(function(value) {
@@ -85,21 +81,6 @@ window.addEventListener("DOMContentLoaded", function domContentLoaded() {
 		          mime: value.original.type,
 		        });
 
-				// if (p.handleFileUpload) p.handleFileUpload(value.original)
-				// 		.then(function() {
-				// 			if (!V2S['player'].paused) V2S['player'].pause();
-				// 			createSlider();
-				// 			V2S.player.setCurrentTime(0.001);
-				// 		});
-			// } else if (value.plugin === 'cloud') { // Kloudless uploaded file disabled for now
-			// 	V2S['original'] = value.original;
-			// 	var p = V2S.plugins.find(function(el){return el.type === 'cloud'});
-			// 	if (p.reUpload) p.reUpload(value.original)
-			// 			.then(function() {
-			// 				if (!V2S['player'].paused) V2S['player'].pause();
-			// 				createSlider();
-			// 				V2S.player.setCurrentTime(0.1);
-			// 			});
 			} else { // embeded videos
 				var form = document.querySelector("li[data-plugin='" + value.plugin + "']"),
 					index = Array.prototype.indexOf.call(form.parentNode.children, form);
@@ -173,10 +154,6 @@ window.initMediaElementPlayer = function(source) {
 			videoWidth: '100%',
 			src: source.src,
 			success: function(me, node, instance) {
-		    // me.addEventListener('loadedmetadata', function _loaded_src(e) {
-				// https://github.com/mediaelement/mediaelement/issues/2685
-				// https://stackoverflow.com/questions/57764304/mediaelement-js-loadedmetadata-event-always-returns-duration-0-for-facebook-vi
-
 				// Hacktastic function to wait for the duration because the loadedmetadata event hasn't been implemented in me.js
 				var once = false;
 				function timeout() {
@@ -187,13 +164,6 @@ window.initMediaElementPlayer = function(source) {
 							V2S.duration = me.duration;
 							resolve();
 						} else {
-							// Direct videos get duration "after a while"
-							// console.log('no duration, waiting...');
-							// if (V2S.plugin === 'dailymotion' && V2S['player'].paused && !once) { // Dailymotion jank
-							// 	once = true;
-							// 	V2S['player'].play();
-							// 	V2S['player'].pause();
-							// }
 							timeout();
 						}
  					}, 500);
@@ -406,12 +376,6 @@ function createSlider() {
 		V2S['ranges'] = arguments[0].map(Number);
 		V2S['player'].currentTime = current_handle_time;
 		if (paused) V2S['player'].pause();
-		// arguments = (values, handle, unencoded, tap, positions) {
-	    // values: Current slider values (array);
-	    // handle: Handle that caused the event (number);
-	    // unencoded: Slider values without formatting (array);
-	    // tap: Event was caused by the user tapping the slider (boolean);
-	    // positions: Left offset of the handles (array);
 	});
 
 	range.noUiSlider.on('end', function () {
@@ -421,49 +385,6 @@ function createSlider() {
 	document.querySelector("a[href='#range']").click();
 	saveCache();
 }
-
-// function downloadZip() {
-// 	var zip = new JSZip();
-// 	var current_plugin = V2S.plugins.find(function(obj) {
-// 		return (obj.name === V2S.plugin);
-// 	})
-// 	var uploadName = V2S.source.name;
-// 	var setup = {
-// 		provider: (V2S.plugin === 'upload' || V2S.plugin === 'cloud')?'':V2S.plugin,
-// 		playerApi: V2S.source.sources[0],
-// 		videoId: V2S.id||uploadName,
-// 		starts: V2S.ranges[0],
-// 		completes: V2S.ranges[1],
-// 		ends: V2S.ranges[2],
-// 		timeStamp: (new Date().getTime()),
-// 		mime: V2S.source.mime||'',
-// 		hideScrub: document.getElementById('toggleScrub').checked,
-// 		isVideo: (V2S.plugin !== 'soundcloud') ? true : false,
-// 		playerType: current_plugin.playerType,
-// 		src: (V2S.plugin === 'upload' || V2S.plugin === 'cloud' || V2S.plugin === 'wistia') ? uploadName : V2S.source.src,
-// 		poster: V2S.source.poster
-// 	}
-// 	zip.file('index.html', Handlebars.templates['outputhtml'](setup));
-// 	zip.file('_package.css', Handlebars.templates['outputcss'](setup));
-// 	zip.file('_package.js', Handlebars.templates['outputjs'](setup));
-// 	zip.file('imsmanifest.xml', Handlebars.templates['scorm12manifest'](setup));
-// 	if (V2S.plugin === 'upload' || V2S.plugin === 'cloud' || V2S.plugin === 'wistia') {
-// 		zip.file(uploadName, V2S.source.original);
-// 	}
-
-// 	zip.generateAsync({
-// 		type:"blob",
-// 	    compression: "DEFLATE",
-// 	    compressionOptions: {
-// 	        level: 9
-// 	    }
-// 	})
-// 	.then(function(content) {
-// 		saveAs(content, 'v2sTest.zip')
-// 	});
-// }
-
-// })(window.V2S = window.V2S || {}, App, undefined);
 
 // out in global scope for now
 function timeString(val) {
